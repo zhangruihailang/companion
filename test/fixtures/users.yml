@@ -1,0 +1,4 @@
+zhangrui:
+  name: zhangrui
+  email: zhangruihailang@163.com
+  password_digest: <%= User.digest('password') %>
