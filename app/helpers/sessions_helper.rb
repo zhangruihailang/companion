@@ -26,6 +26,11 @@ module SessionsHelper
     end
   end
   
+  #返回当前登陆用户
+  def current_user?(user)
+      user == current_user
+  end
+  
   #判断用户是否已登陆
   def logged_in?
     !current_user.nil?
@@ -42,5 +47,15 @@ module SessionsHelper
      forget(current_user)
      session.delete(:user_id)
      @current_user = nil
+  end
+  
+  # 跳转到存储地址或者默认地址
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+  # 存储地址
+  def store_location
+    session[:forwarding_url] = request.url if request.get?
   end
 end
