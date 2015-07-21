@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :microposts, dependent: :destroy
   #虚拟属性，类对象可以访问，但是不存储数据库
   attr_accessor :remember_token, :activation_token, :reset_token
   #before_save { self.email = email.downcase }
@@ -50,8 +51,9 @@ class User < ActiveRecord::Base
   
   # 激活用户  
   def activate
-    update_attribute(:activated, true)
-    update_attribute(:activated_at, Time.zone.now)
+    # update_attribute(:activated, true)
+    # update_attribute(:activated_at, Time.zone.now)
+    update_columns(activated: true, activated_at: Time.zone.now)
   end
   # 发送邮件
   def send_activation_email
@@ -61,8 +63,10 @@ class User < ActiveRecord::Base
   #创建密码摘要
   def create_reset_digest
     self.reset_token = User.new_token
-    update_attribute(:reset_digest, User.digest(reset_token))
-    update_attribute(:reset_sent_at, Time.zone.now)
+    # update_attribute(:reset_digest, User.digest(reset_token))
+    # update_attribute(:reset_sent_at, Time.zone.now)
+    update_columns(reset_digest: User.digest(reset_token),
+                      reset_sent_at: Time.zone.now)    
   end
   
   #发送密码重设邮件
@@ -73,6 +77,10 @@ class User < ActiveRecord::Base
   #密码设置失效判断
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+  #动态流
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
   private
