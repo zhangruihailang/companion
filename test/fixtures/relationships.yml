@@ -1,0 +1,12 @@
+one:
+  follower: zhangrui
+  followed: lana
+two:
+  follower: zhangrui
+  followed: mallory
+three:
+  follower: lana
+  followed: zhangrui
+four:
+  follower: archer
+  followed: zhangrui
