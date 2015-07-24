@@ -3,17 +3,13 @@ class MicropostsController < ApplicationController
   before_action :correct_user, only: :destroy
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    #p  "================11111111111111111==================#{params[:micropost][:avatars].length}============================"
-    # p  "================3333333333333333333==================#{params[:micropost][:avatars].to_s}============================"
-    #@micropost.avatars = params[:micropost][:avatars]
-    if @micropost.save
-      p  "=================2222222222222222=================#{@micropost.avatars.length}============================"
-      flash[:success] = "Micropost created!"
-      redirect_to root_url
-    else
+     if @micropost.save
+       flash[:success] = "Micropost created!"
+       redirect_to root_url
+     else
       @feed_items = []
       render 'static_pages/home'
-    end
+     end
   end
   
   def destroy
