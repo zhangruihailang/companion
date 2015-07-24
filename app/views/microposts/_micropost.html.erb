@@ -3,7 +3,12 @@
 <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
 <span class="content">
   <%= micropost.content %>
-<%= image_tag micropost.picture.url if micropost.picture? %>
+<%#= image_tag micropost.picture.url if micropost.picture? %>
+<%= micropost.avatars.size %>
+<% micropost.avatars.each do |avatar| %>
+ aaaa
+  <%= image_tag avatar %>
+<% end %>
 </span>
 
 <span class="timestamp">
