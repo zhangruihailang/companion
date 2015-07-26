@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724051841) do
+ActiveRecord::Schema.define(version: 20150724030825) do
 
 # Could not dump table "microposts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
