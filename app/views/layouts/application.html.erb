@@ -1,22 +1,133 @@
 <!DOCTYPE html>
-<html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="zh" >
+
 <head>
-<title><%= full_title(yield(:title)) %></title>
-<%= stylesheet_link_tag "application", media: "all",
-"data-turbolinks-track" => true %>
+  <meta charset="utf-8">
+  <!-- If you delete this meta tag World War Z will become a reality -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= full_title(yield(:title)) %></title>
+
+
+
+<%= stylesheet_link_tag  "foundation/foundation.css" %>
+<%= stylesheet_link_tag  "foundation/normalize.css" %>
+<%= stylesheet_link_tag  "jquery-plugin-circliful/jquery.circliful.css" %>
+<%= stylesheet_link_tag  "load-awesome/loaders.css" %>
+<%= stylesheet_link_tag  "load-awesome/style.css" %>
+<%= stylesheet_link_tag  "main" %>
+<%= stylesheet_link_tag  "base" %>
+<%= stylesheet_link_tag  "app" %>
+
+<%= javascript_include_tag "vendor/jquery.js" %>
+<%#= javascript_include_tag "http://code.jquery.com/jquery-1.10.2.min.js" %>
+<%= javascript_include_tag "vendor/modernizr.js" %>
+
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "footer" %>
 <%= csrf_meta_tags %>
 <%= render 'layouts/shim' %>
+
 </head>
+
 <body>
-<%= render 'layouts/header' %>
-<div class="container">
-<% flash.each do |message_type, message| %>
-<%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-<% end %>
-<%= yield %>
-<%= render 'layouts/footer' %>
-<%= debug(params) if Rails.env.development? %>
+ 
+<div class="wrapper">
+<div class="off-canvas-wrap" data-offcanvas>
+  <div class="inner-wrap">
+    <nav class="tab-bar">
+      
+
+      <section class="middle tab-bar-section">
+        <h1 class="title">三晋e贷</h1>
+      </section>
+
+      <section class="right-small">
+        <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+      </section>
+    </nav>
+
+    
+
+    <aside class="right-off-canvas-menu">
+      <ul class="off-canvas-list">
+        <li><label>导航</label></li>
+        <li><%= link_to "首页", root_path%></li>
+        <li><%= link_to "我要投资", projects_path%></li>
+        <li><%= link_to "发布项目", new_project_path%></li>
+        <li><a href="#">我的资金</a></li>
+        <li><a href="#">个人账户</a></li>
+      </ul>
+    </aside>
+
+    <section class="main-section">
+       
+        <% flash.each do |message_type, message| %>
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <% end %>
+        <%= yield %>
+        
+        
+    </section>
+   
+  <a class="exit-off-canvas"></a>
+
+  </div>
 </div>
+
+</div>
+<div class="footer-push"></div>
+<%= render 'layouts/footer' %>
+
+<%= javascript_include_tag "foundation/foundation.js" %>
+<%= javascript_include_tag "foundation/foundation.offcanvas.js" %>
+<%= javascript_include_tag "foundation/foundation.tab.js" %>
+<%= javascript_include_tag "foundation/foundation.clearing.js" %>
+<%= javascript_include_tag "foundation/foundation.orbit.js" %>
+<%= javascript_include_tag "jquery-plugin-circliful/jquery.circliful.js" %>
+
+<script>
+
+    //$(document).foundation();
+     $(document).foundation({
+        orbit: {
+          animation: 'slide',
+          pause_on_hover: true,
+          navigation_arrows: true,
+          slide_number: false,
+          next_on_click: false,
+          container_class: 'orbit-container',
+          stack_on_small_class: 'orbit-stack-on-small',
+          before_slide_change:function(){
+					  $('.circliful').children().remove();
+				  },
+				  after_slide_change:function(){
+  					$('.circliful').circliful();
+				  }
+        }
+      });
+    $(document).on('open.fndtn.offcanvas', '[data-offcanvas]', function () {
+  var off_canvas_wrap = $(this);
+});
+
+$(document).on('close.fndtn.offcanvas', '[data-offcanvas]', function () {
+  var off_canvas_wrap = $(this);
+});
+
+$(document).ready(function() {
+
+  $("#footer").pinFooter();
+  
+  });
+  
+  $(window).resize(function() {
+  
+  $("#footer").pinFooter();
+
+});
+
+</script>
+</script>
 </body>
+
 </html>

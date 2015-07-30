@@ -11,10 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724030825) do
+ActiveRecord::Schema.define(version: 20150730024836) do
+
+  create_table "attachments", force: :cascade do |t|
+    t.integer  "project_id"
+    t.string   "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "attachments", ["project_id"], name: "index_attachments_on_project_id"
 
 # Could not dump table "microposts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "name"
+    t.float    "yield_yearly"
+    t.integer  "investment_cycle"
+    t.string   "risk_rank"
+    t.decimal  "borrowing_total"
+    t.integer  "min_investment_amount"
+    t.date     "latest_payment_date"
+    t.date     "latest_expire_date"
+    t.string   "repay_type"
+    t.text     "introduction"
+    t.text     "assets_explain"
+    t.text     "risk_control_measures"
+    t.text     "guarantee_status"
+    t.text     "money_flow"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
 
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id"

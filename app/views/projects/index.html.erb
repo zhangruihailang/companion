@@ -1,0 +1,37 @@
+<% provide(:title, '项目列表') %>
+<% @projects.each do |project| %>
+<div class="panel">
+  <div class="row">
+  <div class="small-12 columns">
+    <h5 style="font-weight:bold;">
+      <%= link_to "#{project.name}", project,{:style=>'color:#4DC6AC;'}%>
+    
+    </h5>
+    <hr>
+  </div>
+  </div>
+  <div class="row">
+  <div class="small-3 columns">
+    <h5 class="h5_font"><%= project.yield_yearly %>%</h5> 
+    <hr>
+    <h6 class="h6_font">年化收益率</h6> 
+  </div>
+  <div class="small-6 columns">
+    
+    <h5 class="h5_font">剩余金额：100万元</h5> 
+    <hr>
+    <h6 class="h6_font">投资期限：<%= project.investment_cycle %>个月</h6> 
+  </div>
+  <div class="small-3 columns">
+    <div class="circliful" id="circle_<%= project.id %>" data-dimension="60" data-text="<%= project.yield_yearly %>%" data-info="" data-width="3" data-fontsize="12" data-percent="12.38" data-fgcolor="
+                            					            #4DC6AC
+					        " data-bgcolor="#c3d2df"></div>
+  </div>
+  </div>
+</div>
+ <% end %>
+ <script>
+$( document ).ready(function() {
+		 $('.circliful').circliful();
+    });
+</script>

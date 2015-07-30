@@ -14,3 +14,6 @@
 /tmp
 # Ignore Spring files.
 /spring/*.pid
+# Ignore bak temp files.
+*.1.*
+*.bak*

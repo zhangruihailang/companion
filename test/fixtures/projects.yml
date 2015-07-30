@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  yield_yearly: 1.5
+  investment_cycle: 1
+  risk_rank: MyString
+  borrowing_total: 9.99
+  min_investment_amount: 1
+  latest_payment_date: 2015-07-26
+  latest_expire_date: 2015-07-26
+  repay_type: MyString
+  introduction: MyText
+  assets_explain: MyText
+  risk_control_measures: MyText
+  guarantee_status: MyText
+  money_flow: MyText
+  credentials: 
+
+two:
+  name: MyString
+  yield_yearly: 1.5
+  investment_cycle: 1
+  risk_rank: MyString
+  borrowing_total: 9.99
+  min_investment_amount: 1
+  latest_payment_date: 2015-07-26
+  latest_expire_date: 2015-07-26
+  repay_type: MyString
+  introduction: MyText
+  assets_explain: MyText
+  risk_control_measures: MyText
+  guarantee_status: MyText
+  money_flow: MyText
+  credentials: 
