@@ -1,0 +1,136 @@
+<% provide(:title, '项目详情') %>
+<div class="panel">
+    <div class="row">
+    <div class="small-12 columns">
+      <center>
+      <div id="myStat" data-dimension="250" data-text="<%= @project.yield_yearly %>" data-info="年化收益率" data-width="30" data-fontsize="38" data-percent="35" data-fgcolor="#4DC6AC" data-bgcolor="#eee" data-fill="#ddd"></div>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <center>
+    <div class="small-12 columns">
+      <h6 >
+      <%= @project.name %>
+      </h6 >
+       <h6 class="h6_font">
+      风险评级：  <%= @project.risk_rank %>
+      </h6>
+      <h6 class="h6_font">
+      借款总额： <%= @project.borrowing_total %>
+      </h6>
+      <h6 class="h6_font">
+      投资期限： <%= @project.investment_cycle %>个月
+      </h6>
+    </div>
+    </center>
+  </div>
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="progress small-#  radius round">
+        <span class="meter" style="width:50%;"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-6 columns">
+      <h6 class="h6_font">
+      投资进度： 50%
+      </h6>
+    </div>
+    <div class="small-6 columns">
+      <h6 class="h6_font">
+      剩余金额： 100万
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-6 columns">
+      <h6 class="h6_font">
+      起投金额：<%= @project.min_investment_amount %>
+      </h6>
+    </div>
+    <div class="small-6 columns">
+      <h6 class="h6_font">
+      限投金额： 无限
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <h6 class="h6_font">
+      最晚起息：  <%= @project.latest_payment_date %>
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <h6 class="h6_font">
+      最晚到期： <%= @project.latest_expire_date %>
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <h6 class="h6_font">
+      偿还方式：<%= @project.repay_type %>
+      </h6>
+    </div>
+  </div>
+</div>
+<div class="panel">
+  <div class="row">
+    <div class="small-12 columns" >
+      <ul class="tabs" data-tab>
+        <li class="tab-title active"><a href="#panel1">项目介绍</a></li>
+        <li class="tab-title"><a href="#panel2">资产说明</a></li>
+        <li class="tab-title"><a href="#panel3">风控措施</a></li>
+        <li class="tab-title"><a href="#panel4">担保情况</a></li>
+        <li class="tab-title"><a href="#panel5">资金流向</a></li>
+        <li class="tab-title"><a href="#panel6">文件证明</a></li>
+      </ul>
+      <div class="tabs-content">
+        <div class="content active" id="panel1">
+          <p class="h5_font"> <%=raw(@project.introduction) %></p>
+        </div>
+        <div class="content" id="panel2">
+          <p class="h5_font"><%=raw(@project.assets_explain) %></p>
+        </div>
+        <div class="content" id="panel3">
+          <p class="h5_font"> <%= raw(@project.risk_control_measures) %></p>
+        </div>
+        <div class="content" id="panel4">
+          <p class="h5_font"><%= raw(@project.guarantee_status) %></p>
+        </div>
+        <div class="content" id="panel5">
+          <p class="h5_font"><%= raw(@project.money_flow) %></p>
+        </div>
+        <div class="content" id="panel6">
+          <ul class="clearing-thumbs" data-clearing>
+           <% @project.attachments.each do |pic|%>
+              <li><a href="<%=pic.file.url%>"><%= image_tag pic.file.url %></a></li>
+           <% end%>
+         </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" >
+    <div class="small-12 columns" >
+       <center>
+         <a href="#" class="button radius" style="width:90%;">立即投资</a>
+       </center>
+    </div>
+  </div>
+</div>
+<script>
+$( document ).ready(function() {
+		$('#myStat').circliful();
+    });
+</script>

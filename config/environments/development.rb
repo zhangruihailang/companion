@@ -42,5 +42,6 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :test
   host = 'rails-tutorial-zhangruihailang.c9.io'
+  config.action_controller.asset_host = "threejed-ass.b0.upaiyun.com"
   config.action_mailer.default_url_options = { host: host }
 end

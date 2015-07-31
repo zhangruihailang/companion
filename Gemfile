@@ -7,6 +7,9 @@ gem 'faker', '1.4.2'
 #gem 'carrierwave', '0.10.0'
 gem 'rails_kindeditor'
 gem 'carrierwave', github:'carrierwaveuploader/carrierwave'
+gem "carrierwave-upyun"
+#gem 'rails-assets-for-upyun', '>= 0.0.9'
+gem "rest-client"
 gem 'mini_magick', '3.8.0'
 gem 'fog', '1.23.0'
 gem 'will_paginate', '3.0.7'

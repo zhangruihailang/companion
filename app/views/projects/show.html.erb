@@ -113,8 +113,11 @@
         </div>
         <div class="content" id="panel6">
           <ul class="clearing-thumbs" data-clearing>
-           <% @project.attachments.each do |pic|%>
-              <li><a href="<%=pic.file.url%>"><%= image_tag pic.file.url %></a></li>
+           <% @project.attachments.each do |attachment|%>
+
+              <li><%#= project_attachments_tag(attachment, :style => :small) %>
+              <a href="http://<%=attachment.file.url("400")%>"><img src="http://<%=attachment.file.url("60")%>"  /></a>
+              </li>
            <% end%>
          </ul>
         </div>
