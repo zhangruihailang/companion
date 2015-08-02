@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  mount WeixinRailsMiddleware::Engine, at: "/"
   resources :projects
 
   root 'static_pages#home'
@@ -16,10 +17,14 @@ Rails.application.routes.draw do
       get :following, :followers
     end
   end
+  
+  
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  
+  get 'weixin' => 'users#weixin_callback'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

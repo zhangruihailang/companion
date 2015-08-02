@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  require 'rest-client'
+  require 'json' 
   
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
                                         :following, :followers]
@@ -71,6 +73,40 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  def weixin_callback
+    
+    headers = env.select {|k,v| k.start_with? 'HTTP_'}
+    .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+    .collect {|pair| pair.join(": ") << "<br>"}
+    .sort
+    #[200, {'Content-Type' => 'text/html'}, headers]
+    
+    p "----------------------headers:#{headers.to_s.downcase.include?('micromessenger')}------------------------------------------------------------------"
+    p "----------------------params[:redirect_uri]:#{params[:redirect_uri]}--------------------------------"
+    p "----------------------params[:code]:#{params[:code]}--------------------------------"
+    code = params[:code]
+    access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
+    p "----------------------url:#{access_token_url}--------------------------------"
+    response = RestClient.get access_token_url
+    p "--------------------------------------------------------------------------------------"
+    p response.to_str
+     p "--------------------------------------------------------------------------------------"
+     result=JSON.parse(response.to_str)  
+    #p result  
+    p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
+    access_token = result['access_token']
+    openid = result['openid']
+    # userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
+    # response = RestClient.get access_token_url
+    # p "--------------------------------------------------------------------------------------"
+    # p response.to_str
+    # p "--------------------------------------------------------------------------------------"
+    # result=JSON.parse(response.to_str)  
+    # p   "------------------------------result['nickname']:#{result['nickname']}-----------------------------------" 
+    # p   "------------------------------result['headimgurl']:#{result['headimgurl']}-----------------------------------" 
+
+    render text: "weixin callback success"
+  end
   private
   
     def user_params

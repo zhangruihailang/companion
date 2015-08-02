@@ -22,6 +22,8 @@ gem 'jquery-rails', '4.0.0.beta2'
 gem 'turbolinks', '2.3.0'
 gem 'jbuilder', '2.2.3'
 gem 'sdoc', '0.4.0', group: :doc
+gem 'weixin_rails_middleware'
+
 group :development, :test do
 gem 'sqlite3', '1.3.9'
 gem 'byebug', '3.4.0'
