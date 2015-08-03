@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
-  require 'rest-client'
+  #require 'rest-client'
   require 'json' 
   
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  #before_action :get_headers
-  #before_action :weixin_login
+  before_action :authenticate_openid!
   before_action :logged_in_user
+  
   
   
   # GET /projects
