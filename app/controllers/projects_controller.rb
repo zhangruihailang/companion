@@ -1,10 +1,18 @@
 class ProjectsController < ApplicationController
+  #require 'rest-client'
+  require 'json' 
+  skip_before_filter :verify_authenticity_token
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
+
   # GET /projects
   # GET /projects.json
   def index
     @projects = Project.all
+    respond_to do |format|
+      format.html { render "index"  }
+      format.json { render :index, status: :created, location: @project }
+    end
   end
 
   # GET /projects/1
@@ -73,6 +81,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+
+  def myFunds
+    
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
@@ -83,4 +95,54 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name, :yield_yearly, :investment_cycle, :risk_rank, :borrowing_total, :min_investment_amount, :latest_payment_date, :latest_expire_date, :repay_type, :introduction, :assets_explain, :risk_control_measures, :guarantee_status, :money_flow, :credentials, files: [])
     end
+    
+    # def weixin_login
+    #   if @headers.to_s.downcase.include?('micromessenger') #微信浏览器
+    #       p "--------------------------------微信浏览器访问------------------------------"
+    #       code = params[:code]
+    #       if code && !code.empty?
+    #         p "--------------------------------微信浏览器访问获取到code:#{code}------------------------------"
+    #         access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
+    #         p "----------------------url:#{access_token_url}--------------------------------"
+    #         response = RestClient.get access_token_url
+    #         p "--------------------------------------------------------------------------------------"
+    #         p response.to_str
+    #         p "--------------------------------------------------------------------------------------"
+    #         result=JSON.parse(response.to_str)  
+    #         #p result  
+    #         p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
+    #         access_token = result['access_token']
+    #         openid = result['openid']
+    #         if openid && !openid.empty?
+    #           #微信访问而来，没有设置过session和cokkie，使用将微信中的用户登陆并设置session和cokkie
+    #           p   "----------------------微信访问而来，有openid:#{openid},设置session和cokkie---------------------------------------" 
+    #           if (user = User.find_by(weixin_id:openid)) 
+    #             p "---------------------openid:#{openid}已经注册过，登陆并设置session和cokkie----------------------------------"
+    #             if user.mobile && !user.mobile.empty?
+    #               p "---------------------绑定过手机------------------------------"
+    #               log_in user
+    #               #remember user
+    #               remember(user)
+    #               @cure
+    #             else
+    #               p "---------------------未绑定过手机------------------------------"
+    #               @weixin_id = openid
+    #             end
+    #           else
+    #             p "---------------------openid:#{openid}尚未注册过，注册，登陆并设置session和cokkie----------------------------------"
+    #             User.create(:weixin_id => openid,:password => "foobar", :password_confirmation => "foobar")
+    #             @weixin_id = openid
+    #           end
+    #         end
+    #     end
+    #   end
+    # end
+    
+    # def get_headers
+    #   p "===================session_helper code:#{params[:code]}======================"
+    #   @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+    #   .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+    #   .collect {|pair| pair.join(": ") << "<br>"}
+    #   .sort
+    # end
 end
