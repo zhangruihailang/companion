@@ -1,18 +1,113 @@
-<% provide(:title, 'Sign up') %>
-<h1>Sign up</h1>
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
+<% provide(:title, '注册') %>
+<div class="panel">
 <%= form_for(@user) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
-<%= f.label :name %>
-<%= f.text_field :name, class: 'form-control' %>
-<%= f.label :email %>
-<%= f.text_field :email, class: 'form-control' %>
-<%= f.label :password %>
-<%= f.password_field :password, class: 'form-control' %>
-<%= f.label :password_confirmation, "Confirmation" %>
-<%= f.password_field :password_confirmation, class: 'form-control' %>
-<%= f.submit "Create my account", class: "btn btn-primary" %>
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">手机号</span>
+          </div>
+          <div class="small-9 columns">
+              <%= f.text_field :mobile %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">密码</span>
+          </div>
+          <div class="small-9 columns">
+              <%= f.password_field :password %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">确认密码</span>
+          </div>
+          <div class="small-9 columns">
+            <%= f.password_field :password_confirmation %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">验证码</span>
+          </div>
+          <div class="small-6 columns">
+           <%= f.text_field :smscode %> 
+          </div>
+          <div class="small-3 columns">
+           <a id="send_smscode" href="#" data-remote="true" class="button radius" >获取验证码</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <div class="row">
+    <div class="small-12 columns">
+      <p class="xieyitiaokuan"><input id="regCheck" type="checkbox" checked="checked"> 我已阅读并同意三晋e贷<a href="http://www.dtd365.com/?dtd&q=privacy_agreement">《注册协议》</a>和<a href="http://www.dtd365.com/?dtd&q=privacy_consult">《投资咨询服务协议》</a>条款</p>
+    </div>
+ </div>
+ 
+ 
+  
+  
+   
+    <div class="row">
+      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
+       
+        </br>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
+        <input type="submit" name="newgroup" class="button radius" style="width:80%;" value="注册" />
+      </div>
+    </div>
+  </div>
+
+</div>
 <% end %>
-</div>
-</div>
+
+
+
+<script>
+$("#send_smscode").click(function() {
+  var f_mobile = $('#user_mobile').val();
+  //alert('f_mobile==========='+f_mobile);
+    $.ajax({
+  method: "POST",
+  url: "send_sms_code",
+  data: { mobile: f_mobile}
+  })
+  .done(function( msg ) {
+    alert( "验证码: " + msg.smscode );
+  });
+});
+  
+</script>

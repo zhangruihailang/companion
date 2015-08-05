@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150801171026) do
+ActiveRecord::Schema.define(version: 20150803102408) do
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "project_id"
@@ -54,6 +54,13 @@ ActiveRecord::Schema.define(version: 20150801171026) do
   add_index "relationships", ["followed_id"], name: "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id"
+
+  create_table "smscodes", force: :cascade do |t|
+    t.string   "mobile"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 # Could not dump table "users" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass

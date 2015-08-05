@@ -17,6 +17,7 @@
 <%= stylesheet_link_tag  "load-awesome/style.css" %>
 <%= stylesheet_link_tag  "main" %>
 <%= stylesheet_link_tag  "base" %>
+<%= stylesheet_link_tag  "my_fund" %>
 <%= stylesheet_link_tag  "app" %>
 
 <%= javascript_include_tag "vendor/jquery.js" %>
@@ -57,7 +58,7 @@
         <li><%= link_to "首页", root_path%></li>
         <li><%= link_to "我要投资", projects_path(code:@code)%></li>
         <li><%= link_to "发布项目", new_project_path(@code)%></li>
-        <li><a href="#">我的资金</a></li>
+        <li><%= link_to "我的资金", "/myFunds"%></li>
         <li><a href="#">个人账户</a></li>
       </ul>
     </aside>
@@ -67,7 +68,6 @@
         <% flash.each do |message_type, message| %>
         <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
         <% end %>
-        code=<%= @code%>
         <%= yield %>
         
         

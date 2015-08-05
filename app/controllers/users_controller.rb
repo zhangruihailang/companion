@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'rest-client'
   require 'json' 
-  
+  skip_before_filter :verify_authenticity_token, :only => [:create,:send_sms_code]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
                                         :following, :followers]
   before_action :correct_user, only: [:edit, :update]
@@ -24,19 +24,33 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(user_params)
-    if @user.save
-      # log_in @user
-      # flash[:success] = "Welcome to the Sample App!"
-      # redirect_to @user
-      # UserMailer.account_activation(@user).deliver_now
-      @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
-      redirect_to root_url
+    #验证短信码
+    
+    @smscode = Smscode.find_by(mobile: params[:user][:mobile]) 
+    p "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
+    p "----------------------------  params[:user][:smscode]:#{params[:user][:smscode]}---------------------------------------"
+    
+    if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
+      #验证码正确
+      @user = User.new(user_params)
+      if @user.save
+        log_in @user
+        flash[:success] = "注册成功!"
+        # redirect_to @user
+        # UserMailer.account_activation(@user).deliver_now
+        # @user.send_activation_email
+        # flash[:info] = "Please check your email to activate your account."
+        redirect_to root_url
+      else
+        render 'new'
+         #render text: "errors"
+      end
     else
-       render 'new'
-       #render text: "errors"
+       #验证码不正确
+      flash[:info] = "验证码不正确"
+      render 'new'
     end
+    
   end
   
   def edit
@@ -73,44 +87,64 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
-  def weixin_callback
+  # def weixin_callback
     
-    headers = env.select {|k,v| k.start_with? 'HTTP_'}
-    .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
-    .collect {|pair| pair.join(": ") << "<br>"}
-    .sort
-    #[200, {'Content-Type' => 'text/html'}, headers]
+  #   headers = env.select {|k,v| k.start_with? 'HTTP_'}
+  #   .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+  #   .collect {|pair| pair.join(": ") << "<br>"}
+  #   .sort
+  #   #[200, {'Content-Type' => 'text/html'}, headers]
     
-    p "----------------------headers:#{headers.to_s.downcase.include?('micromessenger')}------------------------------------------------------------------"
-    p "----------------------params[:redirect_uri]:#{params[:redirect_uri]}--------------------------------"
-    p "----------------------params[:code]:#{params[:code]}--------------------------------"
-    code = params[:code]
-    access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
-    p "----------------------url:#{access_token_url}--------------------------------"
-    response = RestClient.get access_token_url
-    p "--------------------------------------------------------------------------------------"
-    p response.to_str
-     p "--------------------------------------------------------------------------------------"
-     result=JSON.parse(response.to_str)  
-    #p result  
-    p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
-    access_token = result['access_token']
-    openid = result['openid']
-    # userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
-    # response = RestClient.get access_token_url
-    # p "--------------------------------------------------------------------------------------"
-    # p response.to_str
-    # p "--------------------------------------------------------------------------------------"
-    # result=JSON.parse(response.to_str)  
-    # p   "------------------------------result['nickname']:#{result['nickname']}-----------------------------------" 
-    # p   "------------------------------result['headimgurl']:#{result['headimgurl']}-----------------------------------" 
+  #   p "----------------------headers:#{headers.to_s.downcase.include?('micromessenger')}------------------------------------------------------------------"
+  #   p "----------------------params[:redirect_uri]:#{params[:redirect_uri]}--------------------------------"
+  #   p "----------------------params[:code]:#{params[:code]}--------------------------------"
+  #   code = params[:code]
+  #   access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
+  #   p "----------------------url:#{access_token_url}--------------------------------"
+  #   response = RestClient.get access_token_url
+  #   p "--------------------------------------------------------------------------------------"
+  #   p response.to_str
+  #   p "--------------------------------------------------------------------------------------"
+  #   result=JSON.parse(response.to_str)  
+  #   #p result  
+  #   p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
+  #   access_token = result['access_token']
+  #   openid = result['openid']
+  #   # userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
+  #   # response = RestClient.get access_token_url
+  #   # p "--------------------------------------------------------------------------------------"
+  #   # p response.to_str
+  #   # p "--------------------------------------------------------------------------------------"
+  #   # result=JSON.parse(response.to_str)  
+  #   # p   "------------------------------result['nickname']:#{result['nickname']}-----------------------------------" 
+  #   # p   "------------------------------result['headimgurl']:#{result['headimgurl']}-----------------------------------" 
 
-    render text: "weixin callback success"
+  #   render text: "weixin callback success"
+  # end
+  
+  def send_sms_code
+    @smscode = rand(999999)
+    #session[:smscode] 
+    #session[:smscode] = @smscode
+    sms = Smscode.new
+    sms.mobile = params[:mobile]
+    sms.code = @smscode
+    sms.save
+    #Smscode.create!(:mobile =>params[:mobile],:code => @smscode) 
+    p "-------------------#{@smscode}--------------------------"
+    # respond_to do |format|
+    #   #format.html { redirect_to signup_url }
+    #   #format.js { render :layout => false }
+    #   format.json { render :json => @smscode }
+    # end
+    render :json => { :smscode => @smscode}
   end
+  
+  
   private
   
     def user_params
-      params.require(:user).permit(:name, :email, :password,
+      params.require(:user).permit(:mobile, :smscode, :password,
                       :password_confirmation)
     end
     
