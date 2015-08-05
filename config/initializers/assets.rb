@@ -28,5 +28,6 @@ Rails.application.config.assets.precompile += %w( jquery-plugin-circliful/jquery
 Rails.application.config.assets.precompile += %w( main.css )
 Rails.application.config.assets.precompile += %w( base.css )
 Rails.application.config.assets.precompile += %w( my_fund.css )
+Rails.application.config.assets.precompile += %w( myprofile.css )
 Rails.application.config.assets.precompile += %w( load-awesome/loaders.css )
 Rails.application.config.assets.precompile += %w( load-awesome/style.css )

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'
+  get 'myProfile' => 'users#myProfile'
   delete 'logout' => 'sessions#destroy'
   #resources :users
   resources :users do

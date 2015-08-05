@@ -11,6 +11,11 @@ class UsersController < ApplicationController
     @user = User.new
   end
   
+  
+  def myProfile
+  end
+  
+  
   def index
     #@users = User.all
     @users = User.paginate(page: params[:page])

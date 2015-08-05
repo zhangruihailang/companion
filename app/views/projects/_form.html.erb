@@ -154,8 +154,8 @@
             <span class="prefix">项目介绍</span>
           </div>
           <div class="small-9 columns">
-               <%#= f.text_area :introduction %>
-               <%= f.kindeditor :introduction %>
+               <%= f.text_area :introduction %>
+               <%#= f.kindeditor :introduction ,:window_onload => true%>
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@
             <span class="prefix">资产说明</span>
           </div>
           <div class="small-9 columns">
-               <%= f.kindeditor :assets_explain %>
+               <%= f.kindeditor :assets_explain ,:window_onload => true%>
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@
             <span class="prefix">风控措施</span>
           </div>
           <div class="small-9 columns">
-               <%= f.kindeditor :risk_control_measures %>
+               <%= f.kindeditor :risk_control_measures ,:window_onload => true%>
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@
             <span class="prefix">担保情况</span>
           </div>
           <div class="small-9 columns">
-               <%= f.kindeditor :guarantee_status %>
+               <%= f.kindeditor :guarantee_status,:window_onload => true %>
           </div>
         </div>
       </div>
@@ -215,7 +215,7 @@
             <span class="prefix">资金流向</span>
           </div>
           <div class="small-9 columns">
-              <%= f.kindeditor :money_flow %>
+              <%= f.kindeditor :money_flow,:window_onload => true %>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 .tab-bar {
   -webkit-backface-visibility: hidden;
-  background: #4DC6AC;
+  background: #FF946E;
   color: #FFFFFF;
   height: 2.8125rem;
   line-height: 2.8125rem;
@@ -140,7 +140,7 @@ ul.off-canvas-list {
     padding: 0.66667rem;
     transition: background 300ms ease; }
     ul.off-canvas-list li a:hover {
-      background: #4DC6AC; }
+      background: #FF946E; }
     ul.off-canvas-list li a:active {
       background: #212121; } 
 
@@ -190,7 +190,7 @@ a.h5_font{
       }
     .tabs dd.active a,
     .tabs .tab-title.active a {
-      background-color: #4DC6AC;
+      background-color: #FF946E;
       color: #222222; }
   .tabs.radius dd:first-child a,
   .tabs.radius .tab:first-child a {
@@ -275,7 +275,7 @@ button, .button {
   color: #FFFFFF;
   transition: background-color 300ms ease-out; }
   button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #4DC6AC; }
+    background-color: #FF946E; }
   button:hover, button:focus, .button:hover, .button:focus {
     color: #FFFFFF; }
   button.secondary, .button.secondary {
@@ -342,7 +342,7 @@ button, .button {
   button.round, .button.round {
     border-radius: 1000px; }
   button.disabled, button[disabled], .button.disabled, .button[disabled] {
-    background-color: #4DC6AC;
+    background-color: #FF946E;
     border-color: #007095;
     color: #FFFFFF;
     box-shadow: none;
@@ -353,7 +353,7 @@ button, .button {
     button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
       color: #FFFFFF; }
     button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
-      background-color: #4DC6AC; }
+      background-color: #FF946E; }
     button.disabled.secondary, button[disabled].secondary, .button.disabled.secondary, .button[disabled].secondary {
       background-color: #e7e7e7;
       border-color: #b9b9b9;
@@ -430,6 +430,6 @@ button::-moz-focus-inner {
     
 /**进度条**/
 .progress .meter {
-    background: #4DC6AC;
+    background: #FF946E;
     display: block;
     height: 100%; }

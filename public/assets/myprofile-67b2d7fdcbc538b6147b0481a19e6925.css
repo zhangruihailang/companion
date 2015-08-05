@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+.zlhui{color:#666666 ;}
+.zl33{color: #333333;}
+.zhzxcenter .zlcolorf48{color: #4894d2;text-align: right;font-size: 1em;}
+.mb60{margin-bottom: 60px;}
+.mlr10{margin: auto 3px;}
+.mlr15{margin-right: 10px;}
+.mt10p{margin-top: 8px;}
+.zhzxcl{color:#4894d2 ;}
+/*.zhzxfixed img{margin-bottom:10px;}*/
+.mt10{margin-bottom:13px;}
+.mt5{margin-bottom:5px;}
+.zhzxfixed{/*position: fixed;*/background: #ff9934;width: 100%;height:40px;line-height:40px;/*z-index: 999;*/color: #FFFFFF;font-size: 1.2em;}
+
+.scrollNews 	{ height: 40px; background: #ff9934; overflow: hidden; }
+.scrollNews li	{ width: 100%;height:40px;line-height:40px; color: #fff;font-size: 1.2em; }
+.scrollNews li a { color: #fff; }
+.zhzxlb{width:20px;height:20px;display: inline-block;}
+.zhzxtop{width:100%;padding:6px 6px 10px;box-sizing: border-box;}
+.zhzximg{width:13%;margin-top: 5px;}
+.zhzximg2{width:11%;margin:8px 0 0 8px;}
+
+.zhzximg img,.myhqa img,.zhzxlb img,.zhzximg2 img{width: 100%;}
+.userImage 	{ border-radius: 50%; }
+.zhzxsize{ margin-top:4%; font-size: 14px; line-height: 16px; }
+.zhzxsize15{font-size: 12px; margin-top: 5px;}
+.zhzxtopct{width:60%;padding-left: 5px;box-sizing: border-box;}
+.zhzxpo{position: relative;}
+.myhq{width:9px;height:9px;position: absolute;right:-4%;top:6%;}
+.myhqa{width:9px;height:9px;position: absolute;right:-18% ;top:-5%;}
+.myhqa img{vertical-align:top;}
+.zhzxcenter{border-top:1px solid #d6d6d6;font-size: 14px;background:#f7f7f7;}
+.zhzxcenter a{height:40px;line-height:40px;display: block;padding-left:2%;background: url(../../Images/WeiChat/icn_arrows.png) no-repeat 95% center;background-size:8px 16px;border-bottom: 1px solid #d6d6d6;color: #4894d2; overflow: hidden;}
+.zhzxcenter a:hover 	{ background: #eee; }
+.zhzxgreen{border-left:3px solid #4ec6ab;}
+.zhzxorange{border-left:3px solid #f3a445;}
+.zhzxreda {border-left:3px solid #ff8158;}
+.zhzxmr20{margin-right: 20px;}
+.zhzxicon{width:16px;display: inline-block;margin: auto 5px;}
+.zhzxicon img{width: 100%;margin-bottom: 5px;}
+.zlfnt12{font-size:.8em;margin-right:10%;}
+/*常见问题*/
+.qabtn{width:100%;height: 40px;line-height: 40px;background: #57b1e6;display: block;margin: auto;border-radius: .25em;text-align: center;color: #FFFFFF;font-size: 1.8em;}
+
+.chakanHB{ text-decoration:underline; color:#fff;}
+.woyao{ background:#f7f7f7; border-top:1px #eeeeee solid; height:72px; position:fixed; bottom:0px; width:100%; font-size:1.5em}
+.woyao_banxin{ width:90%; margin:15px auto; height:40px}
+.chongzhi{ background:#57b1e6; width:45%; height:40px; float:left; border-radius:.25em;text-align:center; line-height:40px}
+.touzi{background:#f3a445;width:45%;height:40px; float:right; border-radius:.25em; text-align:center;line-height:40px}
+.chongzhi a{width:100%; height:100%; font-size: 1.1em;}
+.touzi a{width:100%; height:100%;font-size: 1.1em;}
+
+.zichan_hu{ width:100%; height:81px; background:#f7f7f7; border-bottom:1px solid #d6d6d6; border-top:1px solid #d6d6d6; padding:20px 0 20px 0 ; box-sizing:border-box;}
+.zichan_hu .last{ border:none;}
+.zichan_hu ul{ width:33%;border-right:1px solid #cccccc; float:left}
+.zichan_hu ul li{ color:#666666;  font-size:12px;  height:40px; box-sizing:border-box; margin:auto; text-align:center}
+.zichan_hu ul li p:nth-of-type(1){ color:#4894d2; font-size:14px;}
+.zichan_hu ul li p{ line-height:20px}
+
+
+
