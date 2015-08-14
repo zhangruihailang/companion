@@ -60,7 +60,7 @@
         <li><label>导航</label></li>
         <li><%= link_to "首页", root_path%></li>
         <li><%= link_to "我要投资", projects_path(code:@code)%></li>
-        <% if current_user.admin? %>
+        <% if current_user && current_user.admin? %>
         <li><%= link_to "发布项目", "#" , {:onclick => "goto('/projects/new')"} %></li>
         <% end %>
         <li><%= link_to "我的资金", "/myFunds"%></li>
