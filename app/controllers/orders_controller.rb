@@ -6,14 +6,10 @@ class OrdersController < ApplicationController
   end
 
   def create
-    #p "--------------------params[:password]=#{params[:password]}----------------------------------------------------"
-    if current_user.authenticate(params[:password])
+   if current_user.authenticate(params[:password])
       @order = Order.new(order_params)
       project = Project.find(params[:order][:project_id])
       amount = params[:order][:amount]
-      #p "-----------------------------(amount.is_a?(Integer))#{amount.to_i.is_a?(Integer)}--------------------------------------"
-     # p "-----------------------------(amount.to_i % 100)#{amount.to_i%100==0}--------------------------------------"
-      #p "-----------------------------(flag)#{(amount.to_i.is_a?(Integer)) &&　(amount.to_i%100==0)}--------------------------------------"
       if amount.to_i.to_s == amount#amount.to_i.is_a?(Integer) 
         if amount.to_i%100==0
           income = (amount.to_i * project.yield_yearly.to_f) / 100
@@ -25,10 +21,11 @@ class OrdersController < ApplicationController
             #flash[:danger] = "提交失败，请重新提交."
             #redirect_to "/orders/new?project_id=#{params[:order][:project_id]}"
             #render new_order_path(project_id: params[:order][:project_id])
-            @errors =  @order.errors.full_messages
+            
+            #@errors =  @order.errors.full_messages
            
             @project = Project.find(params[:order][:project_id])
-            @order = Order.new
+            #@order = Order.new
             
             render 'new'
           end

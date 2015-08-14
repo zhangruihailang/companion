@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get 'buy' => 'projects#buy'
   delete 'logout' => 'sessions#destroy'
   #resources :users
-  resources :users do
+  resources :users , only: [:new, :create, :edit, :update,:myProfile]do
     member do
       get :following, :followers
     end

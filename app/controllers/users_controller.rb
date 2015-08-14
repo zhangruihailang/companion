@@ -41,32 +41,41 @@ class UsersController < ApplicationController
     @smscode = Smscode.find_by(mobile: params[:user][:mobile]) 
     #p "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
     p "----------------------------  params[:user][:smscode]:#{params[:user][:smscode]}---------------------------------------"
+    #注册过的用户不能再注册
     
-    if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
-      #验证码正确
-      @user = User.new(user_params)
-      if @user.save
-        log_in @user
-        flash[:success] = "注册成功!"
-        # redirect_to @user
-        # UserMailer.account_activation(@user).deliver_now
-        # @user.send_activation_email
-        # flash[:info] = "Please check your email to activate your account."
-        redirect_to root_url
-      else
-        @user = User.new
-        p "---------------------@user#{@user}--------------------------------------"
-        render 'new'
-            
-         #render text: "errors"
-      end
-    else
-       #验证码不正确
-       @user = User.new
-        p "---------------------@user#{@user}--------------------------------------"
-      flash[:info] = "验证码不正确"
+    @user = User.find_by(mobile: params[:user][:mobile]) 
+    if @user
+      flash[:success] = "该手机号已经注册过!"
       render 'new'
+    else
+      if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
+        #验证码正确
+        @user = User.new(user_params)
+        if @user.save
+          log_in @user
+          flash[:success] = "注册成功!"
+          # redirect_to @user
+          # UserMailer.account_activation(@user).deliver_now
+          # @user.send_activation_email
+          # flash[:info] = "Please check your email to activate your account."
+          redirect_to root_url
+        else
+          #@user = User.new
+          #p "---------------------@user#{@user}--------------------------------------"
+          #p "---------------------@user#{@user.errors.full_messages.each{|msg| p msg} }--------------------------------------"
+          render 'new'
+              
+           #render text: "errors"
+        end
+      else
+         #验证码不正确
+         @user = User.new
+          p "---------------------@user#{@user}--------------------------------------"
+        flash[:info] = "验证码不正确"
+        render 'new'
+      end
     end
+    
     
   end
   
@@ -140,13 +149,20 @@ class UsersController < ApplicationController
   # end
   
   def send_sms_code
-    @smscode = rand(999999)
+    @smscode =  100000+rand(899999)
     #session[:smscode] 
     #session[:smscode] = @smscode
-    sms = Smscode.new
-    sms.mobile = params[:mobile]
-    sms.code = @smscode
-    sms.save
+    @sms = Smscode.find_by(mobile: params[:mobile]) 
+    unless @sms
+      @sms = Smscode.new
+      @sms.mobile = params[:mobile]
+    end
+    #sms = Smscode.new
+    # sms.mobile = params[:mobile]
+    # sms.code = @smscode
+    # sms.save
+    @sms.code = @smscode
+    @sms.save
     #Smscode.create!(:mobile =>params[:mobile],:code => @smscode) 
     p "-------------------#{@smscode}--------------------------"
     # respond_to do |format|

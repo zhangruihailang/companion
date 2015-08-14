@@ -1,7 +1,7 @@
 class PasswordResetsController < ApplicationController
+  #before_action :valid_user, only: [:edit, :update]
+  #before_action :check_expiration, only: [:edit, :update]
   before_action :get_user, only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update]
   def new
   end
 
@@ -17,16 +17,33 @@ class PasswordResetsController < ApplicationController
   #     render 'new'
   #   end
   # end
+  
+  
+  # def create
+  #   @user = User.find_by(email: params[:password_reset][:email].downcase)
+  #   if @user
+  #     @user.create_reset_digest
+  #     @user.send_password_reset_email
+  #     flash[:info] = "Email sent with password reset instructions"
+  #     #flash[:info1] = "token=#{@user.reset_token}"
+  #     redirect_to root_url
+  #   else
+  #   flash.now[:danger] = "Email address not found"
+  #   render 'new'
+  #   end
+  # end
+  
   def create
-    @user = User.find_by(email: params[:password_reset][:email].downcase)
+    @user = User.find_by(mobile: params[:password_reset][:mobile])
     if @user
-      @user.create_reset_digest
-      @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
+      #@user.create_reset_digest
+      #@user.send_password_reset_email
+      #flash[:info] = "Email sent with password reset instructions"
       #flash[:info1] = "token=#{@user.reset_token}"
-      redirect_to root_url
+      #redirect_to root_url
+      render 'edit'
     else
-    flash.now[:danger] = "Email address not found"
+    flash.now[:danger] = "手机号不正确！"
     render 'new'
     end
   end
@@ -36,12 +53,12 @@ class PasswordResetsController < ApplicationController
   
   def update
     if both_passwords_blank?
-      flash.now[:danger] = "Password/confirmation can't be blank"
+      flash.now[:danger] = "密码不能为空！"
       render 'edit'
     elsif @user.update_attributes(user_params)
       log_in @user
-      flash[:success] = "Password has been reset."
-      redirect_to @user
+      flash[:success] = "密码重设成功."
+      redirect_to root_url
     else
       render 'edit'
     end
@@ -58,8 +75,11 @@ class PasswordResetsController < ApplicationController
       params[:user][:password_confirmation].blank?
     end
 
+    # def get_user
+    #   @user = User.find_by(email: params[:email])
+    # end
     def get_user
-      @user = User.find_by(email: params[:email])
+      @user = User.find_by(mobile: params[:mobile])
     end
     
     def valid_user

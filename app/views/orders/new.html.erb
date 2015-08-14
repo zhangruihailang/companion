@@ -1,22 +1,6 @@
 <div class="panel">
 <%= form_for @order do |f| %>
-  <% if !(@errors.nil?) && @errors.any? %>
-  <div class="row">
-    <div class="small-12 columns">
-      <div data-alert class="alert-box info radius">
-        <ul>
-          <% @errors.each do |message| %>
-            <li>
-             <h6 style="color:#FF946E,font-weight:bold;"> <%= message[message.index("||")+2,message.length] %></h6>
-            </li>
-          <% end %>
-        </ul>
-        <a href="#" class="close">&times;</a>
-      </div>
-    </div>
-  </div>
-     
-  <% end %>
+  <%= render 'shared/error_messages', object: f.object %>
   <input type="hidden" name="order[project_id]" value=" <%= @project.id %>" />
   <input type="hidden" name="order[user_id]" value=" <%= current_user.id %>" />
   <input type="hidden" name="order[has_payed]" value="0" />

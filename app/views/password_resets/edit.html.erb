@@ -1,15 +1,60 @@
-<% provide(:title, 'Reset password') %>
-<h1>Reset password</h1>
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
-<%= form_for(@user, url: password_reset_path(params[:id])) do |f| %>
+<% provide(:title, '密码重设') %>
+<div class="panel">
+<%= form_for(@user, url: password_reset_path(@user.id)) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
-<%= hidden_field_tag :email, @user.email %>
-<%= f.label :password %>
-<%= f.password_field :password, class: 'form-control' %>
-<%= f.label :password_confirmation, "Confirmation" %>
-<%= f.password_field :password_confirmation, class: 'form-control' %>
-<%= f.submit "Update password", class: "btn btn-primary" %>
+<%= hidden_field_tag :mobile, @user.mobile %>
+ 
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">密码</span>
+          </div>
+          <div class="small-9 columns">
+              <%= f.password_field :password %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">确认密码</span>
+          </div>
+          <div class="small-9 columns">
+            <%= f.password_field :password_confirmation %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+   
+    <div class="row">
+      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
+       
+        </br>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
+        <input type="submit" name="newgroup" class="button radius" style="width:80%;" value="修改" />
+      </div>
+    </div>
+  </div>
+
+</div>
 <% end %>
-</div>
-</div>
+
+
