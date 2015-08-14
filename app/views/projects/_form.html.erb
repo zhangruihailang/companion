@@ -109,7 +109,8 @@
             <span class="prefix">最晚起息</span>
           </div>
           <div class="small-9 columns">
-              <%= f.date_select :latest_payment_date %>
+              <%#= f.date_select :latest_payment_date %>
+               <input type="text" name="project[latest_payment_date]" id="project_latest_payment_date" />
           </div>
         </div>
       </div>
@@ -124,7 +125,8 @@
             <span class="prefix">最晚到期</span>
           </div>
           <div class="small-9 columns">
-            <%= f.date_select :latest_expire_date %>
+            <%#= f.date_select :latest_expire_date %>
+             <input type="text" name="project[latest_expire_date]" id="project_latest_expire_date" />
           </div>
         </div>
       </div>
@@ -254,3 +256,22 @@
 
 </div>
 <% end %>
+
+<script type="text/javascript">
+    var picker = new Pikaday(
+    {
+        field: document.getElementById('project_latest_payment_date'),
+        firstDay: 1,
+        minDate: new Date('2010-01-01'),
+        maxDate: new Date('2020-12-31'),
+        yearRange: [2000,2020]
+    });
+     var picker2 = new Pikaday(
+    {
+        field: document.getElementById('project_latest_expire_date'),
+        firstDay: 1,
+        minDate: new Date('2010-01-01'),
+        maxDate: new Date('2020-12-31'),
+        yearRange: [2000,2020]
+    });
+</script>

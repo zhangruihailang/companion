@@ -125,8 +125,9 @@
   function calculate(value){
   //alert(value);
     var rate = '<%= @project.yield_yearly%>';
-    //alert(rate);
-    var income = (value * rate )/100;
+    var cycle =  '<%= @project.investment_cycle%>';
+    //alert(cycle);
+    var income = (((value * rate )/100) *cycle)/12 ;
     //alert(income);
     $('#income').html(income);
     //$('#order.income').val(income);

@@ -19,6 +19,7 @@
 <%= stylesheet_link_tag  "base" %>
 <%= stylesheet_link_tag  "my_fund" %>
 <%= stylesheet_link_tag  "myprofile" %>
+<%= stylesheet_link_tag  "pikaday" %>
 <%= stylesheet_link_tag  "app" %>
 <%= javascript_include_tag "vendor/jquery.js" %>
 <%#= javascript_include_tag "http://code.jquery.com/jquery-1.10.2.min.js" %>
@@ -26,6 +27,7 @@
 
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 <%= javascript_include_tag "footer" %>
+<%= javascript_include_tag "pikaday.min" %>
 <%= csrf_meta_tags %>
 <%= render 'layouts/shim' %>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
@@ -58,7 +60,9 @@
         <li><label>导航</label></li>
         <li><%= link_to "首页", root_path%></li>
         <li><%= link_to "我要投资", projects_path(code:@code)%></li>
+        <% if current_user.admin? %>
         <li><%= link_to "发布项目", "#" , {:onclick => "goto('/projects/new')"} %></li>
+        <% end %>
         <li><%= link_to "我的资金", "/myFunds"%></li>
         <li><%= link_to "个人账户", "/myProfile"%></li>
         <li><%= link_to "退出", logout_path, method: "delete" %></li>

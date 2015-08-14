@@ -4,64 +4,131 @@
   <title>The page you were looking for doesn't exist (404)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-  body {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
-
-  div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+body
+        {
+            background-color: #0A7189;
+            color: #fff;
+            font: 100% "Lato" , sans-serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+        
+        a
+        {
+            color: #75C6D9;
+            text-decoration: none;
+        }
+        
+        h3
+        {
+            margin-bottom: 1%;
+        }
+        
+        ul
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            line-height: 50px;
+        }
+        
+        li a:hover
+        {
+            color: #fff;
+        }
+        
+        .center
+        {
+            text-align: center;
+        }
+        
+        /* Search Bar Styling */
+        form > *
+        {
+            vertical-align: middle;
+        }
+        
+        .srchBtn
+        {
+            border: 0;
+            border-radius: 7px;
+            padding: 0 17px;
+            background: #e74c3c;
+            width: 99px;
+            border-bottom: 5px solid #c0392b;
+            color: #fff;
+            height: 65px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .srchBtn:active
+        {
+            border-bottom: 0px solid #c0392b;
+        }
+        
+        .srchFld
+        {
+            border: 0;
+            border-radius: 7px;
+            padding: 0 17px;
+            max-width: 404px;
+            width: 40%;
+            border-bottom: 5px solid #bdc3c7;
+            height: 60px;
+            color: #7f8c8d;
+            font-size: 19px;
+        }
+        
+        .srchFld:focus
+        {
+            outline-color: rgba(255, 255, 255, 0);
+        }
+        
+        /* 404 Styling */
+        .header
+        {
+            font-size: 13rem;
+            font-weight: 700;
+            margin: 2% 0 2% 0;
+            text-shadow: 0px 3px 0px #7f8c8d;
+        }
+        
+        /* Error Styling */
+        .error
+        {
+            margin: -70px 0 2% 0;
+            font-size: 7.4rem;
+            text-shadow: 0px 3px 0px #7f8c8d;
+            font-weight: 100;
+        }
   </style>
 </head>
 
 <body>
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
+ <section class="center">
+        <article>
+            <h1 class="header">
+                500</h1>
+            <p class="error">
+                ERROR</p>
+        </article>
+        <article>
+            <img src="http://threejed.b0.upaiyun.com/attachment/vovg1x.png" alt="Funny Face">
+        </article>
+        <article>
+            <p>
+                糟糕，程序出错了！</p>
+        </article>
+        
+       
+    </section>
+<script type="text/javascript">
+
+function jumpurl(){  
+  location='/';  
+}  
+setTimeout('jumpurl()',3000);  
+</script>
 </body>
 </html>

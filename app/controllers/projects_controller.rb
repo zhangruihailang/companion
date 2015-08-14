@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
-
+ 
   # GET /projects
   # GET /projects.json
   def index
@@ -45,11 +45,11 @@ class ProjectsController < ApplicationController
     # end
     respond_to do |format|
       if @project.save
-        
-        params[:files].each do |file|
-          @attachment = @project.attachments.create!(:file => file)
+        if params[:files] && params[:files].any? 
+          params[:files].each do |file|
+            @attachment = @project.attachments.create!(:file => file)
+          end
         end
-        
         format.html { redirect_to @project, notice: '项目发布成功.' }
         format.json { render :show, status: :created, location: @project }
       else
