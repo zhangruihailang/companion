@@ -6,17 +6,17 @@
                 	<a href="/index.php/home/account/total_profit.html" style="color:#FFF">累计收益（元）</a>
                 	<a href="javascript:showhelp();" ><img src="" width="20" style="float:right" class="wenhao"/></a>
                 </p>
-				<p class="my_fsy3" style="font-size:4em"><a href="/index.php/home/account/total_profit.html" style="color:#FFF; width:100%; height:100%; display:block">0.00</a></p>
+				<p class="my_fsy3" style="font-size:4em"><a href="/index.php/home/account/total_profit.html" style="color:#FFF; width:100%; height:100%; display:block"><%= @total_income_payed%></a></p>
 			</div>
 			
 			<div class="my_fbot">
 				<div class="my_fbleft fl">
 					<div class="my_fbltitle">近一个月已获收益（元）</div>
-					<div class="my_fblth" style="font-size:2em">0.00</div>
+					<div class="my_fblth" style="font-size:2em"><%= @recent_month_income_payed%></div>
 				</div>
 				<div class="my_fbright fr" style="width:45%;">
 					<div class="my_fbltitle">待收收益（元）</div>
-					<div class="my_fblth" style="font-size:2em">0.00</div>
+					<div class="my_fblth" style="font-size:2em"><%= @total_income_not_payed%></div>
 				</div>
 			</div>
 		</div>
@@ -24,17 +24,17 @@
 			<a href="/index.php/home/account/total_assets.html">
 			<div class="my_ftop ">
 				<p class="my_ftitle" style="color:#999999 !important;">总资产（元）</p>
-				<p class="my_fsy my_fsy2 color445">0.00</p>
+				<p class="my_fsy my_fsy2 color445"><%= @total_asset%></p>
 			</div>
 			</a>
 			<div class="my_fbot">
 				<div class="my_fbleft fl">
 					<div class="my_fbltitle">可用资金（元）</div>
-					<div class="my_fblth color66">0.00</div>
+					<div class="my_fblth color66"><%= @total_asset_available%></div>
 				</div>
 				<div class="my_fbright fr" style="width:45%;">
 					<div class="my_fbltitle">待收资金（元）</div>
-					<div class="my_fblth color66">0.00</div>
+					<div class="my_fblth color66"><%= @total_asset_not_available%></div>
 				</div>
 			</div>
 		</div>

@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   private
   # 确保用户已登录
     def logged_in_user
-      authenticate_openid!
+      #authenticate_openid!
       unless logged_in?
       store_location
-      flash[:danger] = "Please log in."
+      flash[:danger] = "您尚未登陆,请登录后再操作."
       redirect_to(login_url) and return
       end
     end

@@ -36,6 +36,23 @@ class FtpSync
     end
   end
   
+  # sync a local directory to a remote directory
+  def sync_file(local_file)
+    ftp = Net::FTP.new(@host)
+    begin
+      ftp.login(@user, @password)
+      ftp.passive = @passive
+      puts "logged in, start syncing..."
+      
+      sync_folder(local_dir, remote_dir, ftp)
+      
+      puts "sync finished"
+      
+    rescue Net::FTPPermError => e
+      puts "Failed: #{e.message}"
+      return false
+    end
+  end
   # copy a remote directory to another location
   # dir_dest should not contain the final dir name, but its parent dir, .eg:
   # copy_folder('/home/james/test/folder', '/home/james/') will eventually create /home/james/folder

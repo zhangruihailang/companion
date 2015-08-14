@@ -7,8 +7,8 @@
 .my_fund{width: 100%;background:#6FD5D7;padding:5% 5% 5%;box-sizing: border-box;color: #FFFFFF;}
 .my_fund>a{color:#FFFFFF;}
 .my_ftitle{font-size:1.2em;line-height: 24px;}
-.my_fsy{font-size:2.2em;font-weight: bold;border-bottom: 1px solid #FFFFFF;width: 100%;display: block;line-height: 30px;background:url() no-repeat right center;background-size:8px 16px; padding-bottom: 15px;}
-.my_fsy3{font-size:2.8em;font-weight: bold;border-bottom: 1px solid #FFFFFF;width: 100%;display: block;line-height: 30px;background:url() no-repeat right center;background-size:8px 16px; padding-top: 8px;padding-bottom: 15px;}
+.my_fsy{font-size:2.2em;font-weight: bold;border-bottom: 1px solid #FFFFFF;width: 100%;display: block;line-height: 30px;background:url(../../Images/WeiChat/btn_bai.png) no-repeat right center;background-size:8px 16px; padding-bottom: 15px;}
+.my_fsy3{font-size:2.8em;font-weight: bold;border-bottom: 1px solid #FFFFFF;width: 100%;display: block;line-height: 30px;background:url(../../Images/WeiChat/btn_bai.png) no-repeat right center;background-size:8px 16px; padding-top: 8px;padding-bottom: 15px;}
 .my_fsy2{border-bottom: 1px solid #cccccc;background: url() no-repeat right 6px;background-size:8px 16px;}
 .my_fbot{overflow: hidden;padding-top: 5%;}
 .my_fbot>div{width: 50%;}

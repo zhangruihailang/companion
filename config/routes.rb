@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  get 'order/new'
+
+  get 'order/create'
+
   mount WeixinRailsMiddleware::Engine, at: "/"
   resources :projects
 
@@ -15,6 +19,7 @@ Rails.application.routes.draw do
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'
   get 'myProfile' => 'users#myProfile'
+  get 'buy' => 'projects#buy'
   delete 'logout' => 'sessions#destroy'
   #resources :users
   resources :users do
@@ -28,6 +33,8 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  
+  resources :orders, only: [:new,:create, :destroy]
   
   get 'weixin' => 'users#weixin_callback'
   # The priority is based upon order of creation: first created -> highest priority.

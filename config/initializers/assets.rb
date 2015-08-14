@@ -18,6 +18,7 @@ Rails.application.config.assets.precompile += %w( foundation/foundation.offcanva
 Rails.application.config.assets.precompile += %w( foundation/foundation.tab.js )
 Rails.application.config.assets.precompile += %w( foundation/foundation.clearing.js )
 Rails.application.config.assets.precompile += %w( foundation/foundation.orbit.js )
+Rails.application.config.assets.precompile += %w( foundation/foundation.alert.js )
 Rails.application.config.assets.precompile += %w( foundation/normalize.css )
 Rails.application.config.assets.precompile += %w( app.css )
 Rails.application.config.assets.precompile += %w( footer.js )

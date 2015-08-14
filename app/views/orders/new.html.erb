@@ -1,0 +1,173 @@
+<div class="panel">
+<%= form_for @order do |f| %>
+  <% if !(@errors.nil?) && @errors.any? %>
+  <div class="row">
+    <div class="small-12 columns">
+      <div data-alert class="alert-box info radius">
+        <ul>
+          <% @errors.each do |message| %>
+            <li>
+             <h6 style="color:#FF946E,font-weight:bold;"> <%= message[message.index("||")+2,message.length] %></h6>
+            </li>
+          <% end %>
+        </ul>
+        <a href="#" class="close">&times;</a>
+      </div>
+    </div>
+  </div>
+     
+  <% end %>
+  <input type="hidden" name="order[project_id]" value=" <%= @project.id %>" />
+  <input type="hidden" name="order[user_id]" value=" <%= current_user.id %>" />
+  <input type="hidden" name="order[has_payed]" value="0" />
+  
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <h6 >
+          <%= @project.name %>
+      </h6>
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="small-12 columns">
+      <h5 class="h5_font">
+         可投金额： <%= @project.borrowing_total %>元
+      </h5>
+    </div>
+  </div>
+    
+     
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">投标金额</span>
+          </div>
+          <div class="small-9 columns">
+            <%#= f.text_field :amount, :required => true, :autofocus => true, :placeholder => "必须为100的倍数" %>
+            <input required="required" autofocus="autofocus"
+                   placeholder="必须为100的倍数" 
+                   name="order[amount]" id="order_amount"
+                   onchange="calculate(this.value)" type="text" 
+                   style="line-height:normal;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+            
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <h5 class="h5_font">
+        预期收益：<span id="income"></span>元
+      </h5>
+    </div>
+  </div>
+       
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+        
+  <div class="row">
+    <div class="samll-12 columns">
+      <div class="row collapse prefix-radius">
+        <div class="field">
+          <div class="small-3 columns">
+            <span class="prefix">交易密码</span>
+          </div>
+          <div class="small-9 columns">
+            <%#= f.password_field :password , :required => true, :autofocus => true, :placeholder => "请输入交易密码"%>
+            <input required="required" autofocus="autofocus"
+            placeholder="请输入交易密码" type="password"
+            name="password" id="order_password" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <h5 class="h5_font">
+        初始交易密码与登录密码一致
+      </h5>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="small-12 columns">
+      <h5></h5>
+    </div>
+  </div>
+  
+  <div class="row" >
+    <div class="small-12 columns" >
+       <center>
+         <input type="submit"  name="newgroup" class="button radius" style="width:80%;" value="确认提交" onclick="return validate();" />
+       </center>
+    </div>
+  </div>
+<% end %>
+</div>
+<script>
+  function calculate(value){
+  //alert(value);
+    var rate = '<%= @project.yield_yearly%>';
+    //alert(rate);
+    var income = (value * rate )/100;
+    //alert(income);
+    $('#income').html(income);
+    //$('#order.income').val(income);
+  }
+  
+   function validate() {
+     //  alert($('#order_amount').val()%100);
+      var amount = $('#order_amount').val();
+      var password = $('#order_password').val();
+        if(amount == ''){
+          alert("金额不能为空");
+          return false;
+        }else if(isNaN(amount)){
+          alert("金额必须为数字");
+          return false;
+        }else if(password == ''){
+          alert("密码不能为空");
+          return false;
+        }else if(($('#order_amount').val()%100) != '0'){
+          alert('金额必须为100的倍数')
+          return false;
+        }else{
+          return true;
+        }
+       
+     
+  }
+</script>

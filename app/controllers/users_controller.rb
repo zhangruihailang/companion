@@ -3,16 +3,23 @@ class UsersController < ApplicationController
   require 'json' 
   skip_before_filter :verify_authenticity_token, :only => [:create,:send_sms_code]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers]
+                                        :following, :followers, :myProfile]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   
   def new
     @user = User.new
+    
   end
   
   
   def myProfile
+    @total_income_payed = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
+    @total_asset = Order.where("user_id = :user_id ",user_id: current_user.id).sum("amount") + 
+                   Order.where("user_id = :user_id ",user_id: current_user.id).sum("income")
+                   
+    @total_asset_available = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("amount") + 
+                   Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
   end
   
   
@@ -32,7 +39,7 @@ class UsersController < ApplicationController
     #验证短信码
     
     @smscode = Smscode.find_by(mobile: params[:user][:mobile]) 
-    p "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
+    #p "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
     p "----------------------------  params[:user][:smscode]:#{params[:user][:smscode]}---------------------------------------"
     
     if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
@@ -47,11 +54,16 @@ class UsersController < ApplicationController
         # flash[:info] = "Please check your email to activate your account."
         redirect_to root_url
       else
+        @user = User.new
+        p "---------------------@user#{@user}--------------------------------------"
         render 'new'
+            
          #render text: "errors"
       end
     else
        #验证码不正确
+       @user = User.new
+        p "---------------------@user#{@user}--------------------------------------"
       flash[:info] = "验证码不正确"
       render 'new'
     end

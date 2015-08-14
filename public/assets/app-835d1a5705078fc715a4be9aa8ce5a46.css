@@ -488,25 +488,3 @@ button::-moz-focus-inner {
     color: #4f4f4f; }
   .alert-box.alert-close {
     opacity: 0; }
-    
-    
-input{
-　　line-height: normal; /* for non-ie */  
-　　line-height: 22px; /* for ie */  
-}
-
-input::-webkit-input-placeholder { /* WebKit browsers */
-  line-height: 1.5em;
-}
-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  line-height: 1.5em;
-}
-input::-moz-placeholder { /* Mozilla Firefox 19+ */
-  line-height: 1.5em;
-}
-input:-ms-input-placeholder { /* Internet Explorer 10+ */
-  line-height: 1.5em;
-}
-
-
-/**分页**/

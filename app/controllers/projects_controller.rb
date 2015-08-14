@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   #require 'rest-client'
   require 'json' 
+  require 'date'
   skip_before_filter :verify_authenticity_token
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
@@ -8,7 +9,8 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    #@projects = Project.all
+    @projects = Project.paginate(:page => params[:page], :per_page => 5)
     respond_to do |format|
       format.html { render "index"  }
       format.json { render :index, status: :created, location: @project }
@@ -16,7 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1
-  # GET /projects/1.json
+  # GET /projects/1.json 
   def show
   end
 
@@ -84,7 +86,39 @@ class ProjectsController < ApplicationController
 
   def myFunds
     
+    day = Time.now 
+    #p day
+    current_month_day = Date.new(day.year, day.month, day.day)
+    last_month_day = current_month_day << 1
+    #p last_day.to_s  
+    @total_income_payed = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
+    @recent_month_income_payed = Order.where("user_id = :user_id and has_payed = '1' and created_at between '#{last_month_day.to_s}' and '#{current_month_day.to_s}' " ,user_id: current_user.id).sum("income")
+    @total_income_not_payed = Order.where("user_id = :user_id and has_payed = '0' " ,user_id: current_user.id).sum("income")
+    
+    @total_asset = Order.where("user_id = :user_id ",user_id: current_user.id).sum("amount") + 
+                   Order.where("user_id = :user_id ",user_id: current_user.id).sum("income")
+                   
+    @total_asset_available = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("amount") + 
+                   Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
+    
+    @total_asset_not_available = Order.where("user_id = :user_id and has_payed = '0' ",user_id: current_user.id).sum("amount") + 
+                   Order.where("user_id = :user_id and has_payed = '0' ",user_id: current_user.id).sum("income")
+                   
+    # p "-------------------------total_income_payed:#{@total_income_payed}------------------------------------------------"
+    # p "-------------------------recent_month_income_payed:#{@recent_month_income_payed}------------------------------------------------"
+    # p "-------------------------total_income_not_payed:#{@total_income_not_payed}------------------------------------------------"
+    # p "-------------------------total_asset:#{@total_asset}------------------------------------------------"
+    # p "-------------------------total_asset_available:#{@total_asset_available}------------------------------------------------"
+    # p "-------------------------total_asset_not_available:#{@total_asset_not_available}------------------------------------------------"
+     
+ end
+  
+  def buy
+    @project = Project.find(params[:project_id])
+    @order = Order.new
+    render new_order_path
   end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
