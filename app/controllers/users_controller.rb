@@ -48,7 +48,11 @@ class UsersController < ApplicationController
       flash[:success] = "该手机号已经注册过!"
       render 'new'
     else
-      if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
+      url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=compareSmsCodeCallBackMess&mobile=#{params[:user][:mobile]}&smscode=#{params[:user][:smscode]}"
+      flag = JSON.parse(URI.parse(url).read)["status"]
+
+      #if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
+       if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(flag.nil?) && flag == '1' 
         #验证码正确
         @user = User.new(user_params)
         if @user.save
@@ -149,28 +153,32 @@ class UsersController < ApplicationController
   # end
   
   def send_sms_code
-    @smscode =  100000+rand(899999)
-    #session[:smscode] 
-    #session[:smscode] = @smscode
-    @sms = Smscode.find_by(mobile: params[:mobile]) 
-    unless @sms
-      @sms = Smscode.new
-      @sms.mobile = params[:mobile]
-    end
-    #sms = Smscode.new
-    # sms.mobile = params[:mobile]
-    # sms.code = @smscode
-    # sms.save
-    @sms.code = @smscode
-    @sms.save
-    #Smscode.create!(:mobile =>params[:mobile],:code => @smscode) 
-    p "-------------------#{@smscode}--------------------------"
-    # respond_to do |format|
-    #   #format.html { redirect_to signup_url }
-    #   #format.js { render :layout => false }
-    #   format.json { render :json => @smscode }
+    # @smscode =  100000+rand(899999)
+    # #session[:smscode] 
+    # #session[:smscode] = @smscode
+    # @sms = Smscode.find_by(mobile: params[:mobile]) 
+    # unless @sms
+    #   @sms = Smscode.new
+    #   @sms.mobile = params[:mobile]
     # end
-    render :json => { :smscode => @smscode}
+    # #sms = Smscode.new
+    # # sms.mobile = params[:mobile]
+    # # sms.code = @smscode
+    # # sms.save
+    # @sms.code = @smscode
+    # @sms.save
+    # #Smscode.create!(:mobile =>params[:mobile],:code => @smscode) 
+    # p "-------------------#{@smscode}--------------------------"
+    # # respond_to do |format|
+    # #   #format.html { redirect_to signup_url }
+    # #   #format.js { render :layout => false }
+    # #   format.json { render :json => @smscode }
+    # # end
+    # render :json => { :smscode => @smscode}
+    url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=sendSmsCodeCallBackMess&mobile=#{params[:mobile]}"
+    message = JSON.parse(URI.parse(url).read)["message"]
+    render :json => { :smscode => message}
+    
   end
   
   
