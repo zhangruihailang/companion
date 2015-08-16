@@ -48,11 +48,12 @@ class UsersController < ApplicationController
       flash[:success] = "该手机号已经注册过!"
       render 'new'
     else
-      url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=compareSmsCodeCallBackMess&mobile=#{params[:user][:mobile]}&smscode=#{params[:user][:smscode]}"
-      flag = JSON.parse(URI.parse(url).read)["status"]
+      
+      # url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=compareSmsCodeCallBackMess&mobile=#{params[:user][:mobile]}&smscode=#{params[:user][:smscode]}"
+      # flag = JSON.parse(URI.parse(url).read)["status"]
 
-      #if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
-       if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(flag.nil?) && flag == '1' 
+      if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(@smscode.nil?) && (@smscode.code == params[:user][:smscode])
+      #if !(params[:user][:smscode].blank?) && !(params[:user][:mobile].blank?) && !(flag.nil?) && flag == '1' 
         #验证码正确
         @user = User.new(user_params)
         if @user.save
@@ -175,10 +176,42 @@ class UsersController < ApplicationController
     # #   format.json { render :json => @smscode }
     # # end
     # render :json => { :smscode => @smscode}
-    url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=sendSmsCodeCallBackMess&mobile=#{params[:mobile]}"
-    message = JSON.parse(URI.parse(url).read)["message"]
-    render :json => { :smscode => message}
     
+    
+    
+    # url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=sendSmsCodeCallBackMess&mobile=#{params[:mobile]}"
+    # message = JSON.parse(URI.parse(url).read)["message"]
+    # render :json => { :smscode => message}
+    
+    @smscode =  100000+rand(899999)
+    @sms = Smscode.find_by(mobile: params[:mobile]) 
+    unless @sms
+      @sms = Smscode.new
+      @sms.mobile = params[:mobile]
+    end
+    @sms.code = @smscode
+    @sms.save
+    p "----------------smscode======#{@smscode}--------------------------"
+    
+    
+    sig = Digest::MD5.hexdigest(("439c50e3ccf174139c13def5a00be034"+"49ee5da5489b144012728f719ae506a7"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
+    url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
+    path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}"
+    https = Net::HTTP.new(url.host,url.port)
+    https.use_ssl = true    
+    authorization = Base64.strict_encode64("439c50e3ccf174139c13def5a00be034"+":"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)
+    req = Net::HTTP::Post.new(path,{'Content-Type' => 'application/xml;charset=utf-8','Accept' => 'application/xml','Authorization' => "#{authorization}"})
+    data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
+    req.body = data
+    res = https.request(req)
+    p "------------------------receive----#{res.body}-----------------------------------------------"
+    respCode = JSON.parse(res.body)["resp"]["respCode"]
+    p "------------------------respCode----#{respCode}-----------------------------------------------"
+    if respCode && respCode == '000000'
+      render :json => { :smscode => "短信验证码发送成功，请注意查收"}
+    else
+      render :json => { :smscode => "短信验证码发送失败，你重新发送"}
+    end
   end
   
   

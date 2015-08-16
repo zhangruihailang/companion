@@ -13,7 +13,7 @@ class SmsCodeController < ApplicationController
     req.body = data
     res = https.request(req)
 
-    puts "------------------------receive----#{res.body}-----------------------------------------------"
+    p "------------------------receive----#{res.body}-----------------------------------------------"
     render(:nothing=>true) 
   end
   
