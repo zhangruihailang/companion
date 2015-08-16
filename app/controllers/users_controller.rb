@@ -192,7 +192,7 @@ class UsersController < ApplicationController
     @sms.code = @smscode
     @sms.save
     p "----------------smscode======#{@smscode}--------------------------"
-    
+    Rails.logger.info("----------------smscode======#{@smscode}--------------------------")
     
     sig = Digest::MD5.hexdigest(("439c50e3ccf174139c13def5a00be034"+"49ee5da5489b144012728f719ae506a7"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
     # url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
@@ -209,8 +209,10 @@ class UsersController < ApplicationController
     req.body = data
     res = https.request(req)
     p "------------------------receive----#{res.body}-----------------------------------------------"
+    Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
     respCode = JSON.parse(res.body)["resp"]["respCode"]
     p "------------------------respCode----#{respCode}-----------------------------------------------"
+    Rails.logger.info("------------------------respCode----#{respCode}-----------------------------------------------")
     if respCode && respCode == '000000'
       render :json => { :smscode => "短信验证码发送成功，请注意查收"}
     else
