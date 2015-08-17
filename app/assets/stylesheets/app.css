@@ -510,3 +510,11 @@ input:-ms-input-placeholder { /* Internet Explorer 10+ */
 
 
 /**分页**/
+
+/**返回按钮**/
+.left-small-1 {
+  height: 2.8125rem;
+  position: absolute;
+  top: 0;
+  width: 2.8125rem;
+  left: 0; }

@@ -41,8 +41,12 @@
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap">
     <nav class="tab-bar">
-      
-
+    <% if (request.url != (request.protocol + request.host_with_port + "/"))%>
+       
+    <section class="left-small-1">
+      <img src="http://threejed.b0.upaiyun.com/attachment/backbtn.png" onclick="goback()"/>
+    </section>
+    <% end %>
       <section class="middle tab-bar-section">
         
         <h1 class="title">三晋e贷</h1>
@@ -142,6 +146,7 @@ $(document).ready(function() {
 
 function goback(){
 		history.go(-1);
+	  location.reload()
 	}
 function goto(url){
 		window.location.href = url;

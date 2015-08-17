@@ -200,7 +200,7 @@ class UsersController < ApplicationController
     version = "2014-06-30"
     auth_token = "49ee5da5489b144012728f719ae506a7"
     appid = "997ee22165ff45b78e9b9b2d9c43ea1b"
-    templateId = "4892"
+    templateId = "11592"
     
     sig = Digest::MD5.hexdigest(("#{account_sid}"+"#{auth_token}"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
     
