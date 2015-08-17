@@ -106,7 +106,7 @@ $("#send_smscode").click(function() {
   data: { mobile: f_mobile}
   })
   .done(function( msg ) {
-    alert( "验证码: " + msg.smscode );
+    alert(msg.smscode );
   });
 });
   

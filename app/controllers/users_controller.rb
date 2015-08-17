@@ -194,17 +194,27 @@ class UsersController < ApplicationController
     p "----------------smscode======#{@smscode}--------------------------"
     Rails.logger.info("----------------smscode======#{@smscode}--------------------------")
     
-    sig = Digest::MD5.hexdigest(("439c50e3ccf174139c13def5a00be034"+"49ee5da5489b144012728f719ae506a7"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
+    
+    account_sid =  "439c50e3ccf174139c13def5a00be034"
+    restURL = "https://api.ucpaas.com"
+    version = "2014-06-30"
+    auth_token = "49ee5da5489b144012728f719ae506a7"
+    appid = "997ee22165ff45b78e9b9b2d9c43ea1b"
+    templateId = "4892"
+    
+    sig = Digest::MD5.hexdigest(("#{account_sid}"+"#{auth_token}"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
+    
     # url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
     # path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}"
-    url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS?sig=#{sig}")
-    path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS?sig=#{sig}"
+    
+    url = URI.parse("#{restURL}/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}")
+    path = "/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}"
     https = Net::HTTP.new(url.host,url.port)
     https.use_ssl = true    
-    authorization = Base64.strict_encode64("439c50e3ccf174139c13def5a00be034"+":"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)
+    authorization = Base64.strict_encode64("#{account_sid}"+":"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)
     req = Net::HTTP::Post.new(path,{'Content-Type' => 'application/json;charset=utf-8','Accept' => 'application/json','Authorization' => "#{authorization}"})
     #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
-    data = "{\"templateSMS\" : {\"appId\": \"ae84fc15535a411093ff63b830969509\",\"param\": \"#{@smscode}<\",\"templateId\": \"4892\",\"to\": \"#{params[:mobile]}\"}}"
+    data = "{\"templateSMS\" : {\"appId\": \"#{appid}\",\"param\": \"#{@smscode}\",\"templateId\": \"#{templateId}\",\"to\": \"#{params[:mobile]}\"}}"
 
     req.body = data
     res = https.request(req)
