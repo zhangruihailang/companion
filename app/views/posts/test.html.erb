@@ -1,9 +1,9 @@
 <% provide(:title, '首页') %>
+
 <div class="container">
 		<div class="content">
 			<div class="col-md-7 content-left">
-				
-					<% count = 0%>
+				<% count = 0%>
 				<% (Post.order("updated_at").limit(2).offset(0)).each do |post| %>
 				
 				<div class="article">
@@ -11,7 +11,7 @@
 					<h5 class="head">最新发布</h5>
 					<% end %>
 					<h6><%= post.category.name %> </h6>
-					<a class="title" href="/posts/<%= post.id %>"><%= post.title %></a>
+					<a class="title" href="single.html"><%= post.title %></a>
 					<a href="single.html">  <img src="http://<%= post.picture.url("400")%>"  /></a>
 					<p>
 						<%= raw(post.abstract) %>
@@ -20,42 +20,33 @@
 				<% count = count +1  %>
 				<% end %>
 				
-				
-				
 			</div>
 			<div class="col-md-5 content-right">
-			<div class="content-right-top">
-				
-		
-				
+				<div class="content-right-top">
 				<h5 class="head">最受欢迎</h5>
 			
 				<% (Post.order("updated_at").limit(3).offset(0)).each do |post| %>
-			  	<a href="/posts/<%= post.id %>">
+			  	<a href="#">
 					<div class="editor text-center">
 						<h3><%= post.title %></h3>
+						<p><%= (raw(post.abstract))[0,20] %></p>
 						<label><%= time_ago_in_words(post.created_at) %> ago.</label>
 						<span></span>
 					</div>
 				</a>
 				<% end %>
-				
 			</div>
-			
-				<div class="editors-pic-grids">
-					
-					
 				
-					
+				<div class="editors-pic-grids">
 					<h5>编辑精选</h5>
 					
 					<% (Post.order("updated_at").limit(3).offset(0)).each do |post| %>
 			  
 				 
 				 
-				 	<div class="editors-pic">
+				 <div class="editors-pic">
 						<div class="e-pic">
-							<a href="/posts/<%= post.id %>"><img src="http://<%= post.picture.url("400")%>"  /></a>
+							<a href="single.html"><img src="http://<%= post.picture.url("400")%>"  /></a>
 						</div>
 						<div class="e-pic-info">
 							<a href="#"><%= post.title %></a>
@@ -64,36 +55,41 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<% end %>
-					
-				</div>
+				 
+				<% end %>
 				
-			</div>
+			
+				</div>
+		  </div>
 			<div class="clearfix"></div>
 			<div class="features">
 				<h5>热点关注</h5>
 				<h2>天津发生特大爆炸事故</h2>
 			</div>
-		<div class="col-md-7 content-left">
-					<% (Post.order("updated_at").limit(1).offset(2)).each do |post| %>
+			
+			<div class="col-md-7 content-left">
+				
+				<% (Post.order("updated_at").limit(1).offset(2)).each do |post| %>
 				
 				<div class="article">
-					<h5 class="head">最新发布</h5>
 					<h6><%= post.category.name %> </h6>
-					<a class="title" href="/posts/<%= post.id %>"><%= post.title %></a>
-					<a href="/posts/<%= post.id %>">  <img src="http://<%= post.picture.url("400")%>"  /></a>
+					<a class="title" href="single.html"><%= post.title %></a>
+					<a href="single.html">  <img src="http://<%= post.picture.url("400")%>"  /></a>
 					<p>
 						<%= raw(post.abstract) %>
 					</p>
 				</div>
 				<% end %>
-		</div>
+				
+			</div>
+			
 			<div class="col-md-5 content-right content-right-top">
-					<h5 class="head">最受欢迎</h5>	
+				<h5 class="head">Popular</h5>	
 				<% (Post.order("updated_at").limit(3).offset(3)).each do |post| %>
-			  	<a href="/posts/<%= post.id %>">
+			  	<a href="#">
 					<div class="editor text-center">
 						<h3><%= post.title %></h3>
+						<p><%= (raw(post.abstract))[0,20] %></p>
 						<label><%= time_ago_in_words(post.created_at) %> ago.</label>
 						<span></span>
 					</div>

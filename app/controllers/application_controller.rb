@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
       redirect_to(login_url) and return
       end
     end
-  
+    
+    
+    def get_home_data
+      #authenticate_openid!
+      @parent_id = params[:parent_id]
+      unless @parent_id
+        @parent_id = 1
+      end 
+      @categories = Category.where(:parent_id => 0)
+      @child_categories  = Category.where(:parent_id => @parent_id)
+    end
  
 end

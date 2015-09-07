@@ -1,157 +1,35 @@
+
 <!DOCTYPE html>
-<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
-<html class="no-js" lang="zh" >
-
+<html>
 <head>
-  <meta charset="utf-8">
-  <!-- If you delete this meta tag World War Z will become a reality -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= full_title(yield(:title)) %></title>
+<title>澎湃新闻</title>
 
-
-
-<%= stylesheet_link_tag  "foundation/foundation.css" %>
-<%= stylesheet_link_tag  "foundation/normalize.css" %>
-<%= stylesheet_link_tag  "jquery-plugin-circliful/jquery.circliful.css" %>
-<%= stylesheet_link_tag  "load-awesome/loaders.css" %>
-<%= stylesheet_link_tag  "load-awesome/style.css" %>
-<%= stylesheet_link_tag  "main" %>
-<%= stylesheet_link_tag  "base" %>
-<%= stylesheet_link_tag  "my_fund" %>
-<%= stylesheet_link_tag  "myprofile" %>
-<%= stylesheet_link_tag  "pikaday" %>
-<%= stylesheet_link_tag  "app" %>
-<%= javascript_include_tag "vendor/jquery.js" %>
-<%#= javascript_include_tag "http://code.jquery.com/jquery-1.10.2.min.js" %>
-<%= javascript_include_tag "vendor/modernizr.js" %>
-
+<%#= stylesheet_link_tag  "bootstrap" %>
+<%= stylesheet_link_tag  "style" %>
+<%= stylesheet_link_tag  "custom" %>
+<!-- Custom Theme files -->
+<%= javascript_include_tag "jquery.min.js" %>
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "footer" %>
-<%= javascript_include_tag "pikaday.min" %>
-<%= csrf_meta_tags %>
-<%= render 'layouts/shim' %>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-
-
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Konstructs Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 </head>
-
 <body>
- 
-<div class="wrapper">
-<div class="off-canvas-wrap" data-offcanvas>
-  <div class="inner-wrap">
-    <nav class="tab-bar">
-    <% if (request.url != (request.protocol + request.host_with_port + "/"))%>
-       
-    <section class="left-small-1">
-      <img src="http://threejed.b0.upaiyun.com/attachment/backbtn.png" onclick="goback()"/>
-    </section>
-    <% end %>
-      <section class="middle tab-bar-section">
-        
-        <h1 class="title">三晋e贷</h1>
-      </section>
 
-      <section class="right-small">
-        <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
-      </section>
-    </nav>
-
-    
-
-    <aside class="right-off-canvas-menu">
-      <ul class="off-canvas-list">
-        <li><label>导航</label></li>
-        <li><%= link_to "首页", root_path%></li>
-        <li><%= link_to "我要投资", projects_path(code:@code)%></li>
-        <% if current_user && current_user.admin? %>
-        <li><%= link_to "发布项目", "#" , {:onclick => "goto('/projects/new')"} %></li>
-        <% end %>
-        <li><%= link_to "我的资金", "/myFunds"%></li>
-        <li><%= link_to "个人账户", "/myProfile"%></li>
-        <li><%= link_to "退出", logout_path, method: "delete" %></li>
-      </ul>
-    </aside>
-
-    <section class="main-section">
-       
-        <% flash.each do |message_type, message| %>
-        <%#= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-        <div data-alert class="alert-box success radius">
-          <%= message%>
-          <a href="#" class="close">&times;</a>
-        </div>
-        <% end %>
-        <%= yield %>
-        
-        
-    </section>
-   
-  <a class="exit-off-canvas"></a>
-
-  </div>
-</div>
-
-</div>
-<div class="footer-push"></div>
+<%= render 'layouts/header' %>
+  <% flash.each do |message_type, message| %>
+    <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+  <% end %>
+   <%= yield %>
 <%= render 'layouts/footer' %>
 
-<%= javascript_include_tag "foundation/foundation.js" %>
-<%= javascript_include_tag "foundation/foundation.offcanvas.js" %>
-<%= javascript_include_tag "foundation/foundation.tab.js" %>
-<%= javascript_include_tag "foundation/foundation.clearing.js" %>
-<%= javascript_include_tag "foundation/foundation.orbit.js" %>
-<%= javascript_include_tag "foundation/foundation.alert.js" %>
-<%= javascript_include_tag "jquery-plugin-circliful/jquery.circliful.js" %>
-
 <script>
-
-    //$(document).foundation();
-     $(document).foundation({
-        orbit: {
-          animation: 'slide',
-          pause_on_hover: true,
-          navigation_arrows: true,
-          slide_number: false,
-          next_on_click: false,
-          container_class: 'orbit-container',
-          stack_on_small_class: 'orbit-stack-on-small',
-          before_slide_change:function(){
-					  $('.circliful').children().remove();
-				  },
-				  after_slide_change:function(){
-  					$('.circliful').circliful();
-				  }
-        }
-      });
-    $(document).on('open.fndtn.offcanvas', '[data-offcanvas]', function () {
-  var off_canvas_wrap = $(this);
-});
-
-$(document).on('close.fndtn.offcanvas', '[data-offcanvas]', function () {
-  var off_canvas_wrap = $(this);
-});
-
-$(document).ready(function() {
-
-  $("#footer").pinFooter();
-  
-  });
-  
-  $(window).resize(function() {
-  
-  $("#footer").pinFooter();
-
-});
-
-function goback(){
-		history.go(-1);
-	  location.reload()
-	}
-function goto(url){
+  function goto(url){
 		window.location.href = url;
-}
+  }
 </script>
 </body>
-
 </html>

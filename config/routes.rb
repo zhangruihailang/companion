@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  resources :posts
+
+  resources :categories
+
   get 'order/new'
 
   get 'order/create'

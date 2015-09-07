@@ -1,0 +1,114 @@
+<div class="container">
+		<div class="content">
+			<div class="single-page">
+				<div class="print-main">
+					<h3><%= @post.category.name %></h3>
+					<a href="single.html"><%= @post.title %></a>
+					<a href="single.html"><img src="http://<%= @post.picture.url("400")%>" class="img-responsive" alt="" /> </a>
+					<p class="ptext"><%= raw(@post.content) %></p>
+				</div>
+				
+			</div>
+			<div class="col-md-7 single-content-left">
+				
+				<div class="single">
+				<div class="leave">
+				<h4>留言</h4>
+				</div>
+				<form id="commentform">
+				     <p class="comment-form-author-name"><label for="author">姓名</label>
+						<input id="author" name="author" type="text" value="" size="30" aria-required="true">
+					 </p>
+					 <p class="comment-form-email">
+						<label for="email">邮箱</label>
+						<input id="email" name="email" type="text" value="" size="30" aria-required="true">
+					 </p>
+					 
+					 <p class="comment-form-comment">
+						<label for="comment">评论</label>
+						<textarea></textarea>
+					 </p>
+					 <div class="clearfix"></div>
+					<p class="form-submit">
+			           <input name="submit" type="submit" id="submit" value="发布">
+					</p>
+					<div class="clearfix"></div>
+				   </form>
+				   	<div class="comments1">
+								<h4>评论列表</h4>
+			  				<div class="comments-main">
+									<div class="col-md-3 cmts-main-left">
+										<img src="images/avatar.jpg" alt="">
+									</div>
+									<div class="col-md-9 cmts-main-right">
+										<h5>TOM BROWN</h5>
+										<p>Vivamus congue turpis in laoreet sem nec ultrices. Fusce blandit nunc vehicula massa vehicula tincidunt. Nam venenatis cursus urna sed gravida. Ut tincidunt elit ut quam malesuada consequat. Sed semper purus sit amet lorem elementum faucibus.</p>
+										<div class="cmts">
+											<div class="col-md-6 cmnts-left">
+												<p>On April 14, 2014, 18:01</p>
+											</div>
+											<div class="col-md-6 cmnts-right">
+												<a href="#">Reply</a>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="comments-main">
+									<div class="col-md-3 cmts-main-left">
+										<img src="images/avatar.jpg" alt="">
+									</div>
+									<div class="col-md-9 cmts-main-right">
+										<h5>MARK JOHNSON</h5>
+										<p>Vivamus congue turpis in laoreet sem nec ultrices. Fusce blandit nunc vehicula massa vehicula tincidunt. Nam venenatis cursus urna sed gravida. Ut tincidunt elit ut quam malesuada consequat. Sed semper purus sit amet lorem elementum faucibus.</p>
+										<div class="cmts">
+											<div class="col-md-6 cmnts-left">
+												<p>On April 14, 2014, 18:01</p>
+											</div>
+											<div class="col-md-6 cmnts-right">
+												<a href="#">Reply</a>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+			  				</div>
+							</div>
+			</div>
+			<div class="col-md-5 content-right content-right-top">
+			<h5 class="head">最受欢迎</h5>	
+				<% (Post.order("updated_at").limit(3).offset(0)).each do |post| %>
+			  	<a href="/posts/<%= post.id %>">
+					<div class="editor text-center">
+						<h3><%= post.title %></h3>
+						<label><%= time_ago_in_words(post.created_at) %> ago.</label>
+						<span></span>
+					</div>
+				</a>
+				<% end %>
+				<div class="editors-pic-grids">
+					<h5>编辑竞选</h5>
+						<% (Post.order("updated_at").limit(3).offset(0)).each do |post| %>
+			  
+				 
+				 
+				 	<div class="editors-pic">
+						<div class="e-pic">
+							<a href="/posts/<%= post.id %>"><img src="http://<%= post.picture.url("400")%>"  /></a>
+						</div>
+						<div class="e-pic-info">
+							<a href="#"><%= post.title %></a>
+							<span></span>
+							<label><%= time_ago_in_words(post.created_at) %> ago.</label>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<% end %>
+			
+				</div>
+			</div>	
+			<div class="clearfix"></div>
+		</div>
+</div>

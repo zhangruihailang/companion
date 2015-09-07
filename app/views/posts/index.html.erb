@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+
+
+
+
+ 
+  
+  
+  <table class="table">
+    <tr>
+      <th>标题</th>
+   
+      <th>类别</th>
+      <th colspan="3">操作</th>
+    </tr>
+    <tr>
+     <% @posts.each do |post| %>
+      <tr class="info">
+        <td ><%= post.title %></td>
+        <td><%= post.category.name %></td>
+        <td><%= link_to '查看', post %></td>
+        <td><%= link_to '编辑', edit_post_path(post) %></td>
+        <td><%= link_to '删除', post, method: :delete, data: { confirm: '确定删除吗?' } %></td>
+      </tr>
+    <% end %>
+    
+    </tr>
+  </table>
+
+<br>
+
+<button type="button" class="btn btn-info" onclick="goto('/posts/new')">发布文章</button>
+
+<br><br>

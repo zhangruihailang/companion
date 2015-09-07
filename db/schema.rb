@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813064247) do
+ActiveRecord::Schema.define(version: 20150818080046) do
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "project_id"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20150813064247) do
   end
 
   add_index "attachments", ["project_id"], name: "index_attachments_on_project_id"
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 # Could not dump table "microposts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
@@ -37,6 +44,18 @@ ActiveRecord::Schema.define(version: 20150813064247) do
 
   add_index "orders", ["project_id"], name: "index_orders_on_project_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "picture"
+    t.text     "abstract"
+  end
+
+  add_index "posts", ["category_id"], name: "index_posts_on_category_id"
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"

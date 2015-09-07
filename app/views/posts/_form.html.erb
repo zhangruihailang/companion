@@ -1,0 +1,70 @@
+<%= form_for(@post , html: { multipart: true }) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label "标题" %><br>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+  
+  <span class="form-group">
+    <%= f.label "图片" %><br>
+  <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: 'form-control' %>
+  </span>
+  
+  <div class="form-group">
+    <%= f.label "摘要" %><br>
+    <%#= f.text_area :content %>
+    <%= f.kindeditor :abstract ,:window_onload => true, class: 'form-control'%>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label "正文" %><br>
+    <%#= f.text_area :content %>
+    <%= f.kindeditor :content ,:window_onload => true, class: 'form-control'%>
+  </div>
+  
+  
+  <div class="checkbox">
+    <%= f.label "类别" %><br>
+    <%#= f.text_field :category_id %>
+    <%#= @categories.length %>
+   <table  class="table">
+    <tr>
+      <% @categories.each do |category|%>
+      <tr class="info">
+        <td ><%= category.name %></td>
+        <td>
+         <% (Category.where(:parent_id => category.id)).each do |child|%>
+            <input type="radio" class="form-contro" name="post[category_id]" value="<%= child.id %>" /><%= child.name %>
+        <% end%>
+        </td>
+        
+      </tr>
+      <hr>
+    <% end %>
+    
+    </tr>
+  </table>
+    
+  </div>
+  <div class="form-group">
+    <%#= f.submit%>
+    <center>
+      
+      <a href="/posts" class="btn btn-info">返回</a> &nbsp&nbsp&nbsp&nbsp
+      <input type="submit" name="commit" value="发布" class="btn btn-info"  />
+      
+    </center>
+      
+  </div>
+<% end %>

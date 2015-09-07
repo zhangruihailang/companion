@@ -1,35 +1,55 @@
-<div class="ui top attached demo menu">
-  <a class="item">
-    <i class="sidebar icon"></i>
-    Menu
-  </a>
-</div>
-<div class="ui bottom attached segment pushable">
-  <div class="ui inverted labeled icon left inline vertical sidebar menu">
-    <a class="item">
-      <i class="home icon"></i>
-      Home
-    </a>
-    <a class="item">
-      <i class="block layout icon"></i>
-      Topics
-    </a>
-    <a class="item">
-      <i class="smile icon"></i>
-      Friends
-    </a>
-    <a class="item">
-      <i class="calendar icon"></i>
-      History
-    </a>
-  </div>
-  <div class="pusher">
-    <div class="ui basic segment">
-      <h3 class="ui header">Application Content</h3>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-    </div>
-  </div>
-</div>
+	<!-- header-section-starts -->
+	<div class="header">
+		<div class="container">
+			<div class="logo">
+				<a href="/"><h1>澎湃新闻</h1></a>
+			</div>
+			<div class="pages">
+				<ul>
+					 <% @categories.each do |category|%>
+					  
+					   <% if category.id.to_s == @parent_id %>
+					 	 <li><a class="active" href="/?parent_id=<%= category.id%>"><%= category.name %></a></li>
+					 	 <% else%>
+					 	 <li><a  href="/?parent_id=<%= category.id%>"><%= category.name %></a></li>
+					 	 <% end %>
+					 <% end %>
+				</ul>
+			</div>
+			<div class="navigation">
+				<ul>
+					<li><a class="active" href="/categories">分类管理</a></li>
+					<li><a class="active" href="/posts">文章管理</a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="header-bottom">
+            <div class="type">
+				<h5>分类</h5>
+			</div>
+			<span class="menu"></span>
+			<div class="list-nav">
+				<ul>      
+				
+					<% @child_categories.each do |category|%>
+					  <li><a  href="#"><%= category.name %></a></li>
+					<% end %>
+					
+				</ul>
+			</div>
+			<!-- script for menu -->
+				<script>
+				$( "span.menu" ).click(function() {
+				  $( ".list-nav" ).slideToggle( "slow", function() {
+				    // Animation complete.
+				  });
+				});
+			</script>
+			<!-- script for menu -->
+
+			<div class="clearfix"></div>
+        </div>
+	</div>
