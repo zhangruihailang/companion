@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818080046) do
+ActiveRecord::Schema.define(version: 20150909074636) do
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "project_id"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 20150818080046) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "message_pics", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "micropost_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "message_pics", ["micropost_id"], name: "index_message_pics_on_micropost_id"
 
 # Could not dump table "microposts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass

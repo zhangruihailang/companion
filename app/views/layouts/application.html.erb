@@ -1,34 +1,192 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-<title>澎湃新闻</title>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <!-- 
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png
+  -->
+ 
+  <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
+  <style>
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+      padding: 100px 0;
+    }
 
-<%#= stylesheet_link_tag  "bootstrap" %>
-<%= stylesheet_link_tag  "style" %>
-<%= stylesheet_link_tag  "custom" %>
-<!-- Custom Theme files -->
-<%= javascript_include_tag "jquery.min.js" %>
-<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-<!-- Custom Theme files -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Konstructs Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+
+    .get-btn {
+      background: #fff;
+    }
+
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #0bb59b;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
 </head>
 <body>
 
+
+
+
 <%= render 'layouts/header' %>
   <% flash.each do |message_type, message| %>
-    <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+    <%#= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+    <div class="am-alert am-alert-danger" data-am-alert>
+      <button type="button" class="am-close">&times;</button>
+      <p style="font-size:1.5rem;"><%= message%></p>
+    </div>
+
   <% end %>
    <%= yield %>
 <%= render 'layouts/footer' %>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
 
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.min.js"></script>
 <script>
   function goto(url){
 		window.location.href = url;
+  }
+</script>
+<%= javascript_include_tag "ajaxfileupload" %>
+<script>
+$(document).ready(function () {
+  //alert("我的第一个jQuery代码!");
+  $.each(province, function (k, p) { 
+                var option = "<option value='" + p.ProID + "'>" + p.ProName + "</option>";
+                $("#selProvince").append(option);
+            });
+             
+    $("#selProvince").change(function () {
+                var selValue = $(this).val(); 
+                $("#selCity option:gt(0)").remove();
+                 
+                $.each(city, function (k, p) { 
+                    if (p.ProID == selValue) {
+                        var option = "<option value='" + p.CityID + "'>" + p.CityName + "</option>";
+                        $("#selCity").append(option);
+                    }
+                });
+                 
+            });
+             
+  $("#selCity").change(function () {
+                var selValue = $(this).val();
+                $("#selDistrict option:gt(0)").remove(); 
+
+                $.each(District, function (k, p) {
+                    if (p.CityID == selValue) {
+                        var option = "<option value='" + p.Id + "'>" + p.DisName + "</option>";
+                        $("#selDistrict").append(option);
+                    }
+                }); 
+            }); 
+            
+  
+  
+
+});
+       
+</script>
+<div class="am-modal-actions" id="my-actions">
+  <div class="am-modal-actions-group">
+    <ul class="am-list">
+      <li class="am-modal-actions-header"><font color="#010101" >选择发布类型</font></li>
+      <li >
+        <a href="/publish_message"><font color="#0E90D2" >晒娃</font></a></li>
+      <li >
+        <a href="/"><font color="#0E90D2" >活动</font></a>
+      </li>
+    </ul>
+  </div>
+  <div class="am-modal-actions-group">
+    <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+  </div>
+</div>
+
+<script>
+  function show_bottom_menu(){
+    $('#my-actions').modal();
   }
 </script>
 </body>

@@ -1,55 +1,118 @@
-	<!-- header-section-starts -->
-	<div class="header">
-		<div class="container">
-			<div class="logo">
-				<a href="/"><h1>澎湃新闻</h1></a>
-			</div>
-			<div class="pages">
-				<ul>
-					 <% @categories.each do |category|%>
-					  
-					   <% if category.id.to_s == @parent_id %>
-					 	 <li><a class="active" href="/?parent_id=<%= category.id%>"><%= category.name %></a></li>
-					 	 <% else%>
-					 	 <li><a  href="/?parent_id=<%= category.id%>"><%= category.name %></a></li>
-					 	 <% end %>
-					 <% end %>
-				</ul>
-			</div>
-			<div class="navigation">
-				<ul>
-					<li><a class="active" href="/categories">分类管理</a></li>
-					<li><a class="active" href="/posts">文章管理</a></li>
-				</ul>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="header-bottom">
-            <div class="type">
-				<h5>分类</h5>
-			</div>
-			<span class="menu"></span>
-			<div class="list-nav">
-				<ul>      
-				
-					<% @child_categories.each do |category|%>
-					  <li><a  href="#"><%= category.name %></a></li>
-					<% end %>
-					
-				</ul>
-			</div>
-			<!-- script for menu -->
-				<script>
-				$( "span.menu" ).click(function() {
-				  $( ".list-nav" ).slideToggle( "slow", function() {
-				    // Animation complete.
-				  });
-				});
-			</script>
-			<!-- script for menu -->
+<!--
+  <header data-am-widget="header"
+          class="am-header am-header-default am-header-fixed">
+      <div class="am-header-left am-header-nav">
+          <a href="#left-link" class="">
+              <span class="am-header-nav-title">
+                首页
+              </span>
 
-			<div class="clearfix"></div>
-        </div>
-	</div>
+                <i class="am-header-icon am-icon-home"></i>
+          </a>
+      </div>
+
+      <h3 class="am-header-title" >
+          童伴 <font size="1.5rem">帮孩子找玩伴</font>
+      </h3>
+
+      <div class="am-header-right am-header-nav">
+          <a href="#right-link" class="">
+              <span class="am-header-nav-title">
+                菜单
+              </span>
+
+                <i class="am-header-icon am-icon-bars"></i>
+          </a>
+      </div>
+  </header>
+ -->
+ 
+  <header class="am-topbar am-topbar-fixed-top">
+  <div class="am-container">
+    <h1 class="am-topbar-brand">
+      <a href="/">童伴 <font size="1.5rem">帮孩子找玩伴</font></a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
+            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
+        class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+        <% if @url_path.include?'/playmates' ||  @url_path =='/'%>
+        <li class="am-active"><a href="/playmates">玩伴</a></li>
+        <% else %>
+        <li><a href="/playmates">玩伴</a></li>
+        <% end %>
+        <% if @url_path.include?'/activities' %>
+        <li class="am-active"><a href="/activities">活动</a></li>
+        <% else %>
+        <li><a href="/activities">活动</a></li>
+        <% end %>
+        <% if @url_path.include?'/publish'%>
+        <li class="am-active"><a href="/publish">活动</a></li>
+        <% else %>
+        <li><a href="/publish">发布</a></li>
+        <% end %>
+        
+        <% if @url_path.include?'/topics' %>
+        <li class="am-active"><a href="/topics">社区</a></li>
+        <% else %>
+        <li><a href="/topics">社区</a></li>
+        <% end %>
+        
+         <% if @url_path.include?'/profile'%>
+        <li class="am-active"><li><a href="#">账户</a></li>
+        <% else %>
+        <li><li><a href="#">账户</a></li>
+        <% end %>
+        
+        <!-- 
+        <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+            下拉菜单 <span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+            <li class="am-dropdown-header">标题</li>
+            <li><a href="#">1. 默认样式</a></li>
+            <li><a href="#">2. 基础设置</a></li>
+            <li><a href="#">3. 文字排版</a></li>
+            <li><a href="#">4. 网格系统</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+     <% if logged_in? %> 
+      <div class="am-topbar-right">
+        <!-- 
+        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
+        onclick="goto('/logout');"> 
+       
+         <span class="am-icon-sign-out">
+        </span>
+         -->
+        <%= button_to "退出", logout_path, method: "delete", :class => "am-btn am-btn-primary am-topbar-btn am-btn-sm" %>
+       
+        <!-- 
+        退出</button>
+        -->
+      </div>
+
+      <% else %>
+           <div class="am-topbar-right">
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm" 
+        onclick="goto('/signup');"><span class="am-icon-pencil">
+          
+        </span> 注册</button>
+      </div>
+
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
+        onclick="goto('/login');"><span class="am-icon-user">
+          
+        </span> 登录</button>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</header>

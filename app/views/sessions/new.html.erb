@@ -1,75 +1,39 @@
-<% provide(:title, '登陆') %>
-<div class="panel">
-<%= form_for(:session, url: login_path) do |f| %>
-  
-  <div class="row">
-    <div class="samll-12 columns">
-      <div class="row collapse prefix-radius">
-        <div class="field">
-          <div class="small-3 columns">
-            <span class="prefix">手机号</span>
-          </div>
-          <div class="small-9 columns">
-              <%= f.text_field :mobile %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="samll-12 columns">
-      <div class="row collapse prefix-radius">
-        <div class="field">
-          <div class="small-3 columns">
-            <span class="prefix">密码</span>
-          </div>
-          <div class="small-9 columns">
-              <%= f.password_field :password %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
-  
-  <div class="row">
-    <div class="small-6 columns">
-      <center>
-      <h5 class="h5_font">
-      <%= link_to "新用户注册!", signup_path %>
-      </h5>
-      </center>
-    </div>
-    <div class="small-6 columns">
-      <center>
-      <h5 class="h5_font">
-       <%= link_to "忘记密码", new_password_reset_path %>
-      </h5>
-      </center>
-    </div>
-  </div>
- 
- 
- 
-  
-  
- 
-  
-    
-    <div class="row">
-      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
-       
-        </br>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
-        <input type="submit" name="newgroup" class="button radius" style="width:80%;" value="登陆" />
-      </div>
-    </div>
-  </div>
+<div class="am-panel am-panel-default">
 
-<% end %>
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>登录</h3>
+    <hr>
+
+    <br>
+    <br>
+
+    
+     <%= form_for(:session, url: login_path, html: { class: 'am-form' }) do |f| %>
+     
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+        <input type="text" name="session[mobile]" id="email" value="" placeholder="输入手机号" class="am-form-field" required>
+      </div>
+      
+      <br>
+      
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+        <input type="password" name="session[password]" id="password" value="" placeholder="输入密码" class="am-form-field" required>
+      </div>
+      <br>
+       <button name=""  class="am-btn am-btn-default am-btn-sm am-fr">忘记密码 ^_^? </button>
+      <br>
+      <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+      
+    
+    <% end %>
+    
+    
+  </div>
+</div>
+  </div>
+  
+</div>

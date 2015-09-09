@@ -1,0 +1,236 @@
+<%= javascript_include_tag "CityJson" %>
+<%= javascript_include_tag "DistrictJson" %>
+<%= javascript_include_tag "ProJson" %>
+<style>
+  .input_font{font-size:1.2rem;}
+  
+  select { font-size:1.2rem; }
+  select option { font-size:1.2rem;} 
+</style>
+<div class="am-panel am-panel-default">
+  <%#= form_for(@user) do |f| %>
+
+
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>完善资料</h3>
+    <hr>
+
+    <br>
+    <br>
+
+      <%= form_for(@user, html: { id: 'edit_user', class: 'am-form' }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">我是孩子的&nbsp;:&nbsp;</span>
+       <select data-am-selected onchange="check_role();" name="guardian" id="user_guardian" >
+        <option value="父亲">父亲</option>
+        <option value="母亲" selected>母亲</option>
+        <option value="外公">外公</option>
+        <option value="外婆">外婆</option>
+        <option value="none" >其他自定义</option>
+      </select>
+      <input  style="display:none" type="text" name="guardian_other" id="user_guardian_other" value="" placeholder="" class="am-form-field input_font" required>
+      </div>
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font" >我们家住&nbsp;:&nbsp;</span>
+        <select data-am-selected id="selProvince" name="province">
+        <option value="0">--请选择省份--</option>
+        </select>
+        <select data-am-selected id="selCity" name="city">
+            <option value="0">--请选择城市--</option>
+        </select>
+        <select data-am-selected id="selDistrict" name="district">
+            <option value="0">--请选择区/县--</option>
+        </select>
+      </div>
+      <input type="hidden" id="user_province" name="user[province]" >
+      <input type="hidden" id="user_city" name="user[city]" >
+      <input type="hidden" id="user_district" name="user[district]" >
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">我的年龄&nbsp;:&nbsp;</span>
+        <input type="number" name="user[guardian_age]" id="user_guardian_age" value="" placeholder="请输入您的年龄" class="am-form-field input_font" required>
+      </div>
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的姓名或昵称&nbsp;:&nbsp;</span>
+        <input type="text" name="user[name]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>
+      </div>
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的性别&nbsp;:&nbsp;</span>
+       <select data-am-selected name="user[sex]" id="user_sex">
+        <option value="男孩">男孩</option>
+        <option value="女孩" selected>女孩</option>
+      </select>
+     </div>
+     <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的年龄&nbsp;:&nbsp;</span>
+        <input type="number" name="user[age]" id="user_age" value="" placeholder="请输入孩子的年龄" class="am-form-field input_font" required>
+      </div>
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的学校&nbsp;:&nbsp;</span>
+        <input type="text" name="user[school]" id="user_school" value="" placeholder="请输入孩子的学校" class="am-form-field input_font" required>
+      </div>
+    <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的年级&nbsp;:&nbsp;</span>
+       <select data-am-selected name="user[grade]" id="user_grade">
+        <option value="学龄前">学龄前</option>
+        <option value="学前班">学前班</option>
+        <option value="幼儿园">幼儿园</option>
+        <option value="一年级">一年级</option>
+        <option value="二年级">二年级</option>
+        <option value="三年级">三年级</option>
+        <option value="四年级">四年级</option>
+        <option value="五年级" selected>五年级</option>
+        <option value="六年级">六年级</option>
+        <option value="初一">初一</option>
+        <option value="初二">初二</option>
+        <option value="初三">初三</option>
+        <option value="高一">高一</option>
+        <option value="高二">高二</option>
+        <option value="高三">高三</option>
+      </select>
+     </div>
+      <!-- 
+      <label for="remember-me">
+        <input id="remember-me" type="checkbox">
+        记住密码
+      </label>
+      -->
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">孩子的兴趣&nbsp;:&nbsp;</span>
+        
+        <input type="text" name="" id="add_interests" value="" placeholder="每次添加一项" class="am-form-field input_font">
+        <button class="am-btn am-btn-primary input_font" onclick="add_interest();">
+          <i class="am-icon-plus"></i>
+          添加
+        </button>
+        <span id="show_interests"></span>
+        <input type="hidden" id="user_interests" name="user[interests]" >
+        <input type="hidden" id="user_rolename" name="user[rolename]" >
+      </div>
+      <br>
+      <input type="submit" name="newgroup" class="am-btn am-btn-primary am-btn-block"  value="确定"  onclick="return validate();" />
+       
+    <% end %>
+    
+  </div>
+</div>
+  </div>
+  
+
+</div>
+
+<script>
+
+  
+ function check_role(){
+   var guardian = $('#user_guardian').val();
+   //alert(rolename); 
+   if(guardian == 'none'){
+     //alert('1')
+     //$('#user_rolename')
+     //document.getElementById('user_rolename').style.display = 'none';
+     $("#user_guardian_other").show();
+   }else{
+     $("#user_guardian_other").hide();
+   }
+ }
+   function validate() {
+     //  alert($('#order_amount').val()%100);
+     
+     var guardian = $('#user_guardian').val();
+     var guardian_other = $('#user_guardian_other').val();
+      var user_guardian_age = $('#user_guardian_age').val();
+      var user_age = $('#user_age').val();
+      var user_sex = $('#user_sex').val();
+      var selProvince = $('#selProvince').val();
+      var selCity = $('#selCity').val();
+      var selDistrict = $('#selDistrict').val();
+      var user_name = $('#user_name').val();
+      
+      var user_school = $('#user_school').val();
+      var grade = $('#grade').val();
+      var user_interests = $('#user_interests').val();
+       
+       
+        if(guardian == 'none' && guardian_other == ''){
+          alert("请选择或填写您与孩子的关系");
+          return false;
+        }else if(user_guardian_age == ''){
+          alert("请填写您的年龄");
+          return false;
+        }else if(selProvince=='0'){
+          alert("请选择所在省份");
+          return false;
+        }else if(selCity=='0'){
+          alert("请选择所在城市");
+          return false;
+        }else if(selDistrict=='0'){
+          alert("请选择所在区/县");
+          return false;
+        }else if(user_name == ''){
+          alert("请输入孩子的姓名或昵称");
+          return false;
+        }else if(user_sex == ''){
+          alert("请选择孩子的性别");
+          return false;
+        }else if(user_age == ''){
+          alert("请输入孩子的年龄");
+          return false;
+        }else if(user_school == ''){
+          alert("请输入孩子的学校");
+          return false;
+        }else if(user_grade == ''){
+          alert("请选择孩子的年级");
+          return false;
+        }else if(user_interests == ''){
+          alert("请添加孩子的兴趣标签");
+          return false;
+        }else{
+           if(guardian == 'none'){
+             //alert('aa');
+             $('#user_rolename').val(guardian_other);
+           }else{
+             //alert('bb');
+             $('#user_rolename').val(guardian);
+             //alert($('#user_rolename').val());
+           }
+           //alert('1111');
+           $('#user_province').val($("#selProvince :selected").html()); 
+           $('#user_city').val($("#selCity :selected").html()); 
+           $('#user_district').val($("#selDistrict :selected").html()); 
+           //alert($('#user_province').val());
+           document.getElementById("edit_user").submit();
+        }
+       
+     
+  }
+  
+  function add_interest(){
+     var interests = $('#add_interests').val();
+    if(interests==''){
+      alert('请输入兴趣标签');
+    }else{
+      $('#show_interests').html($('#show_interests').html() + '&nbsp;<a class="am-badge am-badge-danger am-radius">'+interests+'</a>&nbsp;');
+      if($('#user_interests').val() == ''){
+          $('#user_interests').val($('#user_interests').val()  + interests);
+      }else{
+         $('#user_interests').val($('#user_interests').val() + '||' + interests);
+      }
+     
+      
+      $('#add_interests').val('');
+    }
+   
+  }
+</script>
+

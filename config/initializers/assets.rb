@@ -35,8 +35,12 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( load-awesome/loaders.css )
 # Rails.application.config.assets.precompile += %w( load-awesome/style.css )
 
-
-Rails.application.config.assets.precompile += %w( style.css )
-Rails.application.config.assets.precompile += %w( bootstrap.css )
+Rails.application.config.assets.precompile += %w( item.min.css )
+Rails.application.config.assets.precompile += %w( form.min.css )
+Rails.application.config.assets.precompile += %w( image.min.css )
+Rails.application.config.assets.precompile += %w( ajaxfileupload.js )
+Rails.application.config.assets.precompile += %w( card.css )
 Rails.application.config.assets.precompile += %w( jquery.min.js )
-Rails.application.config.assets.precompile += %w( custom.css )
+Rails.application.config.assets.precompile += %w( CityJson.js )
+Rails.application.config.assets.precompile += %w( DistrictJson.js )
+Rails.application.config.assets.precompile += %w( ProJson.js )

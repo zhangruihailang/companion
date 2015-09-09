@@ -2,14 +2,30 @@ class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
   def create
+    # @micropost = current_user.microposts.build(micropost_params)
+    # if @micropost.save
+    #   flash[:success] = "Micropost created!"
+    #   redirect_to root_url
+    # else
+    #   @feed_items = []
+    #   render 'static_pages/home'
+    # end
     @micropost = current_user.microposts.build(micropost_params)
      if @micropost.save
-       flash[:success] = "Micropost created!"
+        if params[:files] && params[:files].any? 
+          params[:files].each do |file|
+          @attachment = @micropost.message_pic.create!(:file => file)
+          #@pic_urls += ",#{@attachment.file.url('400')}"
+          end
+        end
+        p '------------------发表成功!------------------------------'
+       flash[:success] = "发表成功!"
        redirect_to root_url
      else
-      @feed_items = []
-      render 'static_pages/home'
+       flash[:danger] = "发表失败，请重新发布!"
+       redirect_to '/publish_message'
      end
+
   end
   
   def destroy
@@ -22,7 +38,7 @@ class MicropostsController < ApplicationController
   
     def micropost_params
       #params.require(:micropost).permit(:content, :picture)
-      params.require(:micropost).permit(:content, avatars: [])
+      params.require(:micropost).permit(:content, files: [])
      
     end
     

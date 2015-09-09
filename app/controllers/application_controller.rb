@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  before_action :get_url_path
   include SessionsHelper
   private
   # 确保用户已登录
@@ -14,6 +15,10 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    def get_url_path
+      @url_path = URI(request.url).path
+      p "---------------------------url_path=#{@url_path}--------------------"
+    end
     
     def get_home_data
       #authenticate_openid!

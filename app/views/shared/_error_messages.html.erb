@@ -1,17 +1,14 @@
 <% if object.errors.any? %>
 
-<div class="row">
-    <div class="small-12 columns">
-      <div data-alert class="alert-box info radius">
-        <ul>
-          <% object.errors.full_messages.each do |msg| %>
+
+<div class="am-alert" data-am-alert>
+  <button type="button" class="am-close">&times;</button>
+  <ul>
+     <% object.errors.full_messages.each do |msg| %>
             <li>
              <h6 style="color:#FF946E,font-weight:bold;"><%= msg %></h6>
             </li>
-          <% end %>
-        </ul>
-        <a href="#" class="close">&times;</a>
-      </div>
-    </div>
+    <% end %>
+  </ul>
 </div>
 <% end %>

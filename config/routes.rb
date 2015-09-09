@@ -11,7 +11,12 @@ Rails.application.routes.draw do
   mount WeixinRailsMiddleware::Engine, at: "/"
   resources :projects
 
-  root 'static_pages#home'
+  root 'static_pages#playmates'
+  get 'playmates' => 'static_pages#playmates'
+  get 'topics' => 'static_pages#topics'
+  get 'activities' => 'static_pages#activities'
+  get 'setup' => 'users#setup'
+  get 'publish_message' => 'users#publish_message'
   get 'help' => 'static_pages#help'
   get 'about' => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
@@ -19,6 +24,7 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   post 'send_sms_code' => 'users#send_sms_code'
+  post 'upload_mirco_pics' => 'users#upload_mirco_pics'
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'

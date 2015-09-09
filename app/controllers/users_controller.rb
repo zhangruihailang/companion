@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   require 'rest-client'
   require 'json' 
-  skip_before_filter :verify_authenticity_token, :only => [:create,:send_sms_code]
+  skip_before_filter :verify_authenticity_token, :only => [:create,:send_sms_code,:upload_mirco_pics]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers, :myProfile]
+                                        :following, :followers, :myProfile, :upload_mirco_pics, :publish_message]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   
@@ -12,6 +12,31 @@ class UsersController < ApplicationController
     
   end
   
+  def publish_message
+    @micropost = Micropost.new
+  end
+  
+  def upload_mirco_pics
+    @micropost = Micropost.new
+    @micropost.user_id = current_user.id
+    @pic_urls = ''
+    response.headers['Access-Control-Allow-Origin'] = '*' 
+    if @micropost.save
+      if params[:files] && params[:files].any? 
+        params[:files].each do |file|
+        @attachment = @micropost.message_pic.create!(:file => file)
+        @pic_urls += ",#{@attachment.file.url('400')}"
+        end
+      end
+      p '---------------------------上传成功-----------------------------'
+      render text: "上传成功"#@pic_urls.to_s
+    else
+      # render :json => { :smscode => '上传失败，请重新上传'}
+      render text: "上传失败，请重新上传"
+    end
+    
+  end 
+         
   
   def myProfile
     @total_income_payed = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
@@ -63,7 +88,7 @@ class UsersController < ApplicationController
           # UserMailer.account_activation(@user).deliver_now
           # @user.send_activation_email
           # flash[:info] = "Please check your email to activate your account."
-          redirect_to root_url
+          redirect_to "/setup?id=#{@user.id}"
         else
           #@user = User.new
           #p "---------------------@user#{@user}--------------------------------------"
@@ -85,16 +110,20 @@ class UsersController < ApplicationController
   end
   
   def edit
-    #@user = User.find(params[:id])
+    @user = User.find(params[:id])
+  end
+  
+  def setup
+    @user = User.find(params[:id])
   end
   
   def update
     #@user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "Profile updated"
-      redirect_to @user
+      flash[:success] = "资料更新成功！"
+      redirect_to '/'
     else
-      render 'edit'
+      redirect_to "/setup?id=#{@user.id}"
     end
   end
   
@@ -235,16 +264,18 @@ class UsersController < ApplicationController
   
     def user_params
       params.require(:user).permit(:mobile, :smscode, :password,
-                      :password_confirmation)
+                      :password_confirmation, :rolename,
+                      :guardian_age, :province, :city, :district,
+                      :sex, :age, :school, :interests       )
     end
     
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
+    # def logged_in_user
+    #   unless logged_in?
+    #     store_location
+    #     flash[:danger] = "Please log in."
+    #     redirect_to login_url
+    #   end
+    # end
     
     def correct_user
       @user = User.find(params[:id])
@@ -255,4 +286,5 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end
+    
 end
