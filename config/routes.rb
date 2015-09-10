@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   post 'send_sms_code' => 'users#send_sms_code'
   post 'upload_mirco_pics' => 'users#upload_mirco_pics'
+  get 'upload_msg_pic' => 'microposts#upload_msg_pic'
+  patch 'upload_pics' => 'microposts#upload_pics'
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'

@@ -12,20 +12,42 @@ class MicropostsController < ApplicationController
     # end
     @micropost = current_user.microposts.build(micropost_params)
      if @micropost.save
-        if params[:files] && params[:files].any? 
-          params[:files].each do |file|
-          @attachment = @micropost.message_pic.create!(:file => file)
-          #@pic_urls += ",#{@attachment.file.url('400')}"
-          end
-        end
+        # if params[:files] && params[:files].any? 
+        #   params[:files].each do |file|
+        #   @attachment = @micropost.message_pic.create!(:file => file)
+        #   #@pic_urls += ",#{@attachment.file.url('400')}"
+        #   end
+        # end
         p '------------------发表成功!------------------------------'
        flash[:success] = "发表成功!"
-       redirect_to root_url
+       #render ''
+       redirect_to "/upload_msg_pic?id=#{@micropost.id}"
      else
        flash[:danger] = "发表失败，请重新发布!"
        redirect_to '/publish_message'
      end
 
+  end
+  
+  def upload_msg_pic
+    @micropost = Micropost.find(params[:id])
+  end
+  
+  def upload_pics
+     
+     @micropost = Micropost.find(params[:message_id])
+     if params[:files] && params[:files].any? 
+        params[:files].each do |file|
+        #@attachment = @micropost.message_pic.create!(:file => file)
+        @attachment = @micropost.message_pic.new
+        @attachment.file = file
+        @attachment.save
+        #@pic_urls += ",#{@attachment.file.url('400')}"
+        end
+     end
+     
+     flash[:notice] = "发布成功"
+     render 'upload_msg_pic'
   end
   
   def destroy

@@ -3,21 +3,19 @@
 
 
 
-<%= form_for(@micropost, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<%= form_for(@micropost, :url => {:action => 'upload_pics'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<input name="message_id" type="hidden" value="<%= @micropost.id%>" />
 <%= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
     <div class="am-panel-bd" >
       <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12">
-            <div class="am-form-group">
-              <div class="ui form">
-                <div class="field">
-                  <label>这一刻的想法</label>
-                  <textarea rows="3" name="micropost[content]" id="micropost_content" ></textarea>
-                </div>
-              </div>
-            </div>
-          
+          <article data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= @micropost.content %>
+            </article>
           
         </div>
       </div>
@@ -58,10 +56,11 @@
         </div>
       </div>
       
-   
+      
+      
       <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12">
-          <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >发表</button>
+          <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传</button>
         </div>
       </div>
     </div>
@@ -78,27 +77,27 @@
     //(realPath);
     // $("#image").attr("src",$("#doc-form-file").val());
     alert('111');
-    count = count +1;
-   $('#pics_count').html(count) ;
+   // count = count +1;
+   //$('#pics_count').html(count) ;
 
   
-  // jQuery.ajaxFileUpload( 
-  //                 { 
-  //               url:'upload_mirco_pics',           
-  //               secureuri:false, 
-  //               fileElementId:'micropost_avatars',  //上传文件对应的文本域的id                     
-  //               dataType: 'text',                                     
-  //               success: function (data, status)           
-  //               {     
+  jQuery.ajaxFileUpload( 
+                  { 
+                url:'upload_mirco_pics',           
+                secureuri:false, 
+                fileElementId:'micropost_avatars',  //上传文件对应的文本域的id                     
+                dataType: 'text',                                     
+                success: function (data, status)           
+                {     
                 
-  //                 alert('1111:'+ data);
+                  alert('1111');
                    
-  //                 }, 
-  //               error: function (data, status, e)            
-  //               { 
-  //                 alert('上传失败'); 
-  //               } 
-  //           } ); 
+                  }, 
+                error: function (data, status, e)            
+                { 
+                  alert('上传失败'); 
+                } 
+            } ); 
             
     
   

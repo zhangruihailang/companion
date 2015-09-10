@@ -29,10 +29,15 @@ class UsersController < ApplicationController
         end
       end
       p '---------------------------上传成功-----------------------------'
-      render text: "上传成功"#@pic_urls.to_s
+      #render text: "上传成功"#@pic_urls.to_s
+      flash[:notice] = "上传成功"
+      #redirect_to "/"
+      render js: "window.location = '/'"
     else
       # render :json => { :smscode => '上传失败，请重新上传'}
-      render text: "上传失败，请重新上传"
+      #render text: "上传失败，请重新上传"
+      flash[:notice] = "上传失败"
+      redirect_to "/"
     end
     
   end 
