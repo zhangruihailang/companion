@@ -4,6 +4,7 @@
 
 
 <%= form_for(@micropost, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<input type="hidden" id="if_completed" name="if_completed" value="" />
 <%= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
     <div class="am-panel-bd" >
@@ -47,21 +48,29 @@
         </div>
       </div>
        -->
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          <div class="am-form-group am-form-file">
-            <button type="button" class="am-btn am-btn-danger am-btn-sm">
-              <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>
-              <input multiple=true type="file" name="files[]" id="micropost_avatars" onchange="upload();"/>
-          </div>
-          <div id="file-list"></div>
-        </div>
-      </div>
+      <!--<div class="am-g">-->
+      <!--  <div class="am-u-sm-12 am-u-lg-12">-->
+      <!--    <div class="am-form-group am-form-file">-->
+      <!--      <button type="button" class="am-btn am-btn-danger am-btn-sm">-->
+      <!--        <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
+      <!--        <input multiple=true type="file" name="files[]" id="micropost_avatars" onchange="upload();"/>-->
+      <!--    </div>-->
+      <!--    <div id="file-list"></div>-->
+      <!--  </div>-->
+      <!--</div>-->
       
    
       <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >发表</button>
+        <!--<div class="am-u-sm-12 am-u-lg-12">-->
+        <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+        <!--</div>-->
+        <div class="am-u-sm-6 am-u-lg-6">
+
+          <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate('no');" >上传图片</button>
+         
+        </div>
+        <div class="am-u-sm-6 am-u-lg-6">
+          <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate('yes');" >完成</button>
         </div>
       </div>
     </div>
@@ -106,8 +115,9 @@
   
   
   
-   function validate() {
+   function validate(flag) {
      //  alert($('#order_amount').val()%100);
+     $('#if_completed').val(flag);
       var micropost_content = $('#micropost_content').val();
       
         if(micropost_content == ''){

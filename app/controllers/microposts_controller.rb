@@ -19,9 +19,15 @@ class MicropostsController < ApplicationController
         #   end
         # end
         p '------------------发表成功!------------------------------'
-       flash[:success] = "发表成功!"
+       
        #render ''
-       redirect_to "/upload_msg_pic?id=#{@micropost.id}"
+       if params[:if_completed] == 'yes'
+          flash[:success] = "发表成功!"
+          redirect_to "/"
+       else
+         redirect_to "/upload_msg_pic?id=#{@micropost.id}"
+       end
+       
      else
        flash[:danger] = "发表失败，请重新发布!"
        redirect_to '/publish_message'
@@ -39,14 +45,14 @@ class MicropostsController < ApplicationController
      if params[:files] && params[:files].any? 
         params[:files].each do |file|
         #@attachment = @micropost.message_pic.create!(:file => file)
-        @attachment = @micropost.message_pic.new
+        @attachment = @micropost.message_pics.new
         @attachment.file = file
         @attachment.save
         #@pic_urls += ",#{@attachment.file.url('400')}"
         end
      end
      
-     flash[:notice] = "发布成功"
+     #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
      render 'upload_msg_pic'
   end
   

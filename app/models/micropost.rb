@@ -1,6 +1,7 @@
 class Micropost < ActiveRecord::Base
   belongs_to :user
-  has_many :message_pic
+  has_many :message_pics
+  
   default_scope -> { order(created_at: :desc) }
   #mount_uploader :picture, PictureUploader
   mount_uploaders :avatars, PictureUploader
