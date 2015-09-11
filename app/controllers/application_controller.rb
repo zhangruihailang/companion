@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     end
     
     def has_setup_profile
-      if logged_in_user && current_user.interests
+      if logged_in_user && current_user.interests.nil?
       flash[:danger] = "您的资料还不完善，请先更新资料."
       redirect_to "/setup?id=#{@current_user.id}"
       end
