@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'myProfile' => 'users#myProfile'
   get 'buy' => 'projects#buy'
   delete 'logout' => 'sessions#destroy'
+  
   #resources :users
   resources :users , only: [:new, :create, :edit, :update,:myProfile]do
     member do
@@ -105,4 +106,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  
+  # '*unmatched_route', :to => 'application#raise_not_found!'  
+
 end

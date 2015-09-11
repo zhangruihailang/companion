@@ -2,28 +2,89 @@
        class="am-tabs am-tabs-d2"
         >
       <ul class="am-tabs-nav am-cf">
-          <li class="am-active"><a href="[data-tab-panel-0]">全部</a></li>
-          <li class=""><a href="[data-tab-panel-1]">同城</a></li>
-          <li class=""><a href="[data-tab-panel-2]">性别</a></li>
-          <li class=""><a href="[data-tab-panel-3]">年龄</a></li>
-          <li class=""><a href="[data-tab-panel-4]">兴趣</a></li>
+        
+          <% if @tab_id == '0'%>
+          <li class="am-active" onclick="goto('/playmates?id=0')" ><a href="#">全部</a></li>
+          <% else%>
+          <li class="" onclick="goto('/playmates?id=0')" onclick="goto('/playmates?id=0')"><a href="#">全部</a></li>
+          <% end%>
+          
+          <% if @tab_id == '1'%>
+          <li class="am-active" onclick="goto('/playmates?id=1')"><a href="#">同城</a></li>
+          <% else%>
+          <li class="" onclick="goto('/playmates?id=1')"><a href="#">同城</a></li>
+          <% end%>
+          
+          <% if @tab_id == '2'%>
+          <li class="am-active" onclick="goto('/playmates?id=2')"><a href="#">性别</a></li>
+          <% else%>
+          <li class="" onclick="goto('/playmates?id=2')"><a href="#">性别</a></li>
+          <% end%>
+          
+          <% if @tab_id == '3'%>
+          <li class="am-active" onclick="goto('/playmates?id=3')"><a href="#">年龄</a></li>
+          <% else%>
+          <li class="" onclick="goto('/playmates?id=3')"><a href="#">年龄</a></li>
+          <% end%>
+          
+          <% if @tab_id == '4'%>
+          <li class="am-active" onclick="goto('/playmates?id=4')"><a href="#">兴趣</a></li>
+          <% else%>
+          <li class="" onclick="goto('/playmates?id=4')"><a href="#">兴趣</a></li>
+          <% end%>
+          
       </ul>
       <div class="am-tabs-bd">
-          <div data-tab-panel-0 class="am-tab-panel am-active">
+        
+            <% if @tab_id == '0'%>
+            <div data-tab-panel-0 class="am-tab-panel am-active">
             <%= render 'users/user_messages' %>
-          </div>
-          <div data-tab-panel-1 class="am-tab-panel ">
+            </div>
+            <%else%>
+            <div data-tab-panel-0 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            <% if @tab_id == '1'%>
+            <div data-tab-panel-1 class="am-tab-panel am-active">
             <%= render 'users/user_messages' %>
-         </div>
-          <div data-tab-panel-2 class="am-tab-panel ">
+            </div>
+            <%else%>
+            <div data-tab-panel-1 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            <% if @tab_id == '2'%>
+            <div data-tab-panel-2 class="am-tab-panel am-active">
             <%= render 'users/user_messages' %>
-          </div>
-          <div data-tab-panel-3 class="am-tab-panel ">
+            </div>
+            <%else%>
+            <div data-tab-panel-2 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            
+            <% if @tab_id == '3'%>
+            <div data-tab-panel-3 class="am-tab-panel am-active">
             <%= render 'users/user_messages' %>
-          </div>
-          <div data-tab-panel-4 class="am-tab-panel ">
+            </div>
+            <%else%>
+            <div data-tab-panel-3 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            
+            <% if @tab_id == '4'%>
+            <div data-tab-panel-4 class="am-tab-panel am-active">
             <%= render 'users/user_messages' %>
-          </div>
+            </div>
+            <%else%>
+            <div data-tab-panel-4 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            
+          
       </div>
   </div>
 

@@ -13,4 +13,6 @@
 //= require kindeditor
 //= require turbolinks
 //= require bootstrap
+ //= require jquery_ujs
+
 

@@ -268,7 +268,7 @@ class UsersController < ApplicationController
   private
   
     def user_params
-      params.require(:user).permit(:mobile, :smscode, :password,
+      params.require(:user).permit(:mobile, :smscode, :password, :name, :grade,
                       :password_confirmation, :rolename,
                       :guardian_age, :province, :city, :district,
                       :sex, :age, :school, :interests       )

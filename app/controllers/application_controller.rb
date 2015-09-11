@@ -4,6 +4,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :get_url_path
   include SessionsHelper
+  around_filter :rescue_record_not_found   
+  
+  def rescue_record_not_found   
+    begin   
+      yield   
+    rescue ActiveRecord::RecordNotFound   
+      render :file => "/public/404.html"  
+    end   
+  end  
+  
+ 
+  
   private
   # 确保用户已登录
     def logged_in_user

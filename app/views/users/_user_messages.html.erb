@@ -1,3 +1,7 @@
+<%# cache @microposts do%>
+
+<% @microposts.each do |post| %>
+    <% cache post do%>
 <div class="am-panel-bd" >
       <div class="am-g">
         <div class="am-u-sm-2 am-u-lg-2">
@@ -10,26 +14,28 @@
         </div>
         <div class="am-u-sm-10 am-u-lg-10">
           <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
+            <div style="font-size: 1.5rem;"><strong><%= post.user.name%></strong> &nbsp;&nbsp;<%= post.user.sex%>&nbsp;&nbsp;<%= post.user.age%>岁</div>
             <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              </div>
+               <%= post.user.province%> &nbsp;&nbsp;<%= post.user.city%> &nbsp;&nbsp;<%= post.user.district%>  &nbsp;&nbsp;<%= post.user.school%>  &nbsp;&nbsp;<%= post.user.grade%> <br>
+                
+                <% post.user.interests.split('||').each do |interest| %>
+                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <% end%>
+                    
+                
+            </div>
           </span>
           <span class="am-hide-md-down">
-            <div style="font-size: 1.6rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
+                        <div style="font-size: 1.6rem;"><strong><%= post.user.name%></strong> &nbsp;&nbsp;<%= post.user.sex%>&nbsp;&nbsp;<%= post.user.age%>岁</div>
             <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-              山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-              
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              
-              </div>
+               <%= post.user.province%> &nbsp;&nbsp;<%= post.user.city%> &nbsp;&nbsp;<%= post.user.district%>  &nbsp;&nbsp;<%= post.user.school%>  &nbsp;&nbsp;<%= post.user.grade%> <br>
+                
+                <% post.user.interests.split('||').each do |interest| %>
+                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <% end%>
+                    
+                
+            </div>
           </span>
         </div>
         
@@ -42,116 +48,60 @@
            class="am-paragraph am-paragraph-default"
            style="font-size:1.3rem;"
            data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
+            <%= post.content%>
            </article>
            <article class="am-hide-md-down" data-am-widget="paragraph"
            class="am-paragraph am-paragraph-default"
            style="font-size:1.5rem;"
            data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
+            <%= post.content%>
            </article>
         </div>
       </div>
       <br>
+      <%= cache post.message_pics do%>
+      
+      <% if post.message_pics.any?%>
       <div class="am-g" >
         <div class="am-u-sm-12 am-u-lg-12">
            <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
             <ul class="am-slides">
+              <% post.message_pics.each do |pic|%>
+              <% cache pic do%>
               <li>
                 <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
+                    <img src="http://<%=pic.file.url("200")%>"
+                    data-rel="http://<%=pic.file.url("400")%>" 
+                    alt=""/>
                 </figure>
               </li>
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
+              <% end%>
+              <%end%>
             </ul>
           </div>
         </div>
       </div>
+      <% end%>
+      
+      <%end%>
     </div>
-    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-    <div class="am-panel-bd" >
-      <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-10 am-u-lg-10">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              </div>
-          </span>
-          <span class="am-hide-md-down">
-            <div style="font-size: 1.6rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-              山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-              
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              
-              </div>
-          </span>
-        </div>
-        
-      </div>
-      <br>
-      <div class="am-g" >
-        <div class="am-u-sm-12 am-u-lg-12">
-          
-           <article class="am-show-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.3rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-           <article class="am-hide-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.5rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-        </div>
-      </div>
-      <br>
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
-            <ul class="am-slides">
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <% end%>
+<% end%>
+
+<%#end%>
+
+<ul class="am-pagination">
+  <% if @page_num.to_i == 0%>
+	 <li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>
+	<% else%>
+	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/playmates?id=<%= @tab_id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
+	<%end%>
+  
+  <% if @page_num.to_i == (@total_page.to_i - 1)%>
+	   <li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>
+	<% else%>
+		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/playmates?id=<%= @tab_id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
+	<%end%>
+</ul>
+
