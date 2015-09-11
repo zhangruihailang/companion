@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   has_secure_password
   #validates_confirmation_of :password, :message => "密码不匹配"
   validates :password, length: { minimum: 6,message:'不能低于6位数' }, allow_blank: true 
-  validates :mobile, presence:{message:'不能为空'}
+  #validates :mobile, presence:{message:'不能为空'}
   #validates :smscode, presence:{message:'||验证码不能为空'}
   #返回指定字符串的哈希摘要
   def User.digest(string)
