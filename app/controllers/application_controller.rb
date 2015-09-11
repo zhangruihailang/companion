@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :get_url_path
   include SessionsHelper
   around_filter :rescue_record_not_found   
+  before_filter :has_setup_profile
   
   def rescue_record_not_found   
     begin   
@@ -24,6 +25,13 @@ class ApplicationController < ActionController::Base
       store_location
       flash[:danger] = "您尚未登陆,请登录后再操作."
       redirect_to(login_url) and return
+      end
+    end
+    
+    def has_setup_profile
+      if logged_in_user && current_user.interests
+      flash[:danger] = "您的资料还不完善，请先更新资料."
+      redirect_to "/setup?id=#{@current_user.id}"
       end
     end
     
