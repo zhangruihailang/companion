@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :get_url_path
   include SessionsHelper
   around_filter :rescue_record_not_found   
-  before_action :has_setup_profile
+  #before_action :has_setup_profile
   
   def rescue_record_not_found   
     begin   
