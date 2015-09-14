@@ -253,7 +253,7 @@
          
           <button type="button" 
                  class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block"
-                 onclick="goto('/to_post_comment?post_id=<%= @micropost.id%>&to_user_id=<%@micropost.user.id%>&reply=0')">
+                 onclick="goto('/to_post_comment?post_id=<%= @micropost.id%>&to_user_id=<%=@micropost.user.id%>&reply=0')">
              <span class="am-icon-comment-o" ></span>
             发评论
             </button>
