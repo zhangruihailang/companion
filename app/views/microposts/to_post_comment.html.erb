@@ -1,0 +1,69 @@
+<%= stylesheet_link_tag  "form.min" %>
+
+
+
+<%= form_for(@micropost, html: {id: 'send_message' },url: post_comment_url) do |f| %>
+<input type="hidden" id="post_id" name="post_id" value="<%= @micropost.id%>" />
+<%= render 'shared/error_messages', object: f.object %>
+<div class="am-panel am-panel-default">
+    <div class="am-panel-bd" >
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12"> 
+            <div class="am-form-group">
+              <div class="ui form">
+                <div class="field">
+                  <label>想说些什么</label>
+                  <textarea rows="8" name="content" id="micropost_content" style="font-size:1.2rem;overflow:hidden;text-align:left">
+                    <% if @is_reply == '1'%>
+                    <%= p "回复 #{@comment_user.name} :\r\n "%>
+                    <%#= p "==================================\r\n"%>
+                    
+                    <% end%>
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          
+          
+        </div>
+      </div>
+      
+      
+   
+      <div class="am-g">
+        <!--<div class="am-u-sm-12 am-u-lg-12">-->
+        <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+        <!--</div>-->
+        <div class="am-u-sm-6 am-u-lg-6">
+
+          <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate();" > 发表</button></button>
+         
+        </div>
+       
+        
+        <div class="am-u-sm-6 am-u-lg-6">
+          <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/post_comments?id=<%= @micropost.id%>')" >取消</button>
+        </div>
+      </div>
+    </div>
+</div>
+<% end %>
+
+
+<script>
+  
+   function validate() {
+     //  alert($('#order_amount').val()%100);
+      var micropost_content = $('#micropost_content').val();
+      
+        if(micropost_content == ''){
+          alert("请写点什么吧！");
+          return false;
+        }else{
+            document.getElementById("send_message").submit();
+          //return true;
+        }
+       
+     
+  }
+</script>

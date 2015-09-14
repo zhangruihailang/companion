@@ -32,9 +32,20 @@ Rails.application.routes.draw do
   get 'myFunds' => 'projects#myFunds'
   get 'myProfile' => 'users#myProfile'
   get 'buy' => 'projects#buy'
+  
+  post 'like' => 'microposts#like'
+  post 'unlike' => 'microposts#unlike'
+  
+  get 'post_comments' => 'microposts#post_comments'
+  patch 'post_comment' => 'microposts#post_comment'
+  get 'to_post_comment' => 'microposts#to_post_comment'
+  
   delete 'logout' => 'sessions#destroy'
   
-  #resources :users
+  get 'delete_comment' => 'microposts#delete_comment'
+  
+  get 'show_post_likeds' => 'microposts#show_post_likeds'
+  
   resources :users , only: [:new, :create, :edit, :update,:myProfile]do
     member do
       get :following, :followers

@@ -1,4 +1,21 @@
 
+<div class="am-modal-actions" tabindex="0"  id="my-actions">
+  <div class="am-modal-actions-group">
+    <ul class="am-list">
+      <li class="am-modal-actions-header"><font color="#010101" >选择发布类型</font></li>
+      <li >
+        <a href="/publish_message"><font color="#0E90D2" >晒娃</font></a></li>
+      <li >
+        <a href="/"><font color="#0E90D2" >活动</font></a>
+      </li>
+    </ul>
+  </div>
+  <div class="am-modal-actions-group">
+    <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+  </div>
+</div>
+
+
 
 <footer class="footer">
     <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
@@ -33,11 +50,12 @@
           </li>
           -->
           <li >
-            <a href="#" class="" data-am-modal="{target: '#my-actions'}">
+            <a href="javascript:void(0)" class="" data-am-modal="{target: '#my-actions',closeViaDimmer:0}">
                   <span class="am-icon-th-large"></span>
                 <span class="am-navbar-label" >发布</span>
             </a>
           </li>
+         
           <li >
             <a href="/topics" class="">
                   <span class="am-icon-skyatlas"></span>

@@ -1,8 +1,20 @@
 <%# cache @microposts do%>
 
+
+
+
+
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .liked{
+    color:#DD514C;
+  }
+</style>
 <% @microposts.each do |post| %>
     <% cache post do%>
 <div class="am-panel-bd" >
+  
+   <!-- 用户信息展示 -->
       <div class="am-g">
         <div class="am-u-sm-2 am-u-lg-2">
           <span class="am-show-md-down">
@@ -12,7 +24,7 @@
             <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
           </span>
         </div>
-        <div class="am-u-sm-10 am-u-lg-10">
+        <div class="am-u-sm-7 am-u-lg-7">
           <span class="am-show-md-down">
             <div style="font-size: 1.5rem;"><strong><%= post.user.name%></strong> &nbsp;&nbsp;<%= post.user.sex%>&nbsp;&nbsp;<%= post.user.age%>岁</div>
             <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
@@ -41,9 +53,14 @@
             </div>
           </span>
         </div>
-        
+         <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
+          <%= time_ago_in_words_cn(post.created_at) %> 
+         前
+        </div>
       </div>
       <br>
+      <!-- 消息内容展示-->
+      
       <div class="am-g" >
         <div class="am-u-sm-12 am-u-lg-12">
           
@@ -62,15 +79,17 @@
         </div>
       </div>
       <br>
+      
+      <!-- 图片轮播 -->
       <%= cache post.message_pics do%>
       
       <% if post.message_pics.any?%>
       <div class="am-g" >
         <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
+           <div class="am-slider am-slider-default" data-am-flexslider  id="demo-slider-0">
             <ul class="am-slides">
               <% post.message_pics.each do |pic|%>
-              <% cache pic do%>
+              <% cache pic do%> 
               <li>
                 <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
                     <img src="http://<%=pic.file.url("200")%>"
@@ -87,24 +106,161 @@
       <% end%>
       
       <%end%>
+      
+     
+      <!-- 评论和点赞 -->
+      <div class="am-g" align="center">
+        <div class=" am-u-sm-4 am-u-lg-4" >
+          <span class="am-icon-comments-o  am-show-md-down" 
+          onclick="goto('/post_comments?id=<%= post.id%>')">
+            &nbsp;<%= post.post_comments.count%></span> 
+            
+           <span class="am-icon-comments-o  am-icon-sm am-hide-md-down" 
+          onclick="goto('/post_comments?id=<%= post.id%>')">
+            &nbsp;&nbsp;<%= post.post_comments.count%></span> 
+        </div>
+        <div class="am-u-sm-4 am-u-lg-4" >
+          
+          <span class="am-icon-thumbs-up am-show-md-down" id="like_<%=post.id%>"
+          onclick="like('like_<%=post.id%>','<%= post.id%>','<%= post.user.id%>');">
+            &nbsp;<%= post.likeds.count%>
+          </span> 
+         
+          <span class="am-icon-thumbs-up am-icon-sm am-hide-md-down" id="like_<%=post.id%>"
+          onclick="like('like_<%=post.id%>','<%= post.id%>','<%= post.user.id%>');">
+            &nbsp;&nbsp;<%= post.likeds.count%>
+          </span> 
+        
+        </div>
+        <div class=" am-u-sm-4 am-u-lg-4" >
+          
+          <span class="am-show-md-down" >
+          
+          <div class="am-dropdown am-dropdown-up" data-am-dropdown>
+            <span class="am-icon-ellipsis-h  am-dropdown-toggle" data-am-dropdown-toggle style="font-size:1.3rem;"> &nbsp;更多</span>
+            <ul class="am-dropdown-content">
+              <li class="am-dropdown-header">更多操作</li>
+              <li><a href="/show_post_likeds?post_id=<%=post.id%>">点赞的人</a></li>
+              <% if !current_user.nil? && post.user == current_user%>
+              <!--<li><a href="#">删除</a></li>-->
+              <li>
+                <%= link_to "删除", post, method: :delete,
+                  data: { confirm: "确定删除吗?" } %>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+          
+          </span>
+          
+          <span class="am-hide-md-down">
+            <div class="am-dropdown am-dropdown-up" data-am-dropdown>
+            <span class="am-icon-ellipsis-h am-icon-sm  am-dropdown-toggle" data-am-dropdown-toggle style="font-size:1.5rem;"> &nbsp;更多</span>
+            <ul class="am-dropdown-content">
+              <li class="am-dropdown-header">更多操作</li>
+              <li><a href="/show_post_likeds?post_id=<%=post.id%>">点赞的人</a></li>
+              <% if !current_user.nil? && post.user == current_user%>
+              <li><a href="#">删除</a></li>
+              <% end %>
+            </ul>
+          </div>
+          </sapn>
+        </div>
+        
+      </div>
+      
     </div>
 <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
     <% end%>
 <% end%>
 
 <%#end%>
-
-<ul class="am-pagination">
+	<% if @total_page !=0%>
+	  <ul class="am-pagination">
   <% if @page_num.to_i == 0%>
-	 <li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>
+	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
 	<% else%>
 	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/playmates?id=<%= @tab_id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
 	<%end%>
   
   <% if @page_num.to_i == (@total_page.to_i - 1)%>
-	   <li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>
+	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
 	<% else%>
 		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/playmates?id=<%= @tab_id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
 	<%end%>
-</ul>
+	
 
+  </ul>
+  <%else%>
+    <div class="am-panel-bd" >
+  
+   <!-- 没有数据提醒 -->
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
+          还没有人发布过消息，赶紧去发布吧！
+        </div>
+      </div>
+    </div>
+	<%end%>
+
+
+
+<script>
+  function like(id,post_id,user_id){
+    //alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "POST",
+      url: "like",
+      data: {postid: post_id, to_user_id: user_id}
+      })
+      .done(function( msg ) {
+        //alert(msg);
+        if(msg == 'no_login'){
+            alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+          //alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn');
+          });
+          $('#'+id).attr("onclick","unlike('"+id+"','"+post_id+"','"+user_id+"');");
+        }
+      });
+  }
+  
+  function unlike(id,post_id,user_id){
+    //alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "POST",
+      url: "unlike",
+      data: { postid: post_id,to_user_id: user_id}
+      })
+      .done(function( msg ) {
+        //alert(msg);
+        if(msg == 'no_login'){
+            alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+          //alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn liked');
+          });
+          $('#'+id).attr("onclick","like('"+id+"','"+post_id+"','"+user_id+"');");
+        }
+      });
+  }
+</script>

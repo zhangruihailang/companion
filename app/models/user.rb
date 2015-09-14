@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   
+ 
+  
+  
   has_many :orders
   #虚拟属性，类对象可以访问，但是不存储数据库
   attr_accessor :remember_token, :activation_token, :reset_token ,:smscode
@@ -101,17 +104,21 @@ class User < ActiveRecord::Base
 
 
   def follow(other_user)
-  active_relationships.create(followed_id: other_user.id)
+    active_relationships.create(followed_id: other_user.id)
+    
   end
   # 
   def unfollow(other_user)
-  active_relationships.find_by(followed_id: other_user.id).destroy
+    active_relationships.find_by(followed_id: other_user.id).destroy
+    
   end
   # 
   def following?(other_user)
-  following.include?(other_user)
+    following.include?(other_user)
   end
 
+
+  
 
   private
 

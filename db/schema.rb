@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910132151) do
+ActiveRecord::Schema.define(version: 20150914012621) do
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "project_id"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 20150910132151) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
+  create_table "likes", force: :cascade do |t|
+    t.integer  "from_user_id"
+    t.integer  "to_user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "micropost_id"
+  end
+
+  add_index "likes", ["micropost_id"], name: "index_likes_on_micropost_id"
+
   create_table "message_pics", force: :cascade do |t|
     t.string   "file"
     t.integer  "micropost_id"
@@ -69,6 +79,16 @@ ActiveRecord::Schema.define(version: 20150910132151) do
 
   add_index "orders", ["project_id"], name: "index_orders_on_project_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+
+  create_table "post_comments", force: :cascade do |t|
+    t.integer  "post_user_id"
+    t.integer  "micropost_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.text     "content"
+  end
+
+  add_index "post_comments", ["micropost_id"], name: "index_post_comments_on_micropost_id"
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"

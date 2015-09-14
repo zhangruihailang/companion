@@ -1,2 +1,26 @@
 module MicropostsHelper
+  
+  def time_ago_in_words_cn(time)
+    time_ago_in_words(time)
+    .sub('seconds','秒')
+    .sub('minutes','分钟')
+    .sub('hours','小时')
+    .sub('days','天')
+    .sub('months','个月')
+    .sub('years','个月')
+    .sub('a second','1秒')
+    .sub('a minute','1分钟')
+    .sub('an hour',' 1小时')
+    .sub('a day','1天')
+    .sub('a month','1个月')
+    .sub('a year','1年')
+    .sub('second','秒')
+    .sub('minute','分钟')
+    .sub('hour','小时')
+    .sub('day','天')
+    .sub('month','个月')
+    .sub('year','年')
+    .sub('about','')
+    .sub('less than','')
+  end
 end
