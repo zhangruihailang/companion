@@ -2,25 +2,11 @@
 <%= stylesheet_link_tag  "image.min" %>
 <%= stylesheet_link_tag  "segment.min" %>
 
-<% cache @micropost do%>
-
-<%= form_for(@micropost, :url => {:action => 'upload_msg_pics'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
-<input name="message_id" type="hidden" value="<%= @micropost.id%>" />
-<%= render 'shared/error_messages', object: f.object %>
+<%= form_for(:activity, :url => {:action => 'upload_pics'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<input name="activity_id" type="hidden" value="<%= @activity.id%>" />
+<%#= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
     <div class="am-panel-bd" >
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          <div class="ui segment">
-            <p>
-              <%= @micropost.content %>
-            </p>
-          </div>
-            
-            
-        </div>
-      </div>
-      <br>
       
       <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12">
@@ -28,9 +14,9 @@
             <div class="am-form-group">
               <div class="ui tiny images">
                 
-                <% cache @micropost.message_pics do%>
+                <% cache @activity.activity_pics do%>
                 
-                <% @micropost.message_pics.each do |pic|%>
+                <% @activity.activity_pics.each do |pic|%>
                   <% cache pic do%>
                 <img class="ui image" src="http://<%=pic.file.url("200")%>">
                 
@@ -42,7 +28,7 @@
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
                     <%= image_tag('add_64.png')%>
-                    <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
+                    <input multiple=true type="file" name="files[]" id="activity_pics" accept="image/*" onchange="return validate();" />
                 </div>
               </div>
             </div>
@@ -50,14 +36,14 @@
           <span class="am-hide-md-down">
             <div class="am-form-group">
                <div class="ui small images">
-                <% @micropost.message_pics.each do |pic|%>
-                <img class="ui image" src="http://<%=pic.file.url("400x400")%>">
+                <% @activity.activity_pics.each do |pic|%>
+                <img class="ui image" src="http://<%=pic.file.url("400")%>">
                 <% end %>
                 <div class="am-form-group am-form-file">
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
                     <%= image_tag('add_96.png')%>
-                    <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
+                    <input multiple=true type="file" name="files[]" id="activity_pics" accept="image/*" onchange="return validate();" />
                 </div>
               </div>
             </div>
@@ -65,23 +51,13 @@
         </div>
       </div>
        
-      <!--<div class="am-g">-->
-      <!--  <div class="am-u-sm-12 am-u-lg-12">-->
-      <!--    <div class="am-form-group am-form-file">-->
-      <!--      <button type="button" class="am-btn am-btn-danger am-btn-sm">-->
-      <!--        <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
-      <!--        <input multiple=true type="file" name="files[]" id="micropost_avatars" />-->
-      <!--    </div>-->
-      <!--    <div id="file-list"></div>-->
-      <!--  </div>-->
-      <!--</div>-->
-      
+    
       
       
       <div class="am-g">
         <div class="am-u-sm-6 am-u-lg-6">
-          <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/')" >完成</button>&nbsp;&nbsp;
-          <%= link_to '取消', @micropost, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
+          <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/activities')" >完成</button>&nbsp;&nbsp;
+          <%= link_to '取消', @activity, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
         </div>
         <div class="am-u-sm-6 am-u-lg-6">
            
@@ -91,11 +67,10 @@
 </div>
 <% end %>
 
-<%end%>
 <script>
   var count = 0;
   function upload(){
-    var file = document.getElementById("micropost_avatars");
+    var file = document.getElementById("activity_pics");
     //file.select();
     //var realPath = document.selection.createRange().text;
     //(realPath);
@@ -109,7 +84,7 @@
                   { 
                 url:'upload_mirco_pics',           
                 secureuri:false, 
-                fileElementId:'micropost_avatars',  //上传文件对应的文本域的id                     
+                fileElementId:'activity_pics',  //上传文件对应的文本域的id                     
                 dataType: 'text',                                     
                 success: function (data, status)           
                 {     
@@ -130,16 +105,9 @@
   
   
    function validate() {
-     //  alert($('#order_amount').val()%100);
-      var micropost_content = $('#micropost_content').val();
-      
-        if(micropost_content == ''){
-          alert("请写点什么吧！");
-          return false;
-        }else{
+     
             document.getElementById("send_message").submit();
-          //return true;
-        }
+
        
      
   }

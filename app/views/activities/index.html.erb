@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Activities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Starttime</th>
+      <th>Endtime</th>
+      <th>Place</th>
+      <th>Number of people</th>
+      <th>Pay type</th>
+      <th>Average cost</th>
+      <th>User</th>
+      <th>Tags</th>
+      <th>Apply up limit</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%= activity.title %></td>
+        <td><%= activity.description %></td>
+        <td><%= activity.starttime %></td>
+        <td><%= activity.endtime %></td>
+        <td><%= activity.place %></td>
+        <td><%= activity.number_of_people %></td>
+        <td><%= activity.pay_type %></td>
+        <td><%= activity.average_cost %></td>
+        <td><%= activity.user %></td>
+        <td><%= activity.tags %></td>
+        <td><%= activity.apply_up_limit %></td>
+        <td><%= link_to 'Show', activity %></td>
+        <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
+        <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Activity', new_activity_path %>

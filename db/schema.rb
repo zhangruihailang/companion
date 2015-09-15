@@ -11,7 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914012621) do
+ActiveRecord::Schema.define(version: 20150915124540) do
+
+  create_table "activities", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.string   "place"
+    t.string   "number_of_people"
+    t.string   "pay_type"
+    t.integer  "average_cost"
+    t.integer  "user_id"
+    t.string   "tags"
+    t.integer  "apply_up_limit"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id"
+
+  create_table "activity_applies", force: :cascade do |t|
+    t.integer  "apply_user_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "activity_applies", ["activity_id"], name: "index_activity_applies_on_activity_id"
+
+  create_table "activity_comments", force: :cascade do |t|
+    t.integer  "post_user_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.text     "content"
+  end
+
+  add_index "activity_comments", ["activity_id"], name: "index_activity_comments_on_activity_id"
+
+  create_table "activity_pics", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "activity_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "activity_pics", ["activity_id"], name: "index_activity_pics_on_activity_id"
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "project_id"

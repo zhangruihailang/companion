@@ -1,0 +1,105 @@
+<%# cache @microposts do%>
+
+
+
+
+
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .applyd{
+    color:#DD514C;
+  }
+</style>
+<% @activity_applies.each do |apply|  %>
+    <% applyd_user = User.find(apply.apply_user_id)%>
+    <% cache applyd_user do%>
+<div class="am-panel-bd" >
+  
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+        <div class="am-u-sm-2 am-u-lg-2">
+          <span class="am-show-md-down">
+            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
+          </span>
+          <span class="am-hide-md-down">
+            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
+          </span>
+        </div>
+        <div class="am-u-sm-7 am-u-lg-7">
+          <span class="am-show-md-down">
+            <div style="font-size: 1.5rem;"><strong><%= applyd_user.name%></strong> &nbsp;&nbsp;<%= applyd_user.sex%>&nbsp;&nbsp;<%= applyd_user.age%>岁</div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= applyd_user.province%> &nbsp;&nbsp;<%= applyd_user.city%> &nbsp;&nbsp;<%= applyd_user.district%>  &nbsp;&nbsp;<%= applyd_user.school%>  &nbsp;&nbsp;<%= applyd_user.grade%> <br>
+                
+                <% if applyd_user.interests%>
+                <% applyd_user.interests.split('||').each do |interest| %>
+                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <% end%>
+                <%end%>
+                    
+                
+            </div>
+          </span>
+          <span class="am-hide-md-down">
+                        <div style="font-size: 1.6rem;"><strong><%= applyd_user.name%></strong> &nbsp;&nbsp;<%= applyd_user.sex%>&nbsp;&nbsp;<%= applyd_user.age%>岁</div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= applyd_user.province%> &nbsp;&nbsp;<%= applyd_user.city%> &nbsp;&nbsp;<%= applyd_user.district%>  &nbsp;&nbsp;<%= applyd_user.school%>  &nbsp;&nbsp;<%= applyd_user.grade%> <br>
+                
+                <% if applyd_user.interests%>
+                <% applyd_user.interests.split('||').each do |interest| %>
+                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <% end%>
+                <% end%>
+                
+            </div>
+          </span>
+        </div>
+         <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
+          <%= time_ago_in_words_cn(apply.created_at) %> 
+         前
+        </div>
+      </div>
+     
+    </div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <% end%>
+<% end%>
+
+<%#end%>
+<% if @total_page != 0%>
+  <ul class="am-pagination">
+    <% if @page_num.to_i == 0%>
+  	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
+  	<% else%>
+  	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/show_activity_applies?post_id=<%= @micropost.id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
+  	<%end%>
+    
+    <% if @page_num.to_i == (@total_page.to_i - 1) || @total_page == 0%>
+  	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
+  	<% else%>
+  		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/show_activity_applies?post_id=<%=  @micropost.id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
+  	<%end%>
+  </ul>
+<%else%>
+    <div class="am-panel-bd" >
+  
+   <!-- 没有数据提醒 -->
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
+          还没有人报名，赶紧去报名吧！
+          <br><br>
+          <div class="am-u-sm-12 am-u-lg-12" align="center">
+         
+          <button type="button" 
+                 class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block"
+                 onclick="goto('/apply_activity?activity_id=<%= @activity.id%>')">
+             <span class="am-icon-paper-plane" ></span>&nbsp;
+             报&nbsp;&nbsp;&nbsp;名
+            </button>
+           
+        </div>
+        </div>
+      </div>
+    </div>
+	<%end%>
+

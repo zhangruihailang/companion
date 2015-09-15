@@ -1,0 +1,240 @@
+<%= stylesheet_link_tag  "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css" %>
+<%= javascript_include_tag "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js" %>
+<style>
+  .input_font{font-size:1.2rem;}
+  .input_font_small{font-size:1rem;}
+  select { font-size:1.2rem; }
+  select option { font-size:1.2rem;} 
+</style>
+<div class="am-panel am-panel-default">
+  <%#= form_for(@user) do |f| %>
+
+
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>发布活动</h3>
+    <hr>
+
+    <br>
+    <br>
+
+      <%= form_for(@activity, html: { id: 'add_activity', class: 'am-form' }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">活动标题&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+        <%= f.text_field :title , :class => 'am-form-field input_font', :placeholder => '请输入标题'%>
+      </div>
+    <br>
+    
+    <div class="am-form-group">
+      <label for="doc-ta-1" class="input_font">活动描述</label>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+      <!--<textarea class="am-form-field" rows="5" id="doc-ta-1"></textarea>-->
+          <%= f.text_area :description ,:rows => '5' %>
+    </div>
+
+      <br>
+    <div class="am-form-group">
+      <label for="doc-ta-1" class="input_font">活动时间</label>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+      <!--<textarea class="am-form-field" rows="5" id="doc-ta-1"></textarea>-->
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12 input_font_small">
+          
+           <div class="am-input-group am-input-group-primary">
+            <span class="am-input-group-label input_font">开始时间&nbsp;:&nbsp;</span>
+            <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+            <%= f.text_field :starttime , :class => 'am-form-field input_font_small', :placeholder => '开始时间'%>
+         
+            </div>
+        </div>
+        
+      </div>
+      <br>
+      <div class="am-g">
+      
+        <div class="am-u-sm-12 am-u-lg-12 input_font_small">
+          
+           <div class="am-input-group am-input-group-primary">
+            <span class="am-input-group-label input_font">开始时间&nbsp;:&nbsp;</span>
+            <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+           <%= f.text_field :endtime , :class => 'am-form-field input_font_small', :placeholder => '结束时间'%>
+           
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">活动地点&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+        <%= f.text_field :place , :class => 'am-form-field input_font', :placeholder => '请输入地点'%>
+      </div>
+      
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">活动人数&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+        <%= f.text_field :number_of_people , :class => 'am-form-field input_font', :placeholder => '请输入活动人数'%>
+      </div>
+      
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">报名人数上限&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+        <%= f.text_field :apply_up_limit , :class => 'am-form-field input_font', :placeholder => '请输入人数上限'%>
+      </div>
+      
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">费用类型&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+        <select data-am-selected onchange="check_pay_type();" name="activity[pay_type]" id="activity_pay_type" >
+          <option value="免费" selected>免费</option>
+          <option value="AA" >AA</option>
+        </select>
+      </div>
+      
+      <br>
+      <div style="display:none" id="average_cost_input">
+        <div class="am-input-group am-input-group-primary" >
+          <span class="am-input-group-label input_font">人均费用&nbsp;:&nbsp;</span>
+          <!--<input type="text" name="activity[title]" id="user_name" value="" placeholder="请输入孩子的姓名或昵称" class="am-form-field input_font" required>-->
+          <%= f.text_field :average_cost , :class => 'am-form-field input_font', 
+          :placeholder => '请输入人均费用'%>
+         
+        </div>
+        <br>
+      </div>
+       
+     
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">活动标签&nbsp;:&nbsp;</span>
+        
+        <input type="text" name="" id="add_tags" value="" placeholder="每次添加一项" class="am-form-field input_font">
+        <button class="am-btn am-btn-primary input_font" onclick="add_tag();">
+          <i class="am-icon-plus"></i>
+          添加
+        </button>
+        <span id="show_tags"></span>
+        <input type="hidden" id="activity_tags" name="activity[tags]" >
+        <input type="hidden" id="if_completed" name="if_completed" value="" />
+      </div>
+      <br>
+       <div class="am-g">
+        <!--<div class="am-u-sm-12 am-u-lg-12">-->
+        <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+        <!--</div>-->
+        <div class="am-u-sm-4 am-u-lg-4">
+
+          <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('no');" >上传图片</button>
+         
+        </div>
+        <div class="am-u-sm-4 am-u-lg-4">
+          <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('yes');" >完成</button>
+        </div>
+        
+        <div class="am-u-sm-4 am-u-lg-4">
+          <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/')" >取消</button>
+        </div>
+      </div>
+    <% end %>
+    
+  </div>
+</div>
+  </div>
+  
+
+</div>
+
+<script>
+
+  
+ function check_pay_type(){
+   var activity_pay_type = $('#activity_pay_type').val();
+    //alert(activity_pay_type); 
+   if(activity_pay_type == 'AA'){
+     //alert('1')
+     //$('#user_rolename')
+     //document.getElementById('user_rolename').style.display = 'none';
+     $("#average_cost_input").show();
+   }else{
+     $("#average_cost_input").hide();
+   }
+ }
+   function validate(flag) {
+     //  alert($('#order_amount').val()%100);
+     $('#if_completed').val(flag);
+      var activity_title = $('#activity_title').val();
+      var activity_description = $('#activity_description').val();
+      var activity_starttime = $('#activity_starttime').val();
+      var activity_endtime = $('#activity_endtime').val();
+      var activity_place = $('#activity_place').val();
+      var activity_number_of_people = $('#activity_number_of_people').val();
+      var activity_pay_type = $('#activity_pay_type').val();
+      var activity_average_cost = $('#activity_average_cost').val();
+      var activity_apply_up_limit = $('#activity_apply_up_limit').val(); 
+      var activity_tags = $('#activity_tags').val();
+       
+       
+        if(activity_title  == ''){
+          alert("请填写活动标题");
+          return false;
+        }else if(activity_description == ''){
+          alert("请填写活动描述");
+          return false;
+        }else if(activity_starttime==''){
+          alert("请选择活动开始时间");
+          return false;
+        }else if(activity_endtime==''){
+          alert("请选择活动结束时间");
+          return false;
+        }else if(activity_place==''){
+          alert("请选择活动地点");
+          return false;
+        }else if(activity_number_of_people == ''){
+          alert("请输入活动人数");
+          return false;
+        }else if(activity_pay_type == 'AA' && activity_average_cost == ''){
+          alert("请输入人均费用");
+          return false;
+        }else if(activity_apply_up_limit == ''){
+          alert("请输入活动报名人数上限");
+          return false;
+        }else if(activity_tags == ''){
+          alert("请添加活动标签");
+          return false;
+        }else{
+           document.getElementById("add_activity").submit();
+        }
+       
+     
+  }
+  
+  function add_tag(){
+     var tags = $('#add_tags').val();
+    if(tags==''){
+      alert('请输入活动标签');
+    }else{
+      $('#show_tags').html($('#show_tags').html() + '&nbsp;<a class="am-badge am-badge-danger am-radius">'+tags+'</a>&nbsp;');
+      if($('#activity_tags').val() == ''){
+          $('#activity_tags').val($('#activity_tags').val()  + tags);
+      }else{
+         $('#activity_tags').val($('#activity_tags').val() + '||' + tags);
+      }
+     
+      
+      $('#add_tags').val('');
+    }
+   
+  }
+</script>
+
+<script>
+  $('#activity_starttime').datetimepicker({lang:'ch'});
+  $('#activity_endtime').datetimepicker({lang:'ch'});
+</script>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :activities, only: [:new, :create, :edit, :update, :destroy]
+
   resources :posts
 
   resources :categories
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
   get 'activities' => 'static_pages#activities'
   get 'setup' => 'users#setup'
   get 'publish_message' => 'users#publish_message'
+  get 'publish_activity' => 'activities#new'
   get 'help' => 'static_pages#help'
   get 'about' => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
@@ -26,7 +29,11 @@ Rails.application.routes.draw do
   post 'send_sms_code' => 'users#send_sms_code'
   post 'upload_mirco_pics' => 'users#upload_mirco_pics'
   get 'upload_msg_pic' => 'microposts#upload_msg_pic'
-  patch 'upload_pics' => 'microposts#upload_pics'
+  #get 'upload_activity_pic' => 'activities#upload_activity_pic'
+  
+  get 'upload_activity_pic' => 'activities#upload_activity_pic'
+  patch 'upload_msg_pics' => 'microposts#upload_pics'
+  post 'upload_activity_pics' => 'activities#upload_pics'
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'
@@ -37,15 +44,19 @@ Rails.application.routes.draw do
   post 'unlike' => 'microposts#unlike'
   
   get 'post_comments' => 'microposts#post_comments'
+  get 'activity_comments' => 'activities#activity_comments'
   patch 'post_comment' => 'microposts#post_comment'
+  patch 'post_activity_comment' => 'activities#post_activity_comment'
   get 'to_post_comment' => 'microposts#to_post_comment'
-  
+  get 'to_activity_comment' => 'activities#to_activity_comment'
   delete 'logout' => 'sessions#destroy'
   
   get 'delete_comment' => 'microposts#delete_comment'
-  
+  get 'delete_activity_comment' => 'activities#delete_activity_comment'
   get 'show_post_likeds' => 'microposts#show_post_likeds'
-  
+  get 'show_activity_applies' => 'activities#show_activity_applies'
+  get 'apply_activity' => 'activities#apply_activity'
+  get 'cancel_activity_apply' => 'activities#cancel_activity_apply'
   resources :users , only: [:new, :create, :edit, :update,:myProfile]do
     member do
       get :following, :followers

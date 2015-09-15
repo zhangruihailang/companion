@@ -46,4 +46,26 @@ class StaticPagesController < ApplicationController
     
   end
   
+  def activities
+     @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((Activity.count(:id).to_i - 1)/page_size )+1
+    @tab_id = params[:id] || '0'
+    
+    #if @tab_id == '0'
+      @activities = Activity.order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    #end
+    
+    # if @tab_id == '1'
+    #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    # end
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+  end
+  
 end

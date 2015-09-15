@@ -13,13 +13,11 @@
               <div class="ui form">
                 <div class="field">
                   <label>想说些什么</label>
-                  <textarea rows="8" name="content" id="micropost_content" style="font-size:1.2rem;overflow:hidden;text-align:left">
-                    <% if @is_reply == '1'%>
-                    <%= p "回复 #{@comment_user.name} :\r\n "%>
-                    <%#= p "==================================\r\n"%>
-                    
-                    <% end%>
-                  </textarea>
+                    <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" >
+                  <% if @is_reply=='1' %>
+                    <%=p "回复 #{@comment_user.name} :\r\n "%>
+                  <% end%>
+                </textarea>
                 </div>
               </div>
             </div>

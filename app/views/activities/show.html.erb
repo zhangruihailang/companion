@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @activity.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @activity.description %>
+</p>
+
+<p>
+  <strong>Starttime:</strong>
+  <%= @activity.starttime %>
+</p>
+
+<p>
+  <strong>Endtime:</strong>
+  <%= @activity.endtime %>
+</p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @activity.place %>
+</p>
+
+<p>
+  <strong>Number of people:</strong>
+  <%= @activity.number_of_people %>
+</p>
+
+<p>
+  <strong>Pay type:</strong>
+  <%= @activity.pay_type %>
+</p>
+
+<p>
+  <strong>Average cost:</strong>
+  <%= @activity.average_cost %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @activity.user %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @activity.tags %>
+</p>
+
+<p>
+  <strong>Apply up limit:</strong>
+  <%= @activity.apply_up_limit %>
+</p>
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

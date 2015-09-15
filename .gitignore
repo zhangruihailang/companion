@@ -17,3 +17,13 @@
 # Ignore bak temp files.
 *.1.*
 *.bak*
+*Gemfile*
+*database.yml
+*secrets.yml
+*_add_avatars_to_users.rb
+*_add_avatars_to_microposts.rb
+*schema.rb*
+*.gitignore*
+test/*
+public/upload/*
+*.jpg

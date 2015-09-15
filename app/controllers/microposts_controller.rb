@@ -81,6 +81,8 @@ class MicropostsController < ApplicationController
     
   end
   
+  
+  
   def create
     # @micropost = current_user.microposts.build(micropost_params)
     # if @micropost.save

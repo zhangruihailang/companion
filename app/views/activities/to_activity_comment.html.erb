@@ -1,0 +1,87 @@
+<style>
+  .input_font {
+    font-size: 1.2rem;
+  }
+  
+  .input_font_small {
+    font-size: 1rem;
+  }
+  
+  select {
+    font-size: 1.2rem;
+  }
+  
+  select option {
+    font-size: 1.2rem;
+  }
+</style>
+<div class="am-panel am-panel-default">
+  <%#=f orm_for(@user) do |f| %>
+
+
+    <div class="am-panel-bd">
+      <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+          <h3>发表评论</h3>
+          <hr>
+
+          <br>
+
+          <%=form_for(@activity, html: {id: 'send_message' },url: post_activity_comment_url) do |f| %>
+            <input type="hidden" id="post_id" name="post_id" value="<%= @activity.id%>" />
+            <%=render 'shared/error_messages', object: f.object %>
+
+
+              <div class="am-form-group">
+                <label for="doc-ta-1" class="input_font">想说些什么</label>
+                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" >
+                  <% if @is_reply=='1' %>
+                    <%=p "回复 #{@comment_user.name} :\r\n "%>
+                  <% end%>
+                </textarea>
+                <%#=f .text_area :description ,:rows=> '5' %>
+              </div>
+
+              <br>
+              <div class="am-g">
+                <!--<div class="am-u-sm-12 am-u-lg-12">-->
+                <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+                <!--</div>-->
+                <div class="am-u-sm-6 am-u-lg-6">
+
+                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate();"> 发表</button>
+                  </button>
+
+                </div>
+
+
+                <div class="am-u-sm-6 am-u-lg-6">
+                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/activity_comments?id=<%= @activity.id%>')">取消</button>
+                </div>
+              </div>
+              <% end %>
+
+        </div>
+      </div>
+    </div>
+
+
+</div>
+<script>
+  function validate() {
+    //  alert($('#order_amount').val()%100);
+    var micropost_content = $('#micropost_content').val();
+
+    if (micropost_content == '') {
+      alert("请写点什么吧！");
+      return false;
+    }
+    else {
+      document.getElementById("send_message").submit();
+      //return true;
+    }
+
+
+  }
+</script>
