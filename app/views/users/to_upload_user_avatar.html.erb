@@ -1,0 +1,74 @@
+<%= stylesheet_link_tag  "form.min" %>
+<%= stylesheet_link_tag  "image.min" %>
+<%= stylesheet_link_tag  "segment.min" %>
+
+<%= form_for(:user, :url => {:action => 'upload_user_avatar'}, html: {id: 'upload_user_avatar' ,multipart: true }) do |f| %>
+<input name="user_id" type="hidden" value="<%= @user.id%>" />
+<%#= render 'shared/error_messages', object: f.object %>
+<div class="am-panel am-panel-default">
+    <div class="am-panel-bd" >
+      
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12">
+            <div class="am-form-group">
+               <div class="ui small images"  align="center">
+                
+                  <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+                  <% if @user.sex == "女孩"%>
+                  <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+                  <% end%>
+                 <% cache @user do%>
+                <% if @user.avatars%>
+                <img class="ui image am-circle" src="http://<%=@user.avatars.url("400")%>">
+                <%else%>
+                <img class="ui image am-circle" src="<%= pic_url%>">
+                <%end %>
+                <%end%>
+               
+              </div>
+               <br>
+               <br>
+                <div class="am-form-group am-form-file">
+                  <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
+                  <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
+                    
+                    <input multiple=true type="file" name="files[]" id="activity_pics" accept="image/*" onchange="return validate();" />
+                   
+                    <% if @user.avatars%>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block " width="70%">更换</button>
+                    <% else%>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block " width="70%" >上传</button>
+                    <%end%>
+              </div>
+               <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block " width="70%" onclick="goto('/')" >完成</button>
+       
+            </div>
+        
+        </div>
+      </div>
+       
+    
+      
+      
+      <!--<div class="am-g">-->
+      <!--  <div class="am-u-sm-6 am-u-lg-6">-->
+      <!--    <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/')" >完成</button>-->
+      <!--  </div>-->
+      <!--  <div class="am-u-sm-6 am-u-lg-6">-->
+           
+      <!--  </div>-->
+      <!--</div>-->
+    </div>
+</div>
+<% end %>
+
+<script>
+  
+   function validate() {
+     
+            document.getElementById("upload_user_avatar").submit();
+
+       
+     
+  }
+</script>

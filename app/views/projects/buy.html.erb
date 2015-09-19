@@ -135,11 +135,11 @@
 </div>
 <script>
   function calculate(value){
-  //alert(value);
+  //show_alert(value);
     var rate = '<%= @project.yield_yearly%>';
-    //alert(rate);
+    //show_alert(rate);
     var income = (value * rate )/100;
-    //alert(income);
+    //show_alert(income);
     $('#income').html(income);
   }
 </script>

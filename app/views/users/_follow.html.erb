@@ -1,6 +1,12 @@
 <%= form_for(current_user.active_relationships.
-build(followed_id: @user.id),
+build(followed_id: user.id),
 remote: true) do |f| %>
-<div><%= hidden_field_tag :followed_id, @user.id %></div>
-<%= f.submit "Follow", class: "btn btn-primary" %>
+<div><%= hidden_field_tag :followed_id, user.id %></div>
+<%#= f.submit "Follow", class: "btn btn-primary" %>
+<button  class="am-btn am-btn-primary am-radius am-btn-sm" onclick="#" >
+      		  	<span class="am-icon-heart-o"></span>
+      		  
+      		  	 关注
+      		  	
+      		  </button>
 <% end %>

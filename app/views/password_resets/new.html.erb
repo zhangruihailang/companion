@@ -1,41 +1,57 @@
-<% provide(:title, "找回密码") %>
-<div class="panel">
-   <%= form_for(:password_reset, url: password_resets_path) do |f| %>
- 
+
+<style>
+  .input_font{font-size:1.2rem;}
   
-  
-  <div class="row">
-    <div class="samll-12 columns">
-      <div class="row collapse prefix-radius">
-        <div class="field">
-          <div class="small-3 columns">
-            <span class="prefix">输入手机号</span>
-          </div>
-          <div class="small-9 columns">
-              <%= f.text_field :mobile, class: 'form-control' %>
-          </div>
-        </div>
-      </div>
-    </div>
+  select { font-size:1.2rem; }
+  select option { font-size:1.2rem;} 
+</style>
+<div class="am-panel am-panel-default">
+  <%#= form_for(@user) do |f| %>
+
+
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>密码重置</h3>
     
-  <div class="row">
-    <div class="samll-12 columns">
-    <center>
-       <input type="submit" name="newgroup" class="button radius" style="width:80%;" value="提交" onclick="return validate();" />
-    </center>
-   
-    </div>
-  </div>
-  <% end %>
-</div>
-<script>
+       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+
+    
+    <%= form_for(:password_reset, url: password_resets_path, html: { id: 'edit_user', class: 'am-form' }) do |f| %>
+     
  
+     
+      <br>
+     
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">手机号&nbsp;:&nbsp;</span>
+        <!--<input type="text" name="user[guardian_age]" id="user_guardian_age" value="" placeholder="请输入您注册的手机号" class="am-form-field input_font" required>-->
+        <%= f.text_field :mobile, :placeholder => "请输入您注册的手机号" , :class => "am-form-field input_font" %>
+      </div>
+      <br>
+      
+      <input type="submit" name="newgroup" class="am-btn am-btn-sm am-btn-primary am-btn-block am-radius input_font" 
+      value="提交 "  onclick="return validate();" />
+       
+    <% end %>
+    
+  </div>
+</div>
+  </div>
   
-   function validate() {
-     //  alert($('#order_amount').val()%100);
+
+</div>
+
+<script>
+
+  
+
+   
+  function validate() {
+     //  show_alert($('#order_amount').val()%100);
       var mobile = $('#password_reset_mobile').val();
         if(mobile == ''){
-          alert("手机号不能为空");
+          show_alert("手机号不能为空");
           return false;
         }else{
           return true;
@@ -43,4 +59,7 @@
        
      
   }
+  
+
 </script>
+

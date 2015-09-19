@@ -17,47 +17,15 @@
   
    <!-- 用户信息展示 -->
       <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-7 am-u-lg-7">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong><%= liked_user.name%></strong> &nbsp;&nbsp;<%= liked_user.sex%>&nbsp;&nbsp;<%= liked_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= liked_user.province%> &nbsp;&nbsp;<%= liked_user.city%> &nbsp;&nbsp;<%= liked_user.district%>  &nbsp;&nbsp;<%= liked_user.school%>  &nbsp;&nbsp;<%= liked_user.grade%> <br>
-                
-                <% if liked_user.interests%>
-                <% liked_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <%end%>
-                    
-                
-            </div>
-          </span>
-          <span class="am-hide-md-down">
-                        <div style="font-size: 1.6rem;"><strong><%= liked_user.name%></strong> &nbsp;&nbsp;<%= liked_user.sex%>&nbsp;&nbsp;<%= liked_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= liked_user.province%> &nbsp;&nbsp;<%= liked_user.city%> &nbsp;&nbsp;<%= liked_user.district%>  &nbsp;&nbsp;<%= liked_user.school%>  &nbsp;&nbsp;<%= liked_user.grade%> <br>
-                
-                <% if liked_user.interests%>
-                <% liked_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <% end%>
-                
-            </div>
-          </span>
-        </div>
-         <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
-          <%= time_ago_in_words_cn(like.created_at) %> 
-         前
-        </div>
+        <!--<div class="am-u-sm-2 am-u-lg-2">-->
+        <!--  <span class="am-show-md-down">-->
+        <!--    <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--  <span class="am-hide-md-down">-->
+        <!--    <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--</div>-->
+        <%= render :partial => "users/user_profile_display", :locals => { :user => liked_user,:time => like.updated_at } %>
       </div>
      
     </div>
@@ -65,30 +33,11 @@
     <% end%>
 <% end%>
 
+<!-- 分页 -->
 <%#end%>
-<% if @total_page != 0%>
-  <ul class="am-pagination">
-    <% if @page_num.to_i == 0%>
-  	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
-  	<% else%>
-  	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/show_post_likeds?post_id=<%= @micropost.id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
-  	<%end%>
-    
-    <% if @page_num.to_i == (@total_page.to_i - 1) || @total_page == 0%>
-  	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
-  	<% else%>
-  		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/show_post_likeds?post_id=<%=  @micropost.id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
-  	<%end%>
-  </ul>
-<%else%>
-    <div class="am-panel-bd" >
-  
-   <!-- 没有数据提醒 -->
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
-          还没有人赞过，赶紧去点赞吧！
-        </div>
-      </div>
-    </div>
-	<%end%>
 
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/show_post_likeds?post_id=#{@micropost.id}",
+             :tips => '还没有人赞过，赶紧去点赞吧！' } %>

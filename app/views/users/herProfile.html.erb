@@ -1,0 +1,101 @@
+ <style>
+   .profile_color{
+    color:#4A779D;
+   }
+ </style>
+ <% cache @user do%>
+<div class="am-panel am-panel-default" style="border:0;">
+	<div class="am-panel-bd" >
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+      <%#= render :partial => "users/user_profile_display", :locals => { :user => @user ,:time => @user.created_at } %>
+      <div class="am-u-sm-2">
+            <% preurl = "hisProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+            <% if @user.sex == "女孩"%>
+            <!--herProfile-->
+            <% preurl = "herProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+            <% end%>
+            <% if !@user.avatars.url.blank?%>
+            
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @user.id%>')" width="40" height="40" src="http://<%=@user.avatars.url("200")%>"/>
+            <% else%>
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @user.id%>')" width="40" height="40" src="<%= pic_url%>"/>
+            <% end%>
+        
+         
+        </div>
+             <div class="am-u-sm-7">
+          
+            <div style="font-size: 1.5rem;"><strong><%= @user.name%></strong> &nbsp;&nbsp;<%= @user.sex%>&nbsp;&nbsp;<%= @user.age%>岁</div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= @user.province%> &nbsp;&nbsp;<%= @user.city%> &nbsp;&nbsp;<%= @user.district%>  &nbsp;&nbsp;<%= @user.school%>  &nbsp;&nbsp;<%= @user.grade%> <br>
+                
+                <% if @user.interests%>
+                <% @user.interests.split('||').each do |interest| %>
+                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <% end%>
+                <%end%>
+                    
+                
+            </div>
+          
+
+        </div>
+             <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
+              <span class="am-badge am-badge-primary am-radius"
+              onclick="goto('/followings?id=<%= @user.id%>')">关注：<span id="following"><%=@user.following.count%></span> </span><br><br>
+              <span class="am-badge am-badge-primary am-radius"
+              onclick="goto('/followers?id=<%= @user.id%>')">粉丝：<span id="followers"><%=@user.followers.count%></span></span>
+            </div>
+      </div>
+         <br>
+      <% if @user != current_user %>
+      <div class="am-g" align="center">
+      	<div class="am-u-sm-4 am-u-lg-4">
+      		  <%= render :partial => "follow_form", 
+              :locals => {:content => "", :user => @user}  if logged_in? %>
+      	</div>
+      	<div class="am-u-sm-4 am-u-lg-4">
+      		  <%= render :partial => "shared/contact_user", 
+              :locals => { :content => "联系",:mobile => @user.mobile}  if logged_in? %>
+      	</div>
+      	<div class="am-u-sm-4 am-u-lg-4">
+      		  <%= render :partial => "shared/leave_message", 
+             :locals => { :content => "留言", :user_id => @user.id}  if logged_in? %>
+      	</div>
+      </div>
+      <%end%>
+  </div>
+</div>
+<%end%>
+
+<ul class="am-list am-list-static" >
+  <li>
+    <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "她的相册",:url => "/show_photos?user_id=#{@user.id}"} %>
+  </li>
+  <li>
+    <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "她的留言",:url => "/leave_messages?id=#{@user.id}"} %>
+  </li>
+</ul>
+<ul class="am-list am-list-static">
+  <li>
+  
+    <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "她发布的图文消息",:url => "/posts_of_user?id=#{@user.id}"} %>
+  </li>
+  <li>
+ 
+     <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "她发布的活动",:url => "/activities_of_user?id=#{@user.id}"} %>
+  </li>
+    <li>
+   
+     <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "她报名的活动",:url => "/activities_of_user_applied?id=#{@user.id}"} %>
+  </li>
+</ul>
+<br>

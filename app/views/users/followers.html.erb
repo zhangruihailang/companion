@@ -1,0 +1,31 @@
+<%# cache @microposts do%>
+
+<style>
+  .applyd{
+    color:#DD514C;
+  }
+</style>
+<% @followers.each do |flower|  %>
+    <% flower_user = User.find(flower.follower_id)%>
+    <% cache flower_user do%>
+<div class="am-panel-bd" >
+  
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+        <%= render :partial => "users/user_profile_display", :locals => { :user => flower_user,:time => flower.created_at } %>
+      </div>
+     
+    </div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <% end%>
+<% end%>
+
+<%#end%>
+<!-- 分页 -->
+
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/followers?id=#{@user.id}",
+             :tips => '还没有人关注他(她)，快去关注吧！' } %>

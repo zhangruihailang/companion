@@ -55,25 +55,25 @@
   
 
    function validate() {
-     //  alert($('#order_amount').val()%100);
+     //  show_alert($('#order_amount').val()%100);
       var mobile = $('#user_mobile').val();
       var password = $('#user_password').val();
       var password_confirmation = $('#user_password_confirmation').val();
       var smscode = $('#user_smscode').val();
         if(mobile == ''){
-          alert("手机号不能为空");
+          show_alert("手机号不能为空");
           return false;
         }else if(isNaN(mobile)){
-          alert("手机号格式正确");
+          show_alert("手机号格式正确");
           return false;
         }else if(password == ''){
-          alert("密码不能为空");
+          show_alert("密码不能为空");
           return false;
         }else if(password_confirmation != password){
-          alert("密码不匹配");
+          show_alert("密码不匹配");
           return false;
         }else if(smscode == ''){
-          alert("验证码不能为空");
+          show_alert("验证码不能为空");
           return false;
         }else{
           return true;

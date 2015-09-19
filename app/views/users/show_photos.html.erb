@@ -1,0 +1,37 @@
+<div class="am-panel am-panel-primary">
+  <div class="am-panel-hd">
+    <h3 class="am-panel-title" style="font-size:1.5rem;">头像相册</h3>
+  </div>
+  <div class="am-panel-bd">
+                 <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+                  <% if @user.sex == "女孩"%>
+                  <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+                  <% end%>
+     <% if !@avatars.nil?%>
+      <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
+      <img src="http://<%=@avatars.url("200")%>" 
+      data-rel="http://<%=@avatars.url("400")%>" />
+      </figure>
+       <% else%>
+      <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
+      <img src="<%= pic_url%>" 
+      data-rel="<%= pic_url%>" />
+      <% end%>
+  </div>
+</div>
+<div class="am-panel am-panel-primary">
+  <div class="am-panel-hd">
+    <h3 class="am-panel-title" style="font-size:1.5rem;">图文消息相册</h3>
+  </div>
+  <div class="am-panel-bd">
+    <%= render :partial => "shared/pics_gallery", :locals => { :pics => @post_pics } %>
+  </div>
+</div>
+<div class="am-panel am-panel-primary">
+  <div class="am-panel-hd">
+    <h3 class="am-panel-title" style="font-size:1.5rem;">活动相册</h3>
+  </div>
+  <div class="am-panel-bd">
+    <%= render :partial => "shared/pics_gallery", :locals => { :pics => @activitie_pics } %>
+  </div>
+</div>

@@ -1,60 +1,68 @@
-<% provide(:title, '密码重设') %>
-<div class="panel">
-<%= form_for(@user, url: password_reset_path(@user.id)) do |f| %>
-<%= render 'shared/error_messages', object: f.object %>
-<%= hidden_field_tag :mobile, @user.mobile %>
- 
-  
-  <div class="row">
-    <div class="samll-12 columns">
-      <div class="row collapse prefix-radius">
-        <div class="field">
-          <div class="small-3 columns">
-            <span class="prefix">密码</span>
-          </div>
-          <div class="small-9 columns">
-              <%= f.password_field :password %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
-  <div class="row">
-    <div class="samll-12 columns">
-      <div class="row collapse prefix-radius">
-        <div class="field">
-          <div class="small-3 columns">
-            <span class="prefix">确认密码</span>
-          </div>
-          <div class="small-9 columns">
-            <%= f.password_field :password_confirmation %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
-  
-  
-   
-    <div class="row">
-      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
-       
-        </br>
-      </div>
-    </div>
+
+<style>
+  .input_font{font-size:1.2rem;}
+
+</style>
+<div class="am-panel am-panel-default">
+
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>密码重置</h3>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+
+    <br>
+
     
-    <div class="row">
-      <div class="samll-12 columns" style="text-align: center; margin: 0 auto;">
-        <input type="submit" name="newgroup" class="button radius" style="width:80%;" value="修改" />
+     <%#= form_for(:session, url: login_path, html: { class: 'am-form' }) do |f| %>
+     <%= form_for(@user, url: password_reset_path(@user.id), html: { class: 'am-form' }) do |f| %>
+     <%= render 'shared/error_messages', object: f.object %>
+     <%= hidden_field_tag :mobile, @user.mobile %>
+     <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">密码&nbsp;:&nbsp;</span>
+       <%= f.password_field :password ,:placeholder => "请输入新密码" , :class => "am-form-field input_font"  %>
       </div>
-    </div>
+      
+      <br>
+      
+     <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label input_font">密码确认&nbsp;:&nbsp;</span>
+        
+        <%= f.password_field :password_confirmation ,:placeholder => "请确认新密码" , :class => "am-form-field input_font"  %>
+      </div>
+      <br>
+       <input type="submit" name="newgroup" class="am-btn am-btn-sm am-btn-primary am-btn-block am-radius input_font"  
+       value="确认修改 "  onclick="return validate();" />
+      <br>
+    <% end %>
+    
+    
   </div>
-
 </div>
-<% end %>
+  </div>
+  
+</div>
 
+<script>
 
+  
+
+   
+  function validate() {
+     //  show_alert($('#order_amount').val()%100);
+     var password = $('#user_password').val();
+     var password_confirmation = $('#user_password_confirmation').val();
+     if(password == ''){
+          show_alert("密码不能为空");
+          return false;
+        }else if(password_confirmation != password){
+          show_alert("密码不匹配");
+          return false;
+        }else{
+          return true;
+        }
+     
+  }
+  
+
+</script>

@@ -4,7 +4,7 @@
 
 <% cache @micropost do%>
 
-<%= form_for(@micropost, :url => {:action => 'upload_msg_pics'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<%= form_for(@micropost, :url => {:action => 'upload_pics'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
 <input name="message_id" type="hidden" value="<%= @micropost.id%>" />
 <%= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
@@ -38,12 +38,17 @@
                 <% end %>
                 
                 <%end%>
+                <% if @micropost.message_pics.count < 9%>
+                
                 <div class="am-form-group am-form-file">
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
+                
                     <%= image_tag('add_64.png')%>
                     <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
                 </div>
+                
+                <%end%>
               </div>
             </div>
           </span>
@@ -53,12 +58,14 @@
                 <% @micropost.message_pics.each do |pic|%>
                 <img class="ui image" src="http://<%=pic.file.url("400x400")%>">
                 <% end %>
+                <% if @micropost.message_pics.count < 9%>
                 <div class="am-form-group am-form-file">
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
                     <%= image_tag('add_96.png')%>
                     <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
                 </div>
+                <% end%>
               </div>
             </div>
           </span>
@@ -78,13 +85,12 @@
       
       
       
-      <div class="am-g">
+      <div class="am-g" align="center">
         <div class="am-u-sm-6 am-u-lg-6">
           <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/')" >完成</button>&nbsp;&nbsp;
-          <%= link_to '取消', @micropost, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
-        </div>
+         </div>
         <div class="am-u-sm-6 am-u-lg-6">
-           
+               <%= link_to '取消', @micropost, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
         </div>
       </div>
     </div>
@@ -100,7 +106,7 @@
     //var realPath = document.selection.createRange().text;
     //(realPath);
     // $("#image").attr("src",$("#doc-form-file").val());
-    alert('111');
+    show_alert('111');
    // count = count +1;
    //$('#pics_count').html(count) ;
 
@@ -114,12 +120,12 @@
                 success: function (data, status)           
                 {     
                 
-                  alert('1111');
+                  show_alert('1111');
                    
                   }, 
                 error: function (data, status, e)            
                 { 
-                  alert('上传失败'); 
+                  show_alert('上传失败'); 
                 } 
             } ); 
             
@@ -130,11 +136,11 @@
   
   
    function validate() {
-     //  alert($('#order_amount').val()%100);
+     //  show_alert($('#order_amount').val()%100);
       var micropost_content = $('#micropost_content').val();
       
         if(micropost_content == ''){
-          alert("请写点什么吧！");
+          show_alert("请写点什么吧！");
           return false;
         }else{
             document.getElementById("send_message").submit();

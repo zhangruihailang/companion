@@ -4,9 +4,9 @@
     <ul class="am-list">
       <li class="am-modal-actions-header"><font color="#010101" >选择发布类型</font></li>
       <li >
-        <a href="/publish_message"><font color="#0E90D2" >晒娃</font></a></li>
+        <a href="/publish_message"><font color="#F3936A" >晒娃</font></a></li>
       <li >
-        <a href="/publish_activity"><font color="#0E90D2" >活动</font></a>
+        <a href="/publish_activity"><font color="#F3936A" >活动</font></a>
       </li>
     </ul>
   </div>
@@ -16,6 +16,33 @@
 </div>
 
 
+<div class="am-modal-actions" tabindex="1"  id="my-more">
+  <div class="am-modal-actions-group">
+    <ul class="am-list">
+      <li class="am-modal-actions-header"><font color="#010101" >更多操作</font></li>
+      <li id="delete_modal_li" style="display:none">
+        <a id="delete_modal_link" href="#"><font color="#F3936A" >删除</font></a></li>
+      <li >
+        <a id="more_modal_link" href="#"><font color="#F3936A" >点赞的人</font></a>
+      </li>
+    </ul>
+  </div>
+  <div class="am-modal-actions-group">
+    <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+  </div>
+</div>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" style="color:#F3936A"><strong>童伴</strong></div>
+    <div class="am-modal-bd" id="alert-content">
+      
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn">确定</span>
+    </div>
+  </div>
+</div>
 
 <footer class="footer">
     <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
@@ -63,7 +90,7 @@
             </a>
           </li>
           <li >
-            <a href="#" class="">
+            <a href="/myProfile" class="">
                   <span class="am-icon-user"></span>
                 <span class="am-navbar-label">我的</span>
             </a>
@@ -74,5 +101,28 @@
 
 </footer>
 
-
+<script>
+  function show_modal(more_link,if_delete,delete_link,flag){
+    //show_alert('1111');
+    $('#more_modal_link').attr('href',more_link); 
+    
+    if(if_delete == '1'){
+      $('#delete_modal_li').show();
+      $('#delete_modal_link').attr('href',delete_link); 
+    }else{
+      $('#delete_modal_li').hide();
+    }
+    if(flag=='post'){
+       $('#more_modal_link').html("点赞的人");
+    }
+    if(flag=='activity'){
+       $('#more_modal_link').html("报名的人");
+    }
+    
+  }
+  function show_alert(msg){
+    $('#alert-content').html(msg);
+    $('#my-alert').modal();
+  }
+</script>
 

@@ -1,0 +1,4 @@
+<div class="am-tab-panel am-panel-default">
+  <%= render :partial => 'activities/user_activities',
+  :locals => { :pre_url => "/activities_of_user?id=#{@user.id}" ,:tips => '还没发布过活动！'}  %>
+</div>

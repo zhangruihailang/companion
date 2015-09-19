@@ -1,0 +1,89 @@
+<%# cache @to_users do%>
+
+<style>
+  .liked{
+    color:#DD514C;
+  }
+</style>
+    <% cache @to_user do%>
+<div class="am-panel am-panel-default" style="border:0;">
+
+<%#end%>
+<!-- 评论列表区 -->
+<% @user_comments.each do |comment| %>
+  <% from_user = User.find(comment.post_user_id)%>
+  <% cache comment do%>
+<div class="am-panel am-panel-default" style="border:0;">
+    <div class="am-panel-bd">
+        <div class="am-g">
+          
+        <%= render :partial => "users/user_profile_display", :locals => { :user => from_user,:time => comment.created_at } %>
+    
+        </div>
+        <br>
+        <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12">
+          
+           <article class="am-show-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.3rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+           <article class="am-hide-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.5rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+        </div>
+      </div>
+        <br>
+        <div class="am-g" >
+        <div class="am-u-sm-12 am-u-lg-12" align="right">
+          
+          <button type="button"  
+           class="am-btn am-btn-danger am-radius am-btn-xs"
+           onclick="goto('/to_leave_message?id=<%= @to_user.id%>&to_reply_user_id=<%=from_user.id%>&reply=1')">
+            回复
+          </button>
+           &nbsp;
+           <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
+           <% if comment.post_user_id == current_user.id || @to_user.id == current_user.id%>
+           <%= link_to "删除", {action: 'delete_message', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
+           <% end %>
+        </div>
+      </div>
+    </div>
+</div>
+  <%end%>
+<%end%>
+<%end%>
+<!-- 评论分页 -->
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/leave_messages?id=#{@to_user.id}",
+             :tips => '还没有人留言，赶紧去留言吧！' } %>
+    
+
+<div class="am-panel am-panel-default" style="border:0;">
+    <div class="am-panel-bd">
+        
+        <div class="am-g" >
+        <div class="am-u-sm-12 am-u-lg-12" align="center">
+         
+          <button type="button" 
+                 class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block"
+                 onclick="goto('/to_leave_message?id=<%= @to_user.id%>&to_reply_user_id=<%=@to_user.id%>&reply=0')">
+             <span class="am-icon-comment-o" ></span>
+            留言
+            </button>
+           
+        </div>
+      </div>
+    </div>
+</div>
+
+

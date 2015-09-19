@@ -1,6 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy, :post_comment, :to_post_comment, :post_comments]
-  before_action :correct_user, only: :destroy
+  before_action :correct_user, only: [:destroy, :delete_micropost]
   skip_before_filter :verify_authenticity_token, only: [:destroy,:like,:unlike]
   
   def like
@@ -142,6 +142,16 @@ class MicropostsController < ApplicationController
     @micropost.destroy
     #flash[:success] = "Micropost deleted"
     #redirect_to request.referrer || root_url
+    flash[:success] = "删除成功！"
+    redirect_to root_url
+  end
+  
+  def delete_micropost
+    #@micropost = Micropost.find(params[:id])
+    @micropost.destroy
+    #flash[:success] = "Micropost deleted"
+    #redirect_to request.referrer || root_url
+    flash[:success] = "删除成功！"
     redirect_to root_url
   end
   

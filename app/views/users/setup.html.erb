@@ -15,11 +15,10 @@
     <div class="am-g">
   <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
     <h3>完善资料</h3>
-    <hr>
+    
+       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
 
-    <br>
-    <br>
-
+    
       <%= form_for(@user, html: { id: 'edit_user', class: 'am-form' }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
       <div class="am-input-group am-input-group-primary">
@@ -36,13 +35,13 @@
       <br>
       <div class="am-input-group am-input-group-primary">
         <span class="am-input-group-label input_font" >我们家住&nbsp;:&nbsp;</span>
-        <select data-am-selected id="selProvince" name="province">
+        <select  id="selProvince" name="province">
         <option value="0">--请选择省份--</option>
         </select>
-        <select data-am-selected id="selCity" name="city">
+        <select  id="selCity" name="city">
             <option value="0">--请选择城市--</option>
         </select>
-        <select data-am-selected id="selDistrict" name="district">
+        <select id="selDistrict" name="district">
             <option value="0">--请选择区/县--</option>
         </select>
       </div>
@@ -116,9 +115,14 @@
         <span id="show_interests"></span>
         <input type="hidden" id="user_interests" name="user[interests]" >
         <input type="hidden" id="user_rolename" name="user[rolename]" >
+        <input type="hidden" id="if_completed" name="if_completed" >
+        
       </div>
       <br>
-      <input type="submit" name="newgroup" class="am-btn am-btn-primary am-btn-block"  value="确定"  onclick="return validate();" />
+        
+      <input type="submit" name="newgroup" class="am-btn am-btn-primary am-btn-block am-radius"  value="设置头像"  onclick="return validate('no');" />
+      
+      <input type="submit" name="newgroup" class="am-btn am-btn-primary am-btn-block am-radius"  value="完成"  onclick="return validate('yes');" />
        
     <% end %>
     
@@ -131,12 +135,41 @@
 
 <script>
 
-  
+   $.each(province, function (k, p) { 
+            
+        var option = "<option value='" + p.ProID + "'>" + p.ProName + "</option>";
+        $("#selProvince").append(option);
+    });
+             
+    $("#selProvince").change(function () {
+                var selValue = $(this).val(); 
+                $("#selCity option:gt(0)").remove();
+                 
+                $.each(city, function (k, p) { 
+                    if (p.ProID == selValue) {
+                        var option = "<option value='" + p.CityID + "'>" + p.CityName + "</option>";
+                        $("#selCity").append(option);
+                    }
+                });
+                 
+            });
+             
+  $("#selCity").change(function () {
+                var selValue = $(this).val();
+                $("#selDistrict option:gt(0)").remove(); 
+
+                $.each(District, function (k, p) {
+                    if (p.CityID == selValue) {
+                        var option = "<option value='" + p.Id + "'>" + p.DisName + "</option>";
+                        $("#selDistrict").append(option);
+                    }
+                }); 
+            }); 
  function check_role(){
    var guardian = $('#user_guardian').val();
-   //alert(rolename); 
+   //show_alert(rolename); 
    if(guardian == 'none'){
-     //alert('1')
+     //show_alert('1')
      //$('#user_rolename')
      //document.getElementById('user_rolename').style.display = 'none';
      $("#user_guardian_other").show();
@@ -144,9 +177,9 @@
      $("#user_guardian_other").hide();
    }
  }
-   function validate() {
-     //  alert($('#order_amount').val()%100);
-     
+   function validate(flag) {
+     //  show_alert($('#order_amount').val()%100);
+      $('#if_completed').val(flag);
      var guardian = $('#user_guardian').val();
      var guardian_other = $('#user_guardian_other').val();
       var user_guardian_age = $('#user_guardian_age').val();
@@ -163,52 +196,52 @@
        
        
         if(guardian == 'none' && guardian_other == ''){
-          alert("请选择或填写您与孩子的关系");
+          show_alert("请选择或填写您与孩子的关系");
           return false;
         }else if(user_guardian_age == ''){
-          alert("请填写您的年龄");
+          show_alert("请填写您的年龄");
           return false;
         }else if(selProvince=='0'){
-          alert("请选择所在省份");
+          show_alert("请选择所在省份");
           return false;
         }else if(selCity=='0'){
-          alert("请选择所在城市");
+          show_alert("请选择所在城市");
           return false;
         }else if(selDistrict=='0'){
-          alert("请选择所在区/县");
+          show_alert("请选择所在区/县");
           return false;
         }else if(user_name == ''){
-          alert("请输入孩子的姓名或昵称");
+          show_alert("请输入孩子的姓名或昵称");
           return false;
         }else if(user_sex == ''){
-          alert("请选择孩子的性别");
+          show_alert("请选择孩子的性别");
           return false;
         }else if(user_age == ''){
-          alert("请输入孩子的年龄");
+          show_alert("请输入孩子的年龄");
           return false;
         }else if(user_school == ''){
-          alert("请输入孩子的学校");
+          show_alert("请输入孩子的学校");
           return false;
         }else if(user_grade == ''){
-          alert("请选择孩子的年级");
+          show_alert("请选择孩子的年级");
           return false;
         }else if(user_interests == ''){
-          alert("请添加孩子的兴趣标签");
+          show_alert("请添加孩子的兴趣标签");
           return false;
         }else{
            if(guardian == 'none'){
-             //alert('aa');
+             //show_alert('aa');
              $('#user_rolename').val(guardian_other);
            }else{
-             //alert('bb');
+             //show_alert('bb');
              $('#user_rolename').val(guardian);
-             //alert($('#user_rolename').val());
+             //show_alert($('#user_rolename').val());
            }
-           //alert('1111');
+           //show_alert('1111');
            $('#user_province').val($("#selProvince :selected").html()); 
            $('#user_city').val($("#selCity :selected").html()); 
            $('#user_district').val($("#selDistrict :selected").html()); 
-           //alert($('#user_province').val());
+           //show_alert($('#user_province').val());
            document.getElementById("edit_user").submit();
         }
        
@@ -218,7 +251,7 @@
   function add_interest(){
      var interests = $('#add_interests').val();
     if(interests==''){
-      alert('请输入兴趣标签');
+      show_alert('请输入兴趣标签');
     }else{
       $('#show_interests').html($('#show_interests').html() + '&nbsp;<a class="am-badge am-badge-danger am-radius">'+interests+'</a>&nbsp;');
       if($('#user_interests').val() == ''){

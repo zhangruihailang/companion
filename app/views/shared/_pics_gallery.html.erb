@@ -1,0 +1,27 @@
+<% count=0%>
+<% if pics.count < 3%>
+<% count=pics.count%>
+<% elsif pics.count >25 %>
+<% count=6%>
+<% elsif pics.count >16%>
+<% count=5%>
+<% elsif pics.count >9%>
+<% count=4%>
+<% else%>
+<% count=3%>
+<% end%>
+<%#= pics.count%>
+<%#= count%>
+<ul data-am-widget="gallery" class="am-gallery am-avg-sm-<%=count%> am-gallery-imgbordered" data-am-gallery="{pureview:{target: 'a',weChatImagePreview: false}}">
+   <% pics.each do |pic|%>
+   
+    <% cache pic do%> 
+    <li>
+    <div class="am-gallery-item">
+      <a href="http://<%=pic.file.url("400")%>" ><img src="http://<%=pic.file.url("200x200")%>" />
+      </a>
+    </div>
+    </li>
+    <% end%>
+    <%end%>
+</ul>

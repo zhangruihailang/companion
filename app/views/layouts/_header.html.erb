@@ -29,8 +29,17 @@
  
   <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
+    
+
     <h1 class="am-topbar-brand">
-      <a href="/">童伴 <font size="1.5rem">帮孩子找玩伴</font></a>
+    <% if (request.url != (request.protocol + request.host_with_port + "/") && request.url != (request.protocol + request.host_with_port + "/playmates") )%>
+    
+
+    <i class="am-header-icon am-icon-chevron-left am-icon-sm" style="color:#F3936A" onclick="goback()"></i>
+    &nbsp;&nbsp;&nbsp;
+    <%end %>
+     <%=image_tag "logo.jpg",:height => '45px',:width => '45px' %> <a href="/">
+       &nbsp;&nbsp;&nbsp;童伴 <font size="1.5rem">帮孩子找玩伴</font></a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -116,3 +125,9 @@
     </div>
   </div>
 </header>
+<script>
+  function goback(){
+		history.go(-1);
+	 // location.reload()
+	}
+</script>

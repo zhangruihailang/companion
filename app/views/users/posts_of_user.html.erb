@@ -1,0 +1,5 @@
+<div class="am-tab-panel am-panel-default">
+  <%= render :partial => 'users/user_messages', 
+  :locals => { :pre_url => "/posts_of_user?id=#{@user.id}",:tips => '还没有发布过消息！' } 
+  %>
+</div>

@@ -39,7 +39,7 @@
         
             <% if @tab_id == '0'%>
             <div data-tab-panel-0 class="am-tab-panel am-active">
-            <%= render 'activities/user_activities' %>
+            <%= render :partial => 'activities/user_activities', :locals => { :pre_url => "/activities?id=#{@tab_id}" ,:tips => '还没有人发布过活动，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-0 class="am-tab-panel">
@@ -48,7 +48,7 @@
             
             <% if @tab_id == '1'%>
             <div data-tab-panel-1 class="am-tab-panel am-active">
-            <%= render 'activities/user_activities' %>
+            <%= render :partial => 'activities/user_activities', :locals => { :pre_url => "/activities?id=#{@tab_id}" ,:tips => '还没有人发布过活动，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-1 class="am-tab-panel">
@@ -57,7 +57,7 @@
             
             <% if @tab_id == '2'%>
             <div data-tab-panel-2 class="am-tab-panel am-active">
-            <%= render 'activities/user_activities' %>
+            <%= render :partial => 'activities/user_activities', :locals => { :pre_url => "/activities?id=#{@tab_id}" ,:tips => '还没有人发布过活动，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-2 class="am-tab-panel">
@@ -67,7 +67,7 @@
             
             <% if @tab_id == '3'%>
             <div data-tab-panel-3 class="am-tab-panel am-active">
-            <%= render 'activities/user_activities' %>
+            <%= render :partial => 'activities/user_activities', :locals => { :pre_url => "/activities?id=#{@tab_id}" ,:tips => '还没有人发布过活动，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-3 class="am-tab-panel">
@@ -77,7 +77,7 @@
             
             <% if @tab_id == '4'%>
             <div data-tab-panel-4 class="am-tab-panel am-active">
-            <%= render 'activities/user_activities' %>
+            <%= render :partial => 'activities/user_activities', :locals => { :pre_url => "/activities?id=#{@tab_id}" ,:tips => '还没有人发布过活动，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-4 class="am-tab-panel">

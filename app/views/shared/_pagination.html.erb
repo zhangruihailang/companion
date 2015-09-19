@@ -1,0 +1,29 @@
+<% if total_page !=0%>
+	  <ul class="am-pagination">
+  <% if page_num.to_i == 0%>
+	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
+	<% else%>
+	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="<%= pre_url%>&page_num=<%= page_num.to_i - 1 %>">&laquo; 上一页</a></li>
+	<%end%>
+  
+  <% if page_num.to_i == (total_page.to_i - 1)%>
+	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
+	<% else%>
+		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="<%= pre_url%>&page_num=<%= page_num.to_i + 1 %>">下一页 &raquo;</a></li>
+	<%end%>
+	
+
+  </ul>
+  <%else%>
+    <div class="am-panel-bd" >
+  
+   <!-- 没有数据提醒 -->
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
+          
+          <%= tips%>
+        </div>
+      </div>
+    </div>
+	<%end%>
+

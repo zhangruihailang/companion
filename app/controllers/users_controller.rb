@@ -48,14 +48,39 @@ class UsersController < ApplicationController
          
   
   def myProfile
-    @total_income_payed = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
-    @total_asset = Order.where("user_id = :user_id ",user_id: current_user.id).sum("amount") + 
-                   Order.where("user_id = :user_id ",user_id: current_user.id).sum("income")
-                   
-    @total_asset_available = Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("amount") + 
-                   Order.where("user_id = :user_id and has_payed = '1' ",user_id: current_user.id).sum("income")
+    if params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end
   
+  def hisProfile
+     @user = User.find(params[:id])
+  end
+  
+  def herProfile
+     @user = User.find(params[:id])
+  end
+  
+  def show_photos
+    @user = User.find(params[:user_id])
+    if !@user.avatars.url.blank?
+      @avatars = @user.avatars
+    end
+    @post_pics = []
+    @user.microposts.each do |post|
+      post.message_pics.each do |pic|
+        @post_pics.push(pic)
+      end
+    end
+    @activitie_pics = []
+    @user.activities.each do |activity|
+      activity.activity_pics.each do |pic|
+        @activitie_pics.push(pic)
+      end
+    end
+  end
   
   def index
     #@users = User.all
@@ -118,19 +143,169 @@ class UsersController < ApplicationController
     
   end
   
+  def posts_of_user
+    #@microposts = User.find(params[:id]).microposts
+    @user =  User.find(params[:id])
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.microposts.count(:id).to_i - 1)/page_size )+1
+
+    @microposts = @user.microposts.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
+  def followings
+    @user =  User.find(params[:id])
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.active_relationships.count(:id).to_i - 1)/page_size )+1
+
+    @followings = @user.active_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
+  def followers
+    @user =  User.find(params[:id])
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.passive_relationships.count(:id).to_i - 1)/page_size )+1
+
+    @followers = @user.passive_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
+  def activities_of_user
+    #@activities = User.find(params[:id]).activities
+    @user =  User.find(params[:id])
+     @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.activities.count(:id).to_i - 1)/page_size )+1
+
+    @activities = @user.activities.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+  end
+  
+  def activities_of_user_applied
+    @activities = []
+    @user =  User.find(params[:id])
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((ActivityApply.where(:apply_user_id => params[:id]).count(:id).to_i - 1)/page_size )+1
+
+    @applies = ActivityApply.where(:apply_user_id => params[:id]).order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    @applies.each do |apply|
+      @activities.push(apply.activity)
+    end
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+    
+  end
+  
   def edit
     @user = User.find(params[:id])
   end
   
   def setup
-    @user = User.find(params[:id])
+    @user = current_user || User.find(params[:id])
+  end
+  
+  def update_user
+    @user = current_user || User.find(params[:id])
+  end
+  
+  def to_upload_user_avatar
+     @user = current_user || User.find(params[:id])
+  end
+  
+  def upload_user_avatar
+     @user = current_user || User.find(params[:user_id])
+     if params[:files] && params[:files].any? 
+        params[:files].each do |file|
+        #@attachment = @micropost.message_pic.create!(:file => file)
+        @user.update_attributes(:avatars => file)
+        end
+     end
+     
+     #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
+     render 'to_upload_user_avatar'
+  end
+  
+  
+  def to_leave_message
+    @is_reply = params[:reply]
+    @to_user = User.find(params[:id])
+    @to_reply_user = User.find(params[:to_reply_user_id])
+  end
+  
+  def leave_message
+    @to_user = User.find(params[:user_id])
+    @to_user.user_comments.create(:post_user_id => current_user.id,:content => params[:content])
+    redirect_to "/leave_messages?id=#{@to_user.id}"
+  end
+  
+  def leave_messages
+    @to_user = User.find(params[:id])
+    
+    #@likeds = @micropost.likeds
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@to_user.user_comments.count(:id).to_i - 1)/page_size )+1
+    @user_comments = @to_user.user_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
+  def delete_message
+    comment = UserComment.find(params[:id])
+    comment.destroy
+    redirect_to "/leave_messages?id=#{comment.user.id}"
   end
   
   def update
     #@user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "资料更新成功！"
-      redirect_to '/'
+      if params[:if_completed] == 'yes'
+        flash[:success] = "资料更新成功！"
+        redirect_to '/'
+      else
+        redirect_to "/to_upload_user_avatar?id=#{@user.id}"
+      end
     else
       redirect_to "/setup?id=#{@user.id}"
     end
@@ -143,18 +318,18 @@ class UsersController < ApplicationController
   end
   
   
-  def following
-    @title = "Following"
-    @user = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
-    render 'show_follow'
-  end
-  def followers
-    @title = "Followers"
-    @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
-    render 'show_follow'
-  end
+  # def following
+  #   @title = "Following"
+  #   @user = User.find(params[:id])
+  #   @users = @user.following.paginate(page: params[:page])
+  #   render 'show_follow'
+  # end
+  # def followers
+  #   @title = "Followers"
+  #   @user = User.find(params[:id])
+  #   @users = @user.followers.paginate(page: params[:page])
+  #   render 'show_follow'
+  # end
 
   # def weixin_callback
     
@@ -237,8 +412,8 @@ class UsersController < ApplicationController
     restURL = "https://api.ucpaas.com"
     version = "2014-06-30"
     auth_token = "49ee5da5489b144012728f719ae506a7"
-    appid = "997ee22165ff45b78e9b9b2d9c43ea1b"
-    templateId = "11592"
+    appid = "2f49e5e9e627402aaa5c86422d116da4"
+    templateId = "13119"
     
     sig = Digest::MD5.hexdigest(("#{account_sid}"+"#{auth_token}"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
     

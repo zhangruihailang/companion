@@ -39,7 +39,7 @@
         
             <% if @tab_id == '0'%>
             <div data-tab-panel-0 class="am-tab-panel am-active">
-            <%= render 'users/user_messages' %>
+            <%= render :partial => 'users/user_messages', :locals => { :pre_url => "/playmates?id=#{@tab_id}" ,:tips => '还没有人发布过消息，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-0 class="am-tab-panel">
@@ -48,7 +48,7 @@
             
             <% if @tab_id == '1'%>
             <div data-tab-panel-1 class="am-tab-panel am-active">
-            <%= render 'users/user_messages' %>
+            <%= render :partial => 'users/user_messages', :locals => { :pre_url => "/playmates?id=#{@tab_id}" ,:tips => '还没有人发布过消息，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-1 class="am-tab-panel">
@@ -57,7 +57,7 @@
             
             <% if @tab_id == '2'%>
             <div data-tab-panel-2 class="am-tab-panel am-active">
-            <%= render 'users/user_messages' %>
+            <%= render :partial => 'users/user_messages', :locals => { :pre_url => "/playmates?id=#{@tab_id}" ,:tips => '还没有人发布过消息，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-2 class="am-tab-panel">
@@ -67,7 +67,8 @@
             
             <% if @tab_id == '3'%>
             <div data-tab-panel-3 class="am-tab-panel am-active">
-            <%= render 'users/user_messages' %>
+            <%= render :partial => 'users/user_messages', 
+            :locals => { :pre_url => "/playmates?id=#{@tab_id}" ,:tips => '还没有人发布过消息，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-3 class="am-tab-panel">
@@ -77,7 +78,7 @@
             
             <% if @tab_id == '4'%>
             <div data-tab-panel-4 class="am-tab-panel am-active">
-            <%= render 'users/user_messages' %>
+            <%= render :partial => 'users/user_messages', :locals => { :pre_url => "/playmates?id=#{@tab_id}" ,:tips => '还没有人发布过消息，快去发布吧！'}  %>
             </div>
             <%else%>
             <div data-tab-panel-4 class="am-tab-panel">
@@ -93,164 +94,3 @@
 
 
 
-<!-- 
-<div class="am-panel am-panel-default">
-    <div class="am-panel-bd" >
-      <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-10 am-u-lg-10">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              </div>
-          </span>
-          <span class="am-hide-md-down">
-            <div style="font-size: 1.6rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-              山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-              
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              
-              </div>
-          </span>
-        </div>
-        
-      </div>
-      <br>
-      <div class="am-g" data-am-scrollspy="{animation: 'fade', delay: 200}">
-        <div class="am-u-sm-12 am-u-lg-12">
-          
-           <article class="am-show-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.3rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-           <article class="am-hide-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.5rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-        </div>
-      </div>
-      <br>
-      <div class="am-g" >
-        <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
-            <ul class="am-slides">
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-    <div class="am-panel-bd" >
-      <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-10 am-u-lg-10">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              </div>
-          </span>
-          <span class="am-hide-md-down">
-            <div style="font-size: 1.6rem;"><strong>阿威</strong> &nbsp;&nbsp;男孩&nbsp;&nbsp;12岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-              山西省 &nbsp;&nbsp;太原市 &nbsp;&nbsp;五一路小学 &nbsp;&nbsp;二年级<br>
-              
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-                <span class="am-badge am-badge-primary am-radius">篮球</span>
-                <span class="am-badge am-badge-primary am-radius">足球</span>
-              
-              </div>
-          </span>
-        </div>
-        
-      </div>
-      <br>
-      <div class="am-g" data-am-scrollspy="{animation: 'fade', delay: 200}">
-        <div class="am-u-sm-12 am-u-lg-12">
-          
-           <article class="am-show-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.3rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-           <article class="am-hide-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.5rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！ 今天天气很好，我带着儿子去爬山，很开心！ 
-            今天天气很好，我带着儿子去爬山，很开心！
-           </article>
-        </div>
-      </div>
-      <br>
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
-            <ul class="am-slides">
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://s.amazeui.org/media/i/demos/pure-1.jpg?imageView2/0/w/640" data-rel="http://s.amazeui.org/media/i/demos/pure-1.jpg" alt="春天的花开秋天的风以及冬天的落阳"/>
-                </figure>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
--->

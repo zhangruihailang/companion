@@ -123,31 +123,31 @@
 </div>
 <script>
   function calculate(value){
-  //alert(value);
+  //show_alert(value);
     var rate = '<%= @project.yield_yearly%>';
     var cycle =  '<%= @project.investment_cycle%>';
-    //alert(cycle);
+    //show_alert(cycle);
     var income = (((value * rate )/100) *cycle)/12 ;
-    //alert(income);
+    //show_alert(income);
     $('#income').html(income);
     //$('#order.income').val(income);
   }
   
    function validate() {
-     //  alert($('#order_amount').val()%100);
+     //  show_alert($('#order_amount').val()%100);
       var amount = $('#order_amount').val();
       var password = $('#order_password').val();
         if(amount == ''){
-          alert("金额不能为空");
+          show_alert("金额不能为空");
           return false;
         }else if(isNaN(amount)){
-          alert("金额必须为数字");
+          show_alert("金额必须为数字");
           return false;
         }else if(password == ''){
-          alert("密码不能为空");
+          show_alert("密码不能为空");
           return false;
         }else if(($('#order_amount').val()%100) != '0'){
-          alert('金额必须为100的倍数')
+          show_alert('金额必须为100的倍数')
           return false;
         }else{
           return true;

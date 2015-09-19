@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
   resources :activities, only: [:new, :create, :edit, :update, :destroy]
+  get 'delete_activity' => 'activities#delete_activity' 
+  get 'delete_micropost' => 'microposts#delete_micropost'
 
   resources :posts
 
@@ -34,10 +36,13 @@ Rails.application.routes.draw do
   get 'upload_activity_pic' => 'activities#upload_activity_pic'
   patch 'upload_msg_pics' => 'microposts#upload_pics'
   post 'upload_activity_pics' => 'activities#upload_pics'
+  post 'upload_user_avatar' => 'users#upload_user_avatar'
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'
   get 'myProfile' => 'users#myProfile'
+  get 'hisProfile' => 'users#hisProfile'
+  get 'herProfile' => 'users#herProfile'
   get 'buy' => 'projects#buy'
   
   post 'like' => 'microposts#like'
@@ -47,23 +52,42 @@ Rails.application.routes.draw do
   get 'activity_comments' => 'activities#activity_comments'
   patch 'post_comment' => 'microposts#post_comment'
   patch 'post_activity_comment' => 'activities#post_activity_comment'
+  post 'leave_message' => 'users#leave_message'
+  get 'leave_messages' => 'users#leave_messages'
   get 'to_post_comment' => 'microposts#to_post_comment'
   get 'to_activity_comment' => 'activities#to_activity_comment'
+  get 'to_leave_message' => 'users#to_leave_message'
   delete 'logout' => 'sessions#destroy'
   
   get 'delete_comment' => 'microposts#delete_comment'
   get 'delete_activity_comment' => 'activities#delete_activity_comment'
+  get 'delete_user_message' => 'users#delete_message'
   get 'show_post_likeds' => 'microposts#show_post_likeds'
   get 'show_activity_applies' => 'activities#show_activity_applies'
   get 'apply_activity' => 'activities#apply_activity'
   get 'cancel_activity_apply' => 'activities#cancel_activity_apply'
+  
+  get 'to_upload_user_avatar' => 'users#to_upload_user_avatar'
+  
   resources :users , only: [:new, :create, :edit, :update,:myProfile]do
-    member do
-      get :following, :followers
-    end
+    # member do
+    #   get :following, :followers
+    # end
   end
   
+  get 'show_photos' => 'users#show_photos'
+  get 'update_user' => 'users#update_user'
   
+  get 'posts_of_user' => 'users#posts_of_user'
+  get 'activities_of_user' => 'users#activities_of_user'
+  get 'activities_of_user_applied' => 'users#activities_of_user_applied'
+  
+  get 'privacy' => 'static_pages#privacy'
+  get 'about_us' => 'static_pages#about_us'
+  get 'agreement' => 'static_pages#agreement'
+  
+  get 'followings' => 'users#followings'
+  get 'followers' => 'users#followers'
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]

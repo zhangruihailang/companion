@@ -10,11 +10,14 @@
     <div class="am-panel-bd" >
       <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12">
+           <h3>发布图文消息</h3>
+    
+
+       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
             <div class="am-form-group">
               <div class="ui form">
                 <div class="field">
-                  <label>这一刻的想法</label>
-                  <textarea rows="3" name="micropost[content]" id="micropost_content" ></textarea>
+                  <textarea rows="4" name="micropost[content]" id="micropost_content" placeholder="这一刻的想法" style="font-size:1.5rem;"></textarea>
                 </div>
               </div>
             </div>
@@ -90,7 +93,7 @@
     //var realPath = document.selection.createRange().text;
     //(realPath);
     // $("#image").attr("src",$("#doc-form-file").val());
-    //alert('111');
+    //show_alert('111');
     count = count +1;
    $('#pics_count').html(count) ;
 
@@ -104,12 +107,12 @@
   //               success: function (data, status)           
   //               {     
                 
-  //                 alert('1111:'+ data);
+  //                 show_alert('1111:'+ data);
                    
   //                 }, 
   //               error: function (data, status, e)            
   //               { 
-  //                 alert('上传失败'); 
+  //                 show_alert('上传失败'); 
   //               } 
   //           } ); 
             
@@ -120,12 +123,12 @@
   
   
    function validate(flag) {
-     //  alert($('#order_amount').val()%100);
+     //  show_alert($('#order_amount').val()%100);
      $('#if_completed').val(flag);
       var micropost_content = $('#micropost_content').val();
       
         if(micropost_content == ''){
-          alert("请写点什么吧！");
+          show_alert("请写点什么吧！");
           return false;
         }else{
             document.getElementById("send_message").submit();

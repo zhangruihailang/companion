@@ -9,11 +9,15 @@
     <div class="am-panel-bd" >
       <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12"> 
+        
+      <h3>发表评论</h3>
+    
+
+       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
             <div class="am-form-group">
               <div class="ui form">
                 <div class="field">
-                  <label>想说些什么</label>
-                    <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" >
+                    <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" style="font-size:1.5rem;" >
                   <% if @is_reply=='1' %>
                     <%=p "回复 #{@comment_user.name} :\r\n "%>
                   <% end%>
@@ -51,11 +55,11 @@
 <script>
   
    function validate() {
-     //  alert($('#order_amount').val()%100);
+     //  show_alert($('#order_amount').val()%100);
       var micropost_content = $('#micropost_content').val();
       
         if(micropost_content == ''){
-          alert("请写点什么吧！");
+          show_alert("请写点什么吧！");
           return false;
         }else{
             document.getElementById("send_message").submit();

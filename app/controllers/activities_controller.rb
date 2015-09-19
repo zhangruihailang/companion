@@ -2,6 +2,7 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
   skip_before_filter :verify_authenticity_token, only: [:destroy]
+  before_action :correct_user, only: [:destroy, :delete_activity]
   # GET /activities
   # GET /activities.json
   def index
@@ -63,6 +64,7 @@ class ActivitiesController < ApplicationController
   def upload_pics
      
     @activity = Activity.find(params[:activity_id])
+    
     if params[:files] && params[:files].any? 
         params[:files].each do |file|
         #@attachment = @micropost.message_pic.create!(:file => file)
@@ -155,6 +157,8 @@ class ActivitiesController < ApplicationController
   
     if @activity.has_applied?(current_user.id)
       flash[:success] = "您已经报过名!"
+    elsif @activity.user == current_user
+      flash[:success] = "这是您发布的活动，不需要报名!"
     else
       @activity.apply(current_user.id)
       flash[:success] = "报名成功!"
@@ -169,6 +173,14 @@ class ActivitiesController < ApplicationController
     flash[:success] = "取消报名成功!"
     redirect_to "/activity_comments?id=#{apply.activity.id}"
   end
+  
+  def delete_activity
+    #@activity = Activity.find(params[:id])
+    @activity.destroy
+    flash[:success] = "删除成功！"
+    redirect_to '/activities'
+  end
+  
   def destroy
     @activity.destroy
     respond_to do |format|
@@ -186,5 +198,10 @@ class ActivitiesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
       params.require(:activity).permit(:title, :description, :starttime, :endtime, :place, :number_of_people, :pay_type, :average_cost, :user_id, :tags, :apply_up_limit)
+    end
+    
+    def correct_user
+      @activity = current_user.activities.find_by(id: params[:id])
+      redirect_to root_url if @activity.nil?
     end
 end

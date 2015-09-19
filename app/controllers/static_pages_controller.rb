@@ -33,7 +33,7 @@ class StaticPagesController < ApplicationController
     @tab_id = params[:id] || '0'
     
     #if @tab_id == '0'
-      @microposts = Micropost.order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+      @microposts = Micropost.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     #end
     
     # if @tab_id == '1'
@@ -56,7 +56,7 @@ class StaticPagesController < ApplicationController
     @tab_id = params[:id] || '0'
     
     #if @tab_id == '0'
-      @activities = Activity.order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+      @activities = Activity.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     #end
     
     # if @tab_id == '1'

@@ -1,53 +1,30 @@
 <%# cache @activitys do%>
-
-<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<%= stylesheet_link_tag "accordion.min"%>
+<%= javascript_include_tag "accordion.min"%>
 <style>
   .liked{
     color:#DD514C;
   }
+
+  
 </style>
     <% cache @activity do%>
+<div class="am-panel am-panel-default" style="border:0;">
 <div class="am-panel-bd" >
   
    <!-- 用户信息展示 -->
       <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-10 am-u-lg-10">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong><%= @activity.user.name%></strong> &nbsp;&nbsp;<%= @activity.user.sex%>&nbsp;&nbsp;<%= @activity.user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= @activity.user.province%> &nbsp;&nbsp;<%= @activity.user.city%> &nbsp;&nbsp;<%= @activity.user.district%>  &nbsp;&nbsp;<%= @activity.user.school%>  &nbsp;&nbsp;<%= @activity.user.grade%> <br>
-                
-                <% if @activity.user.interests%>
-                <% @activity.user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <%end%>
-                    
-                
-            </div>
-          </span>
-          <span class="am-hide-md-down">
-                        <div style="font-size: 1.6rem;"><strong><%= @activity.user.name%></strong> &nbsp;&nbsp;<%= @activity.user.sex%>&nbsp;&nbsp;<%= @activity.user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= @activity.user.province%> &nbsp;&nbsp;<%= @activity.user.city%> &nbsp;&nbsp;<%= @activity.user.district%>  &nbsp;&nbsp;<%= @activity.user.school%>  &nbsp;&nbsp;<%= @activity.user.grade%> <br>
-                
-                <% if @activity.user.interests%>
-                <% @activity.user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <% end%>
-                
-            </div>
-          </span>
-        </div>
+        <!--<div class="am-u-sm-2 am-u-lg-2">-->
+        <!--  <span class="am-show-md-down">-->
+        <!--    <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--  <span class="am-hide-md-down">-->
+        <!--    <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--</div>-->
+      
+         <%= render :partial => "users/user_profile_display", :locals => { :user => @activity.user,:time => @activity.created_at } %>
+    
         
       </div>
          <br>
@@ -57,23 +34,7 @@
       
       <% if @activity.activity_pics.any?%>
       <div class="am-g" >
-        <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider  id="demo-slider-0">
-            <ul class="am-slides">
-              <% @activity.activity_pics.each do |pic|%>
-              <% cache pic do%> 
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://<%=pic.file.url("200")%>"
-                    data-rel="http://<%=pic.file.url("400")%>" 
-                    alt=""/>
-                </figure>
-              </li>
-              <% end%>
-              <%end%>
-            </ul>
-          </div>
-        </div>
+          <%= render :partial => "shared/pics_gallery", :locals => { :pics => @activity.activity_pics } %>
       </div>
       <% end%>
       
@@ -90,7 +51,7 @@
            style="font-size:1.3rem;"
            data-am-paragraph="{ tableScrollable: true, pureview: true }">
              <h2><font color="#D7342E"><%= @activity.title%></font></h2>
-             <hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
             <%= @activity.description%>
            </article>
            <article class="am-hide-md-down" data-am-widget="paragraph"
@@ -98,14 +59,14 @@
            style="font-size:1.5rem;"
            data-am-paragraph="{ tableScrollable: true, pureview: true }">
            <h2><font color="#D7342E"><%= @activity.title%></font></h2>
-             <hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
             <%= @activity.description%>
            </article>
         </div>
       </div>
    
       <br>
-      <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+      <!--<hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />-->
       <!-- 评论和点赞 -->
       <div class="am-g" align="center">
         <div class=" am-u-sm-6 am-u-lg-6" >
@@ -122,14 +83,109 @@
       </div>
       
     </div>
+</div>
     <% end%>
-<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 <%#end%>
-<!-- 已报名列表区 -->
-<div class="am-panel am-panel-default">
-  <div class="am-panel-hd" style="color:#0E90D2">已报名用户</div>
-  <div class="am-panel-bd">
-    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4
+
+
+
+
+<div class="ui styled fluid accordion" style="border:0;">
+  
+  <!-- 活动详情区 -->
+
+  <div class="title">
+    <i class="dropdown icon"></i>
+     活动详情
+  </div>
+  <div class="content">
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          活动地点&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+          <%= @activity.place%>
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          活动人数&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+         <%= @activity.number_of_people%>&nbsp;&nbsp;人
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          报名上限&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+         <%= @activity.apply_up_limit%>&nbsp;&nbsp;人
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          费用类型&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+         <%= @activity.pay_type%>
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <% if @activity.pay_type == 'AA'%>
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          人均费用&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+         <%= @activity.average_cost%>&nbsp;&nbsp;元
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <%end%>
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          联系方式&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+         <%= @activity.user.mobile%>
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <% if @activity.tags%>
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          活动标签&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+               <% if @activity.tags%>
+                <% @activity.tags.split('||').each do |tag| %>
+                <span class="am-badge am-badge-primary am-radius"><%= tag%></span>
+                <% end%>
+                <%end%>
+         
+        </div>
+      </div>
+      <%end%>
+      
+  </div>
+  
+  <!-- 报名列表区 -->
+  <div class="title">
+    <i class="dropdown icon"></i>
+    报名列表
+  </div>
+  <div class="content">
+     <ul data-am-widget="gallery" class="am-gallery am-avg-sm-5
   am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{  }" >
       
       <% @activity.activity_applies.each do |apply|  %>
@@ -138,9 +194,18 @@
       <li>
         <div class="am-gallery-item" align="center">
             <a href="javascript:void(0);" class="">
-              <img src="http://semantic-ui.com/images/avatar/large/jenny.jpg"  />
-                <h3 class="am-gallery-title"><strong><%= applyd_user.name%></strong> 
-                <div class="am-gallery-desc" style="font-size:1rem;"> <%= time_ago_in_words_cn(apply.created_at) %> 
+                 <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+                  <% if applyd_user.sex == "女孩"%>
+                  <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+                  <% end%>
+              <% if !applyd_user.avatars.url.blank?%>
+              <img width="40" height="40" src="http://<%=applyd_user.avatars.url("200")%>"/>
+              <% else%>
+              <img width="40" height="40" src="<%= pic_url%>" />
+              <% end%>
+              
+              <h3 class="am-gallery-title"><strong><%= applyd_user.name%></strong> 
+              <div class="am-gallery-desc" style="font-size:1rem;"> <%= time_ago_in_words_cn(apply.created_at) %> 
          前
          <% if applyd_user==current_user%>
           <br>
@@ -162,134 +227,118 @@
     
      
   </ul>
-  </div>
-</div>
-<!-- 评论列表区 -->
-<% @activity_comments.each do |comment| %>
-  <% comment_user = User.find(comment.post_user_id)%>
-  <% cache comment do%>
-<div class="am-panel am-panel-default">
-    <div class="am-panel-bd">
-        <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-7 am-u-lg-7">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong><%= comment_user.name%></strong> &nbsp;&nbsp;<%= comment_user.sex%>&nbsp;&nbsp;<%= comment_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= comment_user.province%> &nbsp;&nbsp;<%= comment_user.city%> &nbsp;&nbsp;<%= comment_user.district%>  &nbsp;&nbsp;<%= comment_user.school%>  &nbsp;&nbsp;<%= comment_user.grade%> <br>
-                
-                <% if comment_user.interests%>
-                <% comment_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <%end%>
-                    
-                
-            </div>
-          </span>
-          <span class="am-hide-md-down">
-                        <div style="font-size: 1.6rem;"><strong><%= comment_user.name%></strong> &nbsp;&nbsp;
-                        <%= comment_user.sex%>&nbsp;&nbsp;
-                        <%= comment_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= comment_user.province%> &nbsp;&nbsp;
-               <%= comment_user.city%> &nbsp;&nbsp;
-               <%= comment_user.district%>  &nbsp;&nbsp;
-               <%= comment_user.school%>  &nbsp;&nbsp;
-               <%= comment_user.grade%> <br>
-                
-                <% if comment_user.interests%>
-                <% comment_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <% end%>
-                
-            </div>
-          </span>
-        </div>
-        <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
-          <%= time_ago_in_words_cn(comment.created_at) %> 
-         前
-        </div>
-      </div>
-       <br>
-        <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-        <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          
-           <article class="am-show-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.3rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            <%= raw(comment.content)%>
-           </article>
-           <article class="am-hide-md-down" data-am-widget="paragraph"
-           class="am-paragraph am-paragraph-default"
-           style="font-size:1.5rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
-            <%= raw(comment.content)%>
-           </article>
-        </div>
-      </div>
-        <br>
-        <div class="am-g" >
-        <div class="am-u-sm-12 am-u-lg-12" align="right">
-          
-          <button type="button"  
-           class="am-btn am-btn-danger am-radius am-btn-xs"
-           onclick="goto('/to_activity_comment?post_id=<%= @activity.id%>&to_user_id=<%=comment_user.id%>&reply=1')">
-            回复
-          </button>
-           &nbsp;
-           <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
-           <% if comment.post_user_id == current_user.id || @activity.user.id == current_user.id%>
-           <%= link_to "删除", {action: 'delete_activity_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
-           <% end %>
-        </div>
-      </div>
-    </div>
-</div>
-  <%end%>
-<%end%>
-<!-- 评论分页 -->
-
-<% if @total_page !=0%>
-	  <ul class="am-pagination">
-  <% if @page_num.to_i == 0%>
-	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
-	<% else%>
-	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/activity_comments?id=<%= @activity.id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
-	<%end%>
   
-  <% if @page_num.to_i == (@total_page.to_i - 1)%>
-	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
-	<% else%>
-		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/activity_comments?id=<%= @activity.id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
-	<%end%>
-	
-
-  </ul>
-  <%else%>
-    <div class="am-panel-bd" >
-  
-   <!-- 没有数据提醒 -->
-      <div class="am-g">
+     <!-- 没有报名提醒 -->
+  <% if @activity.activity_applies.empty? %>
+    <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
-          还没有人评论过，赶紧去评论吧！
+          还没有人报名，赶紧去报名吧！
+          <br>
+         
         </div>
       </div>
+  <% end%>
+  
+  </div>
+  
+<!-- 评论列表区 -->
+
+  <div class="title">
+    <i class="dropdown icon"></i>
+    评论列表
+  </div>
+  <div class="content">
+    <% @activity_comments.each do |comment| %>
+      <% comment_user = User.find(comment.post_user_id)%>
+      <% cache comment do%>
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-bd">
+            <div class="am-g">
+            <!--<div class="am-u-sm-2 am-u-lg-2">-->
+            <!--  <span class="am-show-md-down">-->
+            <!--    <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+            <!--  </span>-->
+            <!--  <span class="am-hide-md-down">-->
+            <!--    <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+            <!--  </span>-->
+            <!--</div>-->
+            
+            <%= render :partial => "users/user_profile_display", :locals => { :user => comment_user,:time => comment.created_at } %>
+    
+            
+          </div>
+           <br>
+            <div class="am-g">
+            <div class="am-u-sm-12 am-u-lg-12">
+              
+               <article class="am-show-md-down" data-am-widget="paragraph"
+               class="am-paragraph am-paragraph-default"
+               style="font-size:1.3rem;"
+               data-am-paragraph="{ tableScrollable: true, pureview: true }">
+                <%= raw(comment.content)%>
+               </article>
+               <article class="am-hide-md-down" data-am-widget="paragraph"
+               class="am-paragraph am-paragraph-default"
+               style="font-size:1.5rem;"
+               data-am-paragraph="{ tableScrollable: true, pureview: true }">
+                <%= raw(comment.content)%>
+               </article>
+            </div>
+          </div>
+            <br>
+            <div class="am-g" >
+            <div class="am-u-sm-12 am-u-lg-12" align="right">
+              
+              <button type="button"  
+               class="am-btn am-btn-danger am-radius am-btn-xs"
+               onclick="goto('/to_activity_comment?post_id=<%= @activity.id%>&to_user_id=<%=comment_user.id%>&reply=1')">
+                回复
+              </button>
+               &nbsp;
+               <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
+               <% if comment.post_user_id == current_user.id || @activity.user.id == current_user.id%>
+               <%= link_to "删除", {action: 'delete_activity_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
+               <% end %>
+            </div>
+          </div>
+        </div>
     </div>
-	<%end%>
+      <%end%>
+    <%end%>
+    
+       <!-- 没有评论提醒 -->
+  <% if @activity_comments.empty? %>
+    <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
+          还没有人评论，赶紧去评论吧！
+          <br>
+         
+        </div>
+      </div>
+  <% end%>
+  
+  <!-- 评论分页 -->
 
 
-<div class="am-panel am-panel-default">
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/activity_comments?id=#{ @activity.id}",
+             :tips => '' } %>
+  
+    
+   </div>
+   
+
+   
+   
+</div>
+
+
+
+
+
+<div class="am-panel am-panel-default" style="border:0;">
     <div class="am-panel-bd">
         
         <div class="am-g" >
@@ -327,9 +376,9 @@
   
 
   function like(id,post_id,user_id){
-    //alert(Number(obj.innerHTML));
+    //show_alert(Number(obj.innerHTML));
     //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
-    //alert(num);
+    //show_alert(num);
     //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
     //obj.addClass('animated bounceOutLeft');
     //obj.className = obj.className + "animated infinite bounceIn liked";
@@ -339,14 +388,14 @@
       data: {postid: post_id, to_user_id: user_id}
       })
       .done(function( msg ) {
-        //alert(msg);
+        //show_alert(msg);
         if(msg == 'no_login'){
-            alert("请登录后再操作");
+            show_alert("请登录后再操作");
             window.location.href = "/login";
         }else{
           var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
           $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
-          //alert($('#'+id).html());
+          //show_alert($('#'+id).html());
           $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceIn');
           });
@@ -356,9 +405,9 @@
   }
   
   function unlike(id,post_id,user_id){
-    //alert(Number(obj.innerHTML));
+    //show_alert(Number(obj.innerHTML));
     //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
-    //alert(num);
+    //show_alert(num);
     //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
     //obj.addClass('animated bounceOutLeft');
     //obj.className = obj.className + "animated infinite bounceIn liked";
@@ -368,14 +417,14 @@
       data: { postid: post_id,to_user_id: user_id}
       })
       .done(function( msg ) {
-        //alert(msg);
+        //show_alert(msg);
         if(msg == 'no_login'){
-            alert("请登录后再操作");
+            show_alert("请登录后再操作");
             window.location.href = "/login";
         }else{
           var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
           $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
-          //alert($('#'+id).html());
+          //show_alert($('#'+id).html());
           $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceIn liked');
           });
@@ -384,3 +433,9 @@
       });
   }
 </script> 
+
+<script>
+  $('.ui.accordion')
+  .accordion()
+  ;
+</script>

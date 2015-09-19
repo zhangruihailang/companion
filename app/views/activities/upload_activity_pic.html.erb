@@ -24,12 +24,14 @@
                 <% end %>
                 
                 <%end%>
+                <% if @activity.activity_pics.count < 9%>
                 <div class="am-form-group am-form-file">
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
                     <%= image_tag('add_64.png')%>
                     <input multiple=true type="file" name="files[]" id="activity_pics" accept="image/*" onchange="return validate();" />
                 </div>
+                <% end %>
               </div>
             </div>
           </span>
@@ -39,12 +41,14 @@
                 <% @activity.activity_pics.each do |pic|%>
                 <img class="ui image" src="http://<%=pic.file.url("400")%>">
                 <% end %>
+                <% if @activity.activity_pics.count < 9%>
                 <div class="am-form-group am-form-file">
                   <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
                   <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
                     <%= image_tag('add_96.png')%>
                     <input multiple=true type="file" name="files[]" id="activity_pics" accept="image/*" onchange="return validate();" />
                 </div>
+                <% end%>
               </div>
             </div>
           </span>
@@ -75,7 +79,7 @@
     //var realPath = document.selection.createRange().text;
     //(realPath);
     // $("#image").attr("src",$("#doc-form-file").val());
-    alert('111');
+    show_alert('111');
    // count = count +1;
    //$('#pics_count').html(count) ;
 
@@ -89,12 +93,12 @@
                 success: function (data, status)           
                 {     
                 
-                  alert('1111');
+                  show_alert('1111');
                    
                   }, 
                 error: function (data, status, e)            
                 { 
-                  alert('上传失败'); 
+                  show_alert('上传失败'); 
                 } 
             } ); 
             

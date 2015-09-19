@@ -13,7 +13,8 @@
   <link rel="alternate icon" type="image/png" href="assets/i/favicon.png
   -->
  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>
+  <!--<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>-->
+ <%= stylesheet_link_tag 'amazeui.min'%>
   <style>
     .get {
       background: #1E5B94;
@@ -125,44 +126,22 @@
 <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <!--<![endif]-->
 <script src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.min.js"></script>
+<%#= javascript_include_tag "CityJson" %>
+<%#= javascript_include_tag "DistrictJson" %>
+<%# javascript_include_tag "ProJson" %>
+
 <script>
   function goto(url){
 		window.location.href = url;
   }
 </script>
-<%= javascript_include_tag "ajaxfileupload" %>
+<%#= javascript_include_tag "ajaxfileupload" %>
 <script>
 $(document).ready(function () {
-  //alert("我的第一个jQuery代码!");
-  $.each(province, function (k, p) { 
-                var option = "<option value='" + p.ProID + "'>" + p.ProName + "</option>";
-                $("#selProvince").append(option);
-            });
-             
-    $("#selProvince").change(function () {
-                var selValue = $(this).val(); 
-                $("#selCity option:gt(0)").remove();
-                 
-                $.each(city, function (k, p) { 
-                    if (p.ProID == selValue) {
-                        var option = "<option value='" + p.CityID + "'>" + p.CityName + "</option>";
-                        $("#selCity").append(option);
-                    }
-                });
-                 
-            });
-             
-  $("#selCity").change(function () {
-                var selValue = $(this).val();
-                $("#selDistrict option:gt(0)").remove(); 
+  // $('#activity_starttime').datetimepicker({lang:'ch'});
+  // $('#activity_endtime').datetimepicker({lang:'ch'});
+  //show_alert("我的第一个jQuery代码!");
 
-                $.each(District, function (k, p) {
-                    if (p.CityID == selValue) {
-                        var option = "<option value='" + p.Id + "'>" + p.DisName + "</option>";
-                        $("#selDistrict").append(option);
-                    }
-                }); 
-            }); 
             
   
   
@@ -174,10 +153,5 @@ $(document).ready(function () {
 
 
 
-<script>
-  function show_bottom_menu(){
-    $('#my-actions').modal();
-  }
-</script>
 </body>
 </html>

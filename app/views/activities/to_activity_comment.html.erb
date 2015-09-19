@@ -33,9 +33,9 @@
 
 
               <div class="am-form-group">
-                <label for="doc-ta-1" class="input_font">想说些什么</label>
+                
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-                <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" >
+                <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" style="font-size:1.5rem;" >
                   <% if @is_reply=='1' %>
                     <%=p "回复 #{@comment_user.name} :\r\n "%>
                   <% end%>
@@ -70,11 +70,11 @@
 </div>
 <script>
   function validate() {
-    //  alert($('#order_amount').val()%100);
+    //  show_alert($('#order_amount').val()%100);
     var micropost_content = $('#micropost_content').val();
 
     if (micropost_content == '') {
-      alert("请写点什么吧！");
+      show_alert("请写点什么吧！");
       return false;
     }
     else {

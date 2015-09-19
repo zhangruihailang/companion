@@ -7,47 +7,23 @@
   }
 </style>
     <% cache @micropost do%>
+<div class="am-panel am-panel-default" style="border:0;">
 <div class="am-panel-bd" >
   
    <!-- 用户信息展示 -->
       <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-        </div>
-        <div class="am-u-sm-10 am-u-lg-10">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong><%= @micropost.user.name%></strong> &nbsp;&nbsp;<%= @micropost.user.sex%>&nbsp;&nbsp;<%= @micropost.user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= @micropost.user.province%> &nbsp;&nbsp;<%= @micropost.user.city%> &nbsp;&nbsp;<%= @micropost.user.district%>  &nbsp;&nbsp;<%= @micropost.user.school%>  &nbsp;&nbsp;<%= @micropost.user.grade%> <br>
-                
-                <% if @micropost.user.interests%>
-                <% @micropost.user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <%end%>
-                    
-                
-            </div>
-          </span>
-          <span class="am-hide-md-down">
-                        <div style="font-size: 1.6rem;"><strong><%= @micropost.user.name%></strong> &nbsp;&nbsp;<%= @micropost.user.sex%>&nbsp;&nbsp;<%= @micropost.user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= @micropost.user.province%> &nbsp;&nbsp;<%= @micropost.user.city%> &nbsp;&nbsp;<%= @micropost.user.district%>  &nbsp;&nbsp;<%= @micropost.user.school%>  &nbsp;&nbsp;<%= @micropost.user.grade%> <br>
-                
-                <% if @micropost.user.interests%>
-                <% @micropost.user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <% end%>
-                
-            </div>
-          </span>
-        </div>
+        <!--<div class="am-u-sm-2 am-u-lg-2">-->
+        <!--  <span class="am-show-md-down">-->
+        <!--    <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--  <span class="am-hide-md-down">-->
+        <!--    <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--</div>-->
+        
+        
+        <%= render :partial => "users/user_profile_display", :locals => { :user => @micropost.user,:time => @micropost.created_at } %>
+    
         
       </div>
       <br>
@@ -77,23 +53,7 @@
       
       <% if @micropost.message_pics.any?%>
       <div class="am-g" >
-        <div class="am-u-sm-12 am-u-lg-12">
-           <div class="am-slider am-slider-default" data-am-flexslider  id="demo-slider-0">
-            <ul class="am-slides">
-              <% @micropost.message_pics.each do |pic|%>
-              <% cache pic do%> 
-              <li>
-                <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
-                    <img src="http://<%=pic.file.url("200")%>"
-                    data-rel="http://<%=pic.file.url("400")%>" 
-                    alt=""/>
-                </figure>
-              </li>
-              <% end%>
-              <%end%>
-            </ul>
-          </div>
-        </div>
+         <%= render :partial => "shared/pics_gallery", :locals => { :pics => @micropost.message_pics } %>
       </div>
       <% end%>
       
@@ -118,63 +78,19 @@
       
     </div>
     <% end%>
-
+</div>
 <%#end%>
 <!-- 评论列表区 -->
-<% @post_comments.order("updated_at desc").each do |comment| %>
+<% @post_comments.each do |comment| %>
   <% comment_user = User.find(comment.post_user_id)%>
   <% cache comment do%>
-<div class="am-panel am-panel-default">
+<div class="am-panel am-panel-default" style="border:0;">
     <div class="am-panel-bd">
         <div class="am-g">
-        <div class="am-u-sm-2 am-u-lg-2">
-          <span class="am-show-md-down">
-            <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
-          <span class="am-hide-md-down">
-            <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>
-          </span>
+          
+        <%= render :partial => "users/user_profile_display", :locals => { :user => comment_user,:time => comment.created_at } %>
+    
         </div>
-        <div class="am-u-sm-7 am-u-lg-7">
-          <span class="am-show-md-down">
-            <div style="font-size: 1.5rem;"><strong><%= comment_user.name%></strong> &nbsp;&nbsp;<%= comment_user.sex%>&nbsp;&nbsp;<%= comment_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= comment_user.province%> &nbsp;&nbsp;<%= comment_user.city%> &nbsp;&nbsp;<%= comment_user.district%>  &nbsp;&nbsp;<%= comment_user.school%>  &nbsp;&nbsp;<%= comment_user.grade%> <br>
-                
-                <% if comment_user.interests%>
-                <% comment_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <%end%>
-                    
-                
-            </div>
-          </span>
-          <span class="am-hide-md-down">
-                        <div style="font-size: 1.6rem;"><strong><%= comment_user.name%></strong> &nbsp;&nbsp;
-                        <%= comment_user.sex%>&nbsp;&nbsp;
-                        <%= comment_user.age%>岁</div>
-            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
-               <%= comment_user.province%> &nbsp;&nbsp;
-               <%= comment_user.city%> &nbsp;&nbsp;
-               <%= comment_user.district%>  &nbsp;&nbsp;
-               <%= comment_user.school%>  &nbsp;&nbsp;
-               <%= comment_user.grade%> <br>
-                
-                <% if comment_user.interests%>
-                <% comment_user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
-                <% end%>
-                <% end%>
-                
-            </div>
-          </span>
-        </div>
-        <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
-          <%= time_ago_in_words_cn(comment.created_at) %> 
-         前
-        </div>
-      </div>
         <br>
         <div class="am-g">
         <div class="am-u-sm-12 am-u-lg-12">
@@ -216,36 +132,14 @@
 
 <!-- 评论分页 -->
 
-<% if @total_page !=0%>
-	  <ul class="am-pagination">
-  <% if @page_num.to_i == 0%>
-	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
-	<% else%>
-	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" href="/post_comments?id=<%= @micropost.id%>&page_num=<%= @page_num.to_i - 1 %>">&laquo; 上一页</a></li>
-	<%end%>
-  
-  <% if @page_num.to_i == (@total_page.to_i - 1)%>
-	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
-	<% else%>
-		<li class="am-pagination-next"><a style="font-size:1.2rem;" href="/post_comments?id=<%= @micropost.id%>&page_num=<%= @page_num.to_i + 1 %>">下一页 &raquo;</a></li>
-	<%end%>
-	
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/post_comments?id=#{@micropost.id}",
+             :tips => '还没有人评论过，赶紧去评论吧！' } %>
+    
 
-  </ul>
-  <%else%>
-    <div class="am-panel-bd" >
-  
-   <!-- 没有数据提醒 -->
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
-          还没有人评论过，赶紧去评论吧！
-        </div>
-      </div>
-    </div>
-	<%end%>
-
-
-<div class="am-panel am-panel-default">
+<div class="am-panel am-panel-default" style="border:0;">
     <div class="am-panel-bd">
         
         <div class="am-g" >
@@ -270,9 +164,9 @@
   
 
   function like(id,post_id,user_id){
-    //alert(Number(obj.innerHTML));
+    //show_alert(Number(obj.innerHTML));
     //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
-    //alert(num);
+    //show_alert(num);
     //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
     //obj.addClass('animated bounceOutLeft');
     //obj.className = obj.className + "animated infinite bounceIn liked";
@@ -282,14 +176,14 @@
       data: {postid: post_id, to_user_id: user_id}
       })
       .done(function( msg ) {
-        //alert(msg);
+        //show_alert(msg);
         if(msg == 'no_login'){
-            alert("请登录后再操作");
+            show_alert("请登录后再操作");
             window.location.href = "/login";
         }else{
           var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
           $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
-          //alert($('#'+id).html());
+          //show_alert($('#'+id).html());
           $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceIn');
           });
@@ -299,9 +193,9 @@
   }
   
   function unlike(id,post_id,user_id){
-    //alert(Number(obj.innerHTML));
+    //show_alert(Number(obj.innerHTML));
     //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
-    //alert(num);
+    //show_alert(num);
     //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
     //obj.addClass('animated bounceOutLeft');
     //obj.className = obj.className + "animated infinite bounceIn liked";
@@ -311,14 +205,14 @@
       data: { postid: post_id,to_user_id: user_id}
       })
       .done(function( msg ) {
-        //alert(msg);
+        //show_alert(msg);
         if(msg == 'no_login'){
-            alert("请登录后再操作");
+            show_alert("请登录后再操作");
             window.location.href = "/login";
         }else{
           var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
           $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
-          //alert($('#'+id).html());
+          //show_alert($('#'+id).html());
           $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceIn liked');
           });
