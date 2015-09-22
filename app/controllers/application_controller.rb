@@ -101,6 +101,10 @@ class ApplicationController < ActionController::Base
           redirect_to(login_url) 
         end
         p "-----------------------session中有openid：#{session[:weixin_openid]}--------------------------------------------"
+      else
+        store_location
+        flash[:danger] = "您尚未登陆,请登录后再操作."
+        redirect_to(login_url) 
       end
       #session[:weixin_openid]
     end

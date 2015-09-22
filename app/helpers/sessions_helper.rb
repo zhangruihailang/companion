@@ -29,16 +29,16 @@ module SessionsHelper
         log_in user  #登陆并设置session
         @current_user = user
       end
-    elsif (openid = session[:weixin_openid]) #有微信用户信息
-      p "--------------------------------无session有微信openid:#{openid}-------------------------------"
-      #判断当前用户是否绑定手机号
+    # elsif (openid = session[:weixin_openid]) #有微信用户信息
+    #   p "--------------------------------无session有微信openid:#{openid}-------------------------------"
+    #   #判断当前用户是否绑定手机号
       
-      user = User.find_by(weixin_id:openid) 
-      if user && !user.mobile.blank?
-        p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
-        log_in user  #登陆并设置session
-        @current_user = user
-      end
+    #   user = User.find_by(weixin_id:openid) 
+    #   if user && !user.mobile.blank?
+    #     p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+    #     log_in user  #登陆并设置session
+    #     @current_user = user
+    #   end
     end
   end
   
