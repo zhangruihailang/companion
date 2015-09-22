@@ -49,6 +49,7 @@ module SessionsHelper
   def current_user
     #User.find_by(id: session[:user_id])
     #current_user ||= User.find_by(id:session[:user_id])
+    authenticate_openid!
     if (user_id = session[:user_id]) #有session
       p "--------------------------------有session:#{user_id}-------------------------------"
       @current_user ||= User.find_by(id: user_id)
