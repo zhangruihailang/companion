@@ -23,8 +23,8 @@
       <br>
       
       <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          <span class="am-show-md-down">
+        <div class="am-u-sm-12">
+          
             <div class="am-form-group">
               <div class="ui tiny images">
                 
@@ -51,24 +51,7 @@
                 <%end%>
               </div>
             </div>
-          </span>
-          <span class="am-hide-md-down">
-            <div class="am-form-group">
-               <div class="ui small images">
-                <% @micropost.message_pics.each do |pic|%>
-                <img class="ui image" src="http://<%=pic.file.url("400x400")%>">
-                <% end %>
-                <% if @micropost.message_pics.count < 9%>
-                <div class="am-form-group am-form-file">
-                  <!--<button type="button" class="am-btn am-btn-danger am-btn-sm">-->
-                  <!--  <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
-                    <%= image_tag('add_96.png')%>
-                    <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
-                </div>
-                <% end%>
-              </div>
-            </div>
-          </span>
+          
         </div>
       </div>
        
@@ -137,16 +120,16 @@
   
    function validate() {
      //  show_alert($('#order_amount').val()%100);
-      var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
+      // var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
       
-        if(micropost_content == ''){
-          show_alert("请写点什么吧！");
-          return false;
-        }else{
-            document.getElementById("send_message").submit();
-          //return true;
-        }
-       
+      //   if(micropost_content == ''){
+      //     show_alert("请写点什么吧！");
+      //     return false;
+      //   }else{
+            
+      //     //return true;
+      //   }
+       document.getElementById("send_message").submit();
      
   }
 </script>

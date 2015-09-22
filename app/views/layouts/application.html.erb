@@ -128,7 +128,8 @@
 <%#= javascript_include_tag "CityJson" %>
 <%#= javascript_include_tag "DistrictJson" %>
 <%# javascript_include_tag "ProJson" %>
-
+<%= stylesheet_link_tag  "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css" %>
+<%= javascript_include_tag "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js" %>
 <script>
   function goto(url){
 		window.location.href = url;
@@ -137,6 +138,8 @@
 <%#= javascript_include_tag "ajaxfileupload" %>
 <script>
 $(document).ready(function () {
+    $('#activity_starttime').datetimepicker({lang:'ch'});
+   $('#activity_endtime').datetimepicker({lang:'ch'});
   // $('#activity_starttime').datetimepicker({lang:'ch'});
   // $('#activity_endtime').datetimepicker({lang:'ch'});
   //show_alert("我的第一个jQuery代码!");

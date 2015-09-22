@@ -22,10 +22,10 @@ class ApplicationController < ActionController::Base
     def logged_in_user
       #authenticate_openid!
       unless logged_in?
-      # store_location
-      # flash[:danger] = "您尚未登陆,请登录后再操作."
-      # redirect_to(login_url) and return
-        authenticate_openid!
+      store_location
+      flash[:danger] = "您尚未登陆,请登录后再操作."
+      redirect_to(login_url) and return
+        #authenticate_openid!
       end
     end
     
