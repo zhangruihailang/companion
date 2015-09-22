@@ -13,11 +13,11 @@ module SessionsHelper
   
   #获取openid并设置session
     def authenticate_openid!
-      @headers = env.select {|k,v| k.start_with? 'HTTP_'}
-       .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
-       .collect {|pair| pair.join(": ") << "<br>"}
-       .sort
-      if @headers.to_s.downcase.include?('micromessenger')
+      # @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+      # .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+      # .collect {|pair| pair.join(": ") << "<br>"}
+      # .sort
+      #if @headers.to_s.downcase.include?('micromessenger')
         p "-----------------------微信浏览器访问--------------------------------------------"
         # 当session中没有openid时，则为非登录状态
         if session[:weixin_openid].blank?
@@ -41,7 +41,7 @@ module SessionsHelper
         end
         session[:weixin_openid]
         p "-----------------------session中有openid：#{session[:weixin_openid]}--------------------------------------------"
-      end
+      #end
       #session[:weixin_openid]
     end
     
