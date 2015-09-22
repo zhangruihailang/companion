@@ -51,7 +51,7 @@ class SessionsController < ApplicationController
       # end
       #登陆用户
       log_in @user
-      #remember @user
+      remember @user
       redirect_back_or root_url
     else
       flash.now[:danger] = "手机号或密码不正确!"

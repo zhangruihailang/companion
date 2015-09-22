@@ -26,7 +26,7 @@ module SessionsHelper
            p "----------------------------code:#{code}---------------------------------------"
           # 如果code参数为空，则为认证第一步，重定向到微信认证
           if code.nil?
-            redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{Weixin::APP_ID}&redirect_uri=#{request.url}&response_type=code&scope=snsapi_base&state=wexin"
+            redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{Weixin::APP_ID}&redirect_uri=#{request.url}&response_type=code&scope=snsapi_base&state=123"
           end
           
           #如果code参数不为空，则认证到第二步，通过code获取openid，并保存到session中
@@ -52,14 +52,14 @@ module SessionsHelper
     if (user_id = session[:user_id]) #有session
       p "--------------------------------有session:#{user_id}-------------------------------"
       @current_user ||= User.find_by(id: user_id)
-    # elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
-    #   p "--------------------------------无session，有cokkien:#{user_id}-------------------------------"
-    #   user = User.find_by(id: user_id)
-    #   if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
-    #     p "--------------------------------验证cokkie通过，登陆并设置session------------------------------"
-    #     log_in user  #登陆并设置session
-    #     @current_user = user
-    #   end
+    elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
+      p "--------------------------------无session，有cokkien:#{user_id}-------------------------------"
+      user = User.find_by(id: user_id)
+      if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
+        p "--------------------------------验证cokkie通过，登陆并设置session------------------------------"
+        log_in user  #登陆并设置session
+        @current_user = user
+      end
     elsif (openid = session[:weixin_openid]) #有微信用户信息
       p "--------------------------------无session有微信openid:#{openid}-------------------------------"
       #判断当前用户是否绑定手机号
