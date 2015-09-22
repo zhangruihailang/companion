@@ -233,6 +233,48 @@ class UsersController < ApplicationController
     
   end
   
+  def topics_of_user_replied
+    @topics = []
+    @user =  User.find(params[:id])
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.topic_comments.count(:id).to_i - 1)/page_size )+1
+
+    @comments = @user.topic_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    # p "---------------------------comment.count--------------#{ @comments.count}------------"
+    
+    @comments.each do |comment|
+      @topics.push(comment.topic) if (!comment.topic.nil? && !@topics.include?(comment.topic))
+      # p "---------------------------comment.topic--------------#{comment.topic.title}------------"
+    end
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
+  
+  def topics_of_user
+     @user =  User.find(params[:id])
+     @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@user.topics.count(:id).to_i - 1)/page_size )+1
+
+    @topics = @user.topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+  end
+  
   def edit
     @user = User.find(params[:id])
   end

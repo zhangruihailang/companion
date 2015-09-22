@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user
+  before_action :logged_in_user,except: [:activity_comments]
   skip_before_filter :verify_authenticity_token, only: [:destroy]
   before_action :correct_user, only: [:destroy, :delete_activity]
   # GET /activities

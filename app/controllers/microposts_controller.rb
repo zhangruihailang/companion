@@ -1,5 +1,5 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy, :post_comment, :to_post_comment, :post_comments]
+  before_action :logged_in_user, only: [:create, :destroy, :post_comment, :to_post_comment]
   before_action :correct_user, only: [:destroy, :delete_micropost]
   skip_before_filter :verify_authenticity_token, only: [:destroy,:like,:unlike]
   

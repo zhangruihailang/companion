@@ -1,0 +1,59 @@
+  
+  <div data-am-widget="tabs"
+       class="am-tabs am-tabs-d2"
+       data-am-tabs-noswipe="1"
+        >
+      <ul class="am-tabs-nav am-cf">
+        
+          <% if @tab_id == ''%>
+          <li class="am-active" onclick="goto('/topics_of_category')" ><a href="#">全部</a></li>
+          <% else%>
+          <li class="" onclick="goto('/topics_of_category')" ><a href="#">全部</a></li>
+          <% end%>
+          
+          <% @categories.each do |category| %>
+            <% cache category do%>
+            
+            <% if @tab_id == category.id.to_s%>
+            <li class="am-active" onclick="goto('/topics_of_category?id=<%= category.id%>')"><a href="#"><%=category.name%></a></li>
+            <% else%>
+            <li class="" onclick="goto('/topics_of_category?id=<%=category.id%>')"><a href="#"><%=category.name%></a></li>
+            <% end%>
+            
+             <% end%>
+          <% end%>
+          
+          
+      </ul>
+      <div class="am-tabs-bd">
+        
+            <% if @tab_id == ''%>
+            <div data-tab-panel-0 class="am-tab-panel am-active">
+            <%= render :partial => 'categories/topics_of_category', :locals => { :pre_url => "/topics_of_category" ,:tips => '还没有人帖，快去发布吧！'}  %>
+            </div>
+            <%else%>
+            <div data-tab-panel-0 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            <% @categories.each do |category| %>
+            <% cache category do%>
+              <% if @tab_id == category.id.to_s%>
+              <div data-tab-panel-1 class="am-tab-panel am-active">
+              <%= render :partial => 'categories/topics_of_category', :locals => { :pre_url => "/topics_of_category?id=#{category.id}" ,:tips => '还没有人发帖，快去发布吧！'}  %>
+              </div>
+              <%else%>
+              <div data-tab-panel-1 class="am-tab-panel">
+              </div>
+              <% end%>
+            <%end%>
+            <%end%>
+            
+          
+      </div>
+  </div>
+
+
+
+
+

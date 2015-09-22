@@ -125,7 +125,7 @@
    function validate(flag) {
      //  show_alert($('#order_amount').val()%100);
      $('#if_completed').val(flag);
-      var micropost_content = $('#micropost_content').val();
+      var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
       
         if(micropost_content == ''){
           show_alert("请写点什么吧！");

@@ -1,4 +1,13 @@
 <div class="am-tab-panel am-panel-default">
+ <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+  <h2 class="am-titlebar-title" style="font-size:1.6rem;color:#4A779D;">
+    <%if @user == current_user%>
+    我发布的活动
+    <%else%>
+    <%=@user.name%>发布的活动
+    <%end%>
+  </h2>
+</div> <br>
   <%= render :partial => 'activities/user_activities',
   :locals => { :pre_url => "/activities_of_user?id=#{@user.id}" ,:tips => '还没发布过活动！'}  %>
 </div>

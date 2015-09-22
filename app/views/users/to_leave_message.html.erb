@@ -56,7 +56,7 @@
   
    function validate() {
      //  show_alert($('#order_amount').val()%100);
-      var micropost_content = $('#micropost_content').val();
+      var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
       
         if(micropost_content == ''){
           show_alert("请写点什么吧！");

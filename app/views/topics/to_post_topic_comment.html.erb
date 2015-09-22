@@ -1,0 +1,84 @@
+<style>
+  .input_font {
+    font-size: 1.2rem;
+  }
+  
+  .input_font_small {
+    font-size: 1rem;
+  }
+  
+  select {
+    font-size: 1.2rem;
+  }
+  
+  select option {
+    font-size: 1.2rem;
+  }
+</style>
+<div class="am-panel am-panel-default">
+  <%#=f orm_for(@user) do |f| %>
+
+
+    <div class="am-panel-bd">
+      <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+          <h3>发表评论</h3>
+
+          <%=form_for(@topic, html: {id: 'send_message' },url: post_topic_comment_url) do |f| %>
+            <input type="hidden" id="topic_id" name="topic_id" value="<%= @topic.id%>" />
+            <%=render 'shared/error_messages', object: f.object %>
+
+
+              <div class="am-form-group">
+                
+                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" style="font-size:1.5rem;" >
+                  <% if @is_reply=='1' %>
+                    <%=p "回复 #{@comment_user.name} :\r\n "%>
+                  <% end%>
+                </textarea>
+                <%#=f .text_area :description ,:rows=> '5' %>
+              </div>
+
+              <br>
+              <div class="am-g">
+                <!--<div class="am-u-sm-12 am-u-lg-12">-->
+                <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+                <!--</div>-->
+                <div class="am-u-sm-6 am-u-lg-6">
+
+                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate();"> 发表</button>
+                  </button>
+
+                </div>
+
+
+                <div class="am-u-sm-6 am-u-lg-6">
+                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/activity_comments?id=<%= @topic.id%>')">取消</button>
+                </div>
+              </div>
+              <% end %>
+
+        </div>
+      </div>
+    </div>
+
+
+</div>
+<script>
+  function validate() {
+    //  show_alert($('#order_amount').val()%100);
+    var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
+
+    if (micropost_content == '') {
+      show_alert("请写点什么吧！");
+      return false;
+    }
+    else {
+      document.getElementById("send_message").submit();
+      //return true;
+    }
+
+
+  }
+</script>

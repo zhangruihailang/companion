@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919095544) do
+ActiveRecord::Schema.define(version: 20150922045130) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "title"
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 20150919095544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "channels", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "intro"
+    t.string   "picture"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "channels", ["user_id"], name: "index_channels_on_user_id"
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -184,6 +195,71 @@ ActiveRecord::Schema.define(version: 20150919095544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "topic_comment_likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_comment_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "topic_comment_likes", ["topic_comment_id"], name: "index_topic_comment_likes_on_topic_comment_id"
+  add_index "topic_comment_likes", ["user_id"], name: "index_topic_comment_likes_on_user_id"
+
+  create_table "topic_comments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topic_comments", ["topic_id"], name: "index_topic_comments_on_topic_id"
+  add_index "topic_comments", ["user_id"], name: "index_topic_comments_on_user_id"
+
+  create_table "topic_likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topic_likes", ["topic_id"], name: "index_topic_likes_on_topic_id"
+  add_index "topic_likes", ["user_id"], name: "index_topic_likes_on_user_id"
+
+  create_table "topic_pics", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topic_pics", ["topic_id"], name: "index_topic_pics_on_topic_id"
+
+  create_table "topic_reads", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topic_reads", ["topic_id"], name: "index_topic_reads_on_topic_id"
+  add_index "topic_reads", ["user_id"], name: "index_topic_reads_on_user_id"
+
+  create_table "topics", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.integer  "channel_id"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "topic_type"
+  end
+
+  add_index "topics", ["category_id"], name: "index_topics_on_category_id"
+  add_index "topics", ["channel_id"], name: "index_topics_on_channel_id"
+  add_index "topics", ["user_id"], name: "index_topics_on_user_id"
 
   create_table "user_comments", force: :cascade do |t|
     t.integer  "user_id"

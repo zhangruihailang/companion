@@ -111,6 +111,19 @@
       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
       <div class="am-g">
         <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+          活动时间&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+          <%= @activity.starttime.strftime("%Y-%m-%d %H:%M:%S") %><br>
+           至<br>
+          <%= @activity.endtime.strftime("%Y-%m-%d %H:%M:%S") %>
+          
+         
+        </div>
+      </div>
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+      <div class="am-g">
+        <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
           活动人数&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
         </div>
         <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
@@ -169,7 +182,7 @@
         <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
                <% if @activity.tags%>
                 <% @activity.tags.split('||').each do |tag| %>
-                <span class="am-badge am-badge-primary am-radius"><%= tag%></span>
+                <span class="am-badge <%=get_badge_style%> am-radius"><%= tag%></span>
                 <% end%>
                 <%end%>
          
@@ -207,7 +220,7 @@
               <h3 class="am-gallery-title"><strong><%= applyd_user.name%></strong> 
               <div class="am-gallery-desc" style="font-size:1rem;"> <%= time_ago_in_words_cn(apply.created_at) %> 
          前
-         <% if applyd_user==current_user%>
+         <% if logged_in? && applyd_user==current_user%>
           <br>
           <button type="button"  
            class="am-btn am-btn-danger am-radius am-btn-xs" 
@@ -296,7 +309,7 @@
               </button>
                &nbsp;
                <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
-               <% if comment.post_user_id == current_user.id || @activity.user.id == current_user.id%>
+               <% if logged_in? && (comment.post_user_id == current_user.id || @activity.user.id == current_user.id)%>
                <%= link_to "删除", {action: 'delete_activity_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
                <% end %>
             </div>

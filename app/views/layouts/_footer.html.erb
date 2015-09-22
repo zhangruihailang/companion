@@ -1,5 +1,5 @@
 
-<div class="am-modal-actions" tabindex="0"  id="my-actions">
+<div class="am-modal-actions" tabindex="0"  id="my-publish-actions">
   <div class="am-modal-actions-group">
     <ul class="am-list">
       <li class="am-modal-actions-header"><font color="#010101" >选择发布类型</font></li>
@@ -8,13 +8,30 @@
       <li >
         <a href="/publish_activity"><font color="#F3936A" >活动</font></a>
       </li>
+      <li >
+        <a href="/to_publish_topic_of_category"><font color="#F3936A" >帖子</font></a>
+      </li>
     </ul>
   </div>
   <div class="am-modal-actions-group">
     <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
   </div>
 </div>
-
+<div class="am-modal-actions" tabindex="0"  id="my-bbs-actions">
+  <div class="am-modal-actions-group">
+    <ul class="am-list">
+      <li class="am-modal-actions-header"><font color="#010101" >选择社区类型</font></li>
+      <li >
+        <a href="/show_channels"><font color="#F3936A" >官方频道</font></a></li>
+      <li >
+        <a href="/topics_of_category"><font color="#F3936A" >互动论坛</font></a>
+      </li>
+    </ul>
+  </div>
+  <div class="am-modal-actions-group">
+    <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+  </div>
+</div>
 
 <div class="am-modal-actions" tabindex="1"  id="my-more">
   <div class="am-modal-actions-group">
@@ -77,14 +94,14 @@
           </li>
           -->
           <li >
-            <a href="javascript:void(0)" class="" data-am-modal="{target: '#my-actions',closeViaDimmer:0}">
+            <a href="javascript:void(0)" class="" data-am-modal="{target: '#my-publish-actions',closeViaDimmer:0}">
                   <span class="am-icon-th-large"></span>
                 <span class="am-navbar-label" >发布</span>
             </a>
           </li>
          
           <li >
-            <a href="/topics" class="">
+           <a href="javascript:void(0)" class="" data-am-modal="{target: '#my-bbs-actions',closeViaDimmer:0}">
                   <span class="am-icon-skyatlas"></span>
                 <span class="am-navbar-label">社区</span>
             </a>
@@ -112,7 +129,7 @@
     }else{
       $('#delete_modal_li').hide();
     }
-    if(flag=='post'){
+    if(flag=='post' || flag=='topic'){
        $('#more_modal_link').html("点赞的人");
     }
     if(flag=='activity'){

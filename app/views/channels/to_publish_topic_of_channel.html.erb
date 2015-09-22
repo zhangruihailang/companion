@@ -1,0 +1,88 @@
+<style>
+  .input_font {
+    font-size: 1.2rem;
+  }
+  
+  .input_font_small {
+    font-size: 1rem;
+  }
+  
+  select {
+    font-size: 1.2rem;
+  }
+  
+  select option {
+    font-size: 1.2rem;
+  }
+</style>
+<div class="am-panel am-panel-default">
+  <%#=f orm_for(@user) do |f| %>
+
+
+    <div class="am-panel-bd">
+      <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+          <h3>我的想法</h3>
+            <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+
+          
+
+          <%=form_for(:channel, html: {id: 'send_message' },url: publish_topic_of_channel_url) do |f| %>
+            <input type="hidden" id="channel_id" name="channel_id" value="<%= @channel.id%>" />
+            <input type="hidden" id="if_completed" name="if_completed" value="" />
+
+
+              <div class="am-form-group">
+                
+                <!--<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />-->
+                <textarea rows="8" class="am-form-field input_font" name="content" id="micropost_content" style="font-size:1.5rem;" >
+                  
+                </textarea>
+                <%#=f .text_area :description ,:rows=> '5' %>
+              </div>
+
+              <br>
+               <div class="am-g">
+        <!--<div class="am-u-sm-12 am-u-lg-12">-->
+        <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+        <!--</div>-->
+            <div class="am-u-sm-4 am-u-lg-4">
+    
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('no');" >上传图片</button>
+             
+            </div>
+            <div class="am-u-sm-4 am-u-lg-4">
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('yes');" >完成</button>
+            </div>
+            
+            <div class="am-u-sm-4 am-u-lg-4">
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/')" >取消</button>
+            </div>
+          </div>
+              <% end %>
+
+        </div>
+      </div>
+    </div>
+
+
+</div>
+<script>
+     function validate(flag) {
+     //  show_alert($('#order_amount').val()%100);
+     //alert('aaa')
+     $('#if_completed').val(flag);
+      var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
+      //alert(micropost_content)
+        if(micropost_content == ''){
+          show_alert("请写点什么吧！");
+          return false;
+        }else{
+         // alert('111');
+            document.getElementById("send_message").submit();
+          //return true;
+        }
+       
+     
+  }
+</script>

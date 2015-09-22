@@ -120,7 +120,7 @@
           </button>
            &nbsp;
            <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
-           <% if comment.post_user_id == current_user.id || @micropost.user.id == current_user.id%>
+           <% if logged_in? && (comment.post_user_id == current_user.id || @micropost.user.id == current_user.id)%>
            <%= link_to "删除", {action: 'delete_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
            <% end %>
         </div>

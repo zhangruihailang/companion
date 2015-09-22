@@ -125,7 +125,7 @@
         <span id="show_interests">
                 <% if @user.interests%>
                 <% @user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <span class="am-badge <%=get_badge_style%> am-radius"><%= interest%></span>
                 <% end%>
                 <%end%>
         </span>

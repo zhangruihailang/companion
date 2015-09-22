@@ -1,0 +1,436 @@
+<%# cache @topics do%>
+<style>
+/*  .am-titlebar-hot .am-titlebar-title-hot:before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 2px;*/
+/*  top: 8px;*/
+/*  bottom: 8px;*/
+/*  border-left: 3px solid #F3936A*/
+  
+/*}*/
+/*.am-titlebar-default .am-titlebar-title:before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 2px;*/
+/*  top: 8px;*/
+/*  bottom: 8px;*/
+/*  border-left: 3px solid #7177B5*/
+/*}*/
+
+
+
+
+</style>
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .liked{
+    color:#DD514C;
+  }
+</style>
+    <% cache @topic do%>
+<div class="am-panel am-panel-default" style="border:0;">
+<div class="am-panel-bd" >
+
+      <!-- 标题和描述展示-->
+      
+      <div class="am-g" >
+        <div class="am-u-sm-12">
+          
+           <article  data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.2rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
+              <% if !@topic.title.blank?%>
+            <span style="color:#4A779D;font-size:1.6rem;" onclick="goto('/topic_comments?id=<%=@topic.id%>')">
+              <%=@topic.title  %>
+            </span><br><br>
+            <%end%>
+            <%= @topic.content%>
+           </article>
+        </div>
+      </div>
+      <br>
+      
+       <!-- 图片轮播 -->
+      
+      <%= cache @topic.topic_pics do%>
+      
+      <% if @topic.topic_pics.any?%>
+      <div class="am-g" >
+       
+        
+        <%= render :partial => "shared/pics_gallery", :locals => { :pics => @topic.topic_pics } %>
+    
+        
+      </div>
+      <% end%>
+      
+      <%end%>
+      
+     
+      <br>
+      <!-- 用户信息展示 -->
+      <div class="am-g">
+          <div class="am-u-sm-2" >
+            <% preurl = "hisProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+            <% if @topic.user.sex == "女孩"%>
+            <!--herProfile-->
+            <% preurl = "herProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+            <% end%>
+            
+            <% if !@topic.user.avatars.url.blank?%>
+            
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @topic.user.id%>')" width="30" height="30" src="http://<%=@topic.user.avatars.url("200")%>"/>
+            <% else%>
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @topic.user.id%>')" width="30" height="30" src="<%= pic_url%>"/>
+            <% end%>
+        
+            
+        </div>
+          <div class="am-u-sm-10 ">
+          
+          <div  style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1.2rem;">
+            <strong><%= @topic.user.name%></strong> &nbsp;&nbsp;<%= @topic.user.sex%>&nbsp;&nbsp;<%= @topic.user.age%>岁</div>
+          </div>
+          <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= @topic.user.province%> &nbsp;&nbsp;<%= @topic.user.city%> &nbsp;&nbsp;<%= @topic.user.district%>  &nbsp;&nbsp;<%= @topic.user.school%>  &nbsp;&nbsp;<%= @topic.user.grade%> <br>
+                
+                
+            </div>
+          
+      </div>
+      <br>
+     <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+      
+      <!-- 评论和点赞 -->
+      <div class="am-g" style="height: 15px;">
+        <div class="am-u-sm-5" align="left" style="font-size:1.2rem;text-align:left">
+       
+         <%= time_ago_in_words_cn(@topic.updated_at) %> 
+         前
+        </div>
+        <div class="am-u-sm-2" style="font-size:1.3rem;" >
+          <span class="am-icon-comments-o" 
+          onclick="goto('/topic_comments?id=<%= @topic.id%>')">
+            &nbsp;<%= @topic.topic_comments.count%></span> 
+            
+        </div>
+        <div class="am-u-sm-2" style="font-size:1.3rem;" >
+          
+          <span class="am-icon-thumbs-up" id="like_<%=@topic.id%>"
+           onclick="like('like_<%=@topic.id%>','<%= @topic.id%>');">
+            &nbsp;<%= @topic.topic_likes.count%>
+          </span> 
+         
+          
+        </div>
+        <div class="am-u-sm-3" style="font-size:1.3rem;" >
+          <% delete_flag = '0'%>
+          <% if logged_in? && !current_user.nil? && @topic.user == current_user%>
+          <% delete_flag = '1'%>
+          <%end%>
+         <span onclick="show_modal('/show_topic_likes?topic_id=<%=@topic.id%>','<%= delete_flag%>','/delete_topic?id=<%=@topic.id%>','topic')" 
+         class="am-icon-ellipsis-h" 
+         data-am-modal="{target: '#my-more'}"> &nbsp;更多</span>
+          
+        </div>
+        
+      </div>
+    <% end%>
+</div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+<%#end%>
+
+<!-- 热门评论列表区 -->
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+      <h2 class="am-titlebar-title" style="font-size:1.6rem;font-color:#F3936A">
+      热门评论
+      </h2>
+    </div> 
+    
+<% @hot5_comments.each do |comment| %>
+  <% comment_user = User.find(comment.user_id)%>
+  <% cache comment do%>
+<div class="am-panel am-panel-default" style="border:0;">
+  <div class="am-panel-bd">
+        <div class="am-g">
+        
+        <%= render :partial => "users/user_profile_display", :locals => { :user => comment_user,:time => comment.created_at } %>
+    
+        </div>
+        <br>
+        <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12">
+          
+           <article class="am-show-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.3rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+           <article class="am-hide-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.5rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+        </div>
+        </div>
+        <br>
+        <div class="am-g" >
+         <div class="am-u-sm-12 am-u-lg-12" align="right">
+           <span class="am-icon-thumbs-up" id="hotlike_<%=@topic.id%>_<%=comment.id%>"
+           onclick="comment_like('hotlike_<%=@topic.id%>_<%=comment.id%>','<%= comment.id%>');" style="font-size:1.5rem;">
+            &nbsp;<%= comment.topic_comment_likes.count%>
+          </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="button"  
+           class="am-btn am-btn-danger am-radius am-btn-xs"
+           onclick="goto('/to_post_topic_comment?topic_id=<%= @topic.id%>&to_user_id=<%=comment_user.id%>&reply=1')">
+            回复
+          </button>
+           &nbsp;
+           <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
+           <% if logged_in? && (comment.user_id == current_user.id || @topic.user.id == current_user.id)%>
+           <%= link_to "删除", {action: 'delete_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
+           <% end %>
+        </div>
+        <br>
+      </div>
+        
+    </div>
+</div>
+  <%end%>
+<%end%>
+
+
+
+
+<!-- 全部评论列表区 -->
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+      <h2 class="am-titlebar-title " style="font-size:1.6rem;color:#4A779D;">
+      全部评论
+      </h2>
+</div> 
+    
+<% @comments.each do |comment| %>
+  <% comment_user = User.find(comment.user_id)%>
+  <% cache comment do%>
+<div class="am-panel am-panel-default" style="border:0;">
+  <div class="am-panel-bd">
+        <div class="am-g">
+        
+        <%= render :partial => "users/user_profile_display", :locals => { :user => comment_user,:time => comment.created_at } %>
+    
+        </div>
+        <br>
+        <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12">
+          
+           <article class="am-show-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.3rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+           <article class="am-hide-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.5rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+        </div>
+        </div>
+        <br>
+        <div class="am-g" >
+         <div class="am-u-sm-12 am-u-lg-12" align="right">
+           <span class="am-icon-thumbs-up" id="like_<%=@topic.id%>_<%=comment.id%>"
+           onclick="comment_like('like_<%=@topic.id%>_<%=comment.id%>','<%= comment.id%>');" style="font-size:1.5rem;">
+            &nbsp;<%= comment.topic_comment_likes.count%>
+          </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="button"  
+           class="am-btn am-btn-danger am-radius am-btn-xs"
+           onclick="goto('/to_post_topic_comment?topic_id=<%= @topic.id%>&to_user_id=<%=comment_user.id%>&reply=1')">
+            回复
+          </button>
+           &nbsp;
+           <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
+           <% if logged_in? && (comment.user_id == current_user.id || @topic.user.id == current_user.id)%>
+           <%= link_to "删除", {action: 'delete_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
+           <% end %>
+        </div>
+        <br>
+      </div>
+        
+    </div>
+</div>
+  <%end%>
+<%end%>
+
+<!-- 评论分页 -->
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/topic_comments?id=#{@topic.id}",
+             :tips => '还没有人评论过，赶紧去评论吧！' } %>
+    
+
+<div class="am-panel am-panel-default" style="border:0;">
+    <div class="am-panel-bd">
+        
+        <div class="am-g" >
+        <div class="am-u-sm-12 am-u-lg-12" align="center">
+         
+          <button type="button" 
+                 class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block"
+                 onclick="goto('/to_post_topic_comment?topic_id=<%= @topic.id%>&to_user_id=<%=@topic.user.id%>&reply=0')">
+             <span class="am-icon-comment-o" ></span>
+            发评论
+            </button>
+           
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+<script>
+  
+ function like(id,topic_id){
+    $.ajax({
+      method: "post",
+      url: "topic_like",
+      data: {topicid: topic_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn');
+          });
+          $('#'+id).attr("onclick","unlike('"+id+"','"+topic_id+"');");
+        }
+      });
+  }
+  
+ function unlike(id,topic_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "post",
+      url: "topic_unlike",
+      data: { topicid: topic_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn liked');
+          });
+          $('#'+id).attr("onclick","like('"+id+"','"+topic_id+"');");
+        }
+      });
+  }
+  
+  function comment_like(id,topic_comment_id){
+    $.ajax({
+      method: "post",
+      url: "topic_comment_like",
+      data: {commentid: topic_comment_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+              var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+              $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+              //show_alert($('#'+id).html());
+              $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceIn');
+              });
+              $('#'+id).attr("onclick","comment_unlike('"+id+"','"+topic_comment_id+"');");
+              
+              if(id.indexOf('hot')>-1){
+                id = id.replace('hot',"")
+              }else{
+                id = 'hot' + id    
+              }
+              
+              var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+              $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+              //show_alert($('#'+id).html());
+              $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceIn');
+              });
+              $('#'+id).attr("onclick","comment_unlike('"+id+"','"+topic_comment_id+"');");
+        }
+      });
+  }
+  
+  function comment_unlike(id,topic_comment_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "post",
+      url: "topic_comment_unlike",
+      data: { commentid: topic_comment_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn liked');
+          });
+          $('#'+id).attr("onclick","comment_like('"+id+"','"+topic_comment_id+"');");
+          
+           if(id.indexOf('hot')>-1){
+                id = id.replace('hot',"")
+            }else{
+                id = 'hot' + id    
+            }
+            
+            var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+              $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+              //show_alert($('#'+id).html());
+              $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceIn liked');
+              });
+              $('#'+id).attr("onclick","comment_like('"+id+"','"+topic_comment_id+"');");
+        }
+      });
+  } 
+</script> 

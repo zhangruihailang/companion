@@ -34,7 +34,7 @@
                 
                 <% if @user.interests%>
                 <% @user.interests.split('||').each do |interest| %>
-                <span class="am-badge am-badge-primary am-radius"><%= interest%></span>
+                <span class="am-badge <%=get_badge_style%> am-radius"><%= interest%></span>
                 <% end%>
                 <%end%>
                     
@@ -44,9 +44,9 @@
 
         </div>
              <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
-               <span class="am-badge am-badge-primary am-radius"
+               <span class="am-badge <%=get_badge_style%> am-radius"
               onclick="goto('/followings?id=<%= @user.id%>')">关注：<span id="following"><%=@user.following.count%></span> </span><br><br>
-              <span class="am-badge am-badge-primary am-radius"
+              <span class="am-badge <%=get_badge_style%> am-radius"
               onclick="goto('/followers?id=<%= @user.id%>')">粉丝：<span id="followers"><%=@user.followers.count%></span></span>
               </div>
       </div>
@@ -96,6 +96,16 @@
    
      <%= render :partial => "shared/item_of_list", 
     :locals => { :title => "我报名的活动",:url => "/activities_of_user_applied?id=#{@user.id}"} %>
+  </li>
+   <li>
+   
+     <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "我发布的帖子",:url => "/topics_of_user?id=#{@user.id}"} %>
+  </li>
+  <li>
+   
+     <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "我回复的帖子",:url => "/topics_of_user_replied?id=#{@user.id}"} %>
   </li>
 </ul>
 <ul class="am-list am-list-static">

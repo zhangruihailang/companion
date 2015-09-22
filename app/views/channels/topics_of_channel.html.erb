@@ -1,0 +1,221 @@
+<%# cache @topics do%>
+
+
+
+
+
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .liked{
+    color:#DD514C;
+  }
+</style>
+<% @topics.each do |topic| %>
+    <% cache topic do%>
+<div class="am-panel-bd" >
+  
+    <!-- 标题和描述展示-->
+      
+      <div class="am-g" >
+        <div class="am-u-sm-12">
+          
+           <article  data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.2rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
+            <%= topic.content%>
+           </article>
+        </div>
+      </div>
+      <br>
+      
+       <!-- 图片轮播 -->
+      
+      <%= cache topic.topic_pics do%>
+      
+      <% if topic.topic_pics.any?%>
+      <div class="am-g" >
+       
+        
+        <%= render :partial => "shared/pics_gallery", :locals => { :pics => topic.topic_pics } %>
+    
+        
+      </div>
+      <% end%>
+      
+      <%end%>
+      
+     
+      <br>
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+          <div class="am-u-sm-2" >
+            <% preurl = "hisProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+            <% if topic.user.sex == "女孩"%>
+            <!--herProfile-->
+            <% preurl = "herProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+            <% end%>
+            
+            <% if !topic.user.avatars.url.blank?%>
+            
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= topic.user.id%>')" width="30" height="30" src="http://<%=topic.user.avatars.url("200")%>"/>
+            <% else%>
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= topic.user.id%>')" width="30" height="30" src="<%= pic_url%>"/>
+            <% end%>
+        
+            
+        </div>
+          <div class="am-u-sm-10 ">
+          
+          <div  style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1.2rem;">
+            <strong><%= topic.user.name%></strong> &nbsp;&nbsp;<%= topic.user.sex%>&nbsp;&nbsp;<%= topic.user.age%>岁</div>
+          </div>
+          <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= topic.user.province%> &nbsp;&nbsp;<%= topic.user.city%> &nbsp;&nbsp;<%= topic.user.district%>  &nbsp;&nbsp;<%= topic.user.school%>  &nbsp;&nbsp;<%= topic.user.grade%> <br>
+                
+                
+            </div>
+          
+      </div>
+      <br>
+  
+     
+      
+      
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+      
+      <!-- 评论和点赞 -->
+      <div class="am-g" style="height: 15px;">
+        <div class="am-u-sm-5" align="left" style="font-size:1.2rem;text-align:left">
+       
+         <%= time_ago_in_words_cn(topic.updated_at) %> 
+         前
+        </div>
+        <div class="am-u-sm-2" style="font-size:1.3rem;" >
+          <span class="am-icon-comments-o" 
+          onclick="goto('/topic_comments?id=<%= topic.id%>')">
+            &nbsp;<%= topic.topic_comments.count%></span> 
+            
+        </div>
+        <div class="am-u-sm-2" style="font-size:1.3rem;" >
+          
+          <span class="am-icon-thumbs-up" id="like_<%=topic.id%>"
+           onclick="like('like_<%=topic.id%>','<%= topic.id%>');">
+            &nbsp;<%= topic.topic_likes.count%>
+          </span> 
+         
+          
+        </div>
+        <div class="am-u-sm-3" style="font-size:1.3rem;" >
+          <% delete_flag = '0'%>
+          <% if !current_user.nil? && topic.user == current_user%>
+          <% delete_flag = '1'%>
+          <%end%>
+         <span onclick="show_modal('/show_topic_likes?topic_id=<%=topic.id%>','<%= delete_flag%>','/delete_topic?id=<%=topic.id%>','topic')" 
+         class="am-icon-ellipsis-h" 
+         data-am-modal="{target: '#my-more'}"> &nbsp;更多</span>
+          
+        </div>
+        
+      </div>
+ 
+    </div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <% end%>
+<% end%>
+<!--<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />-->
+<%#end%>
+
+<!-- 分页 -->
+
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/topics_of_channels?id=#{@channel.id}",
+             :tips => "还没有人发帖，快去发帖吧"
+            } %>
+
+
+<!-- 底部按钮 -->
+<div class="am-panel am-panel-default" style="border:0;">
+    <div class="am-panel-bd">
+        
+        <div class="am-g" >
+        <div class="am-u-sm-12 am-u-lg-12" align="center">
+         
+          <button type="button" 
+                 class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block"
+                 onclick="goto('/to_publish_topic_of_channel?channel_id=<%= @channel.id%>')">
+             <span class="am-icon-comment-o" ></span>
+            &nbsp;
+             发&nbsp;&nbsp;&nbsp;帖
+            </button>
+           
+        </div>
+        <br>
+      </div>
+    </div>
+</div>
+<script>
+  function like(id,topic_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "post",
+      url: "topic_like",
+      data: {topicid: topic_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn');
+          });
+          $('#'+id).attr("onclick","unlike('"+id+"','"+topic_id+"');");
+        }
+      });
+  }
+  
+  function unlike(id,topic_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "post",
+      url: "topic_unlike",
+      data: { topicid: topic_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn liked');
+          });
+          $('#'+id).attr("onclick","like('"+id+"','"+topic_id+"');");
+        }
+      });
+  }
+</script>

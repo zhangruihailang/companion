@@ -15,7 +15,9 @@ class User < ActiveRecord::Base
   
   has_many :activities
   has_many :user_comments
-  
+  has_many :topic_comments
+  has_many :topic_likes
+  has_many :topics
   #虚拟属性，类对象可以访问，但是不存储数据库
   attr_accessor :remember_token, :activation_token, :reset_token ,:smscode
   #before_save { self.email = email.downcase }

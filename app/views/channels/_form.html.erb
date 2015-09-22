@@ -1,0 +1,31 @@
+<%= form_for(@channel, html: { multipart: true }) do |f| %>
+  <% if @channel.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@channel.errors.count, "error") %> prohibited this channel from being saved:</h2>
+
+      <ul>
+      <% @channel.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+  <div class="field">
+    <%= f.label "标题" %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label "简介" %><br>
+    <%= f.text_area :intro %>
+  </div>
+  <div class="field">
+    <%= f.label "照片" %>
+    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png'  %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= f.submit '提交' %>
+  </div>
+<% end %>

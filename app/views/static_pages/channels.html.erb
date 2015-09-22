@@ -1,0 +1,51 @@
+
+<div class="am-panel am-panel-default" style="border:0;">
+  <hr>
+  
+  <% @channels.each do |channel|%>
+    <% cache channel do%>
+    <div class="am-panel-bd">
+    
+      <div class="am-g" onclick="goto('/topics_of_channel?id=<%=channel.id%>')"> 
+        <div class="am-u-sm-2 am-u-lg-2">
+          <span class="am-show-md-down">
+            <img width="40" height="40" src="http://<%=channel.picture.url("200x200")%>"/>
+          </span>
+          <span class="am-hide-md-down">
+            <img width="80" height="80" src="http://<%=channel.picture.url("200x200")%>"/>
+          </span>
+        </div>
+        <div class="am-u-sm-8 am-u-lg-8">
+          <span class="am-show-md-down">
+            <div style="font-size: 1.5rem;"><strong><%=channel.title%></strong></div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+              <%=channel.intro%>
+              </div>
+          </span>
+          <span class="am-hide-md-down">
+            <div style="font-size: 1.6rem;"><strong><%=channel.title%></strong></div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%=channel.intro%>
+              </div>
+          </span>
+        </div>
+        <div class="am-u-sm-2 am-u-lg-2">
+          <span class="am-show-md-down"><font size="2"><%= channel.topics.count%></font>&nbsp;&nbsp;<span class="am-icon-file-text-o"></span></span>
+          <span class="am-hide-md-down"><font size="4"><%= channel.topics.count%></font>&nbsp;&nbsp;<span class="am-icon-file-text-o"></span></span>
+        </div>
+      </div>
+    </div>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <%end%>  
+  <%end%>  
+</div>
+
+<!-- 分页 -->
+
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/show_channels?id=1",
+             :tips => "还没有频道"
+            } %>

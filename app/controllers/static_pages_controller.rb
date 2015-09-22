@@ -46,6 +46,46 @@ class StaticPagesController < ApplicationController
     
   end
   
+  
+  def topics_of_category
+    @categories = Category.all
+    
+    @tab_id = params[:id] || ''
+    
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    
+    if @tab_id == ''
+      # @topics = []
+      # Category.all.each do |category|
+      #   category.topics.each do |topic| 
+      #     @topics.push(topic)
+      #   end
+      # end
+      @topics = Topic.where(:topic_type => 'category').order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    else  
+      @topics = Category.find(@tab_id).topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    end
+   
+    
+    @total_page = ((@topics.count(:id).to_i - 1)/page_size )+1
+    
+    
+    #if @tab_id == '0'
+    #@topics = @topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    #end
+    
+    # if @tab_id == '1'
+    #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    # end
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
+  end
+  
   def activities
      @page_num = 0
     if params[:page_num]
@@ -66,6 +106,19 @@ class StaticPagesController < ApplicationController
     p "-----------------------page_num=#{@page_num}--------------------------------------"
     p "-----------------------total_page=#{@total_page}--------------------------------------"
     
+  end
+  
+  def channels
+     @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 20
+    @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
+    @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    p "-----------------------page_num=#{@page_num}--------------------------------------"
+    p "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
 end

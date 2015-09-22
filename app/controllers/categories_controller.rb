@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
   before_action :get_home_data
+  before_action :logged_in_user,only: [:to_publish_topic_of_category]
   # GET /categories
   # GET /categories.json
   def index
@@ -61,6 +62,27 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def to_publish_topic_of_category
+    @categories = Category.all
+  end
+  
+  def publish_topic_of_category
+    @category = Category.find(params[:category_id])
+    @topic = @category.topics.build(:user_id => current_user.id,:content => params[:content],:topic_type => 'category',:title => params[:title])
+     if @topic.save
+       
+      p '------------------发表成功!------------------------------'
+       
+      flash[:success] = "发表成功!"
+      redirect_to "/topics_of_category?id=#{@category.id}"
+     
+       
+     else
+       flash[:danger] = "发表失败，请重新发布!"
+       redirect_to '/to_publish_topic_of_category'
+     end
+  end
+    
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category

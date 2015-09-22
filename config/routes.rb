@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  resources :topics
+
+  resources :channels
+
   resources :activities, only: [:new, :create, :edit, :update, :destroy]
   get 'delete_activity' => 'activities#delete_activity' 
   get 'delete_micropost' => 'microposts#delete_micropost'
@@ -14,11 +18,34 @@ Rails.application.routes.draw do
 
   mount WeixinRailsMiddleware::Engine, at: "/"
   resources :projects
+ 
 
   root 'static_pages#playmates'
   get 'playmates' => 'static_pages#playmates'
   get 'topics' => 'static_pages#topics'
   get 'activities' => 'static_pages#activities'
+  get 'topics_of_category' => 'static_pages#topics_of_category'
+  
+  get 'show_channels' => 'static_pages#channels'
+  get 'topics_of_channel' => 'channels#topics_of_channel'
+  get 'to_publish_topic_of_channel' => 'channels#to_publish_topic_of_channel'
+  get 'to_publish_topic_of_category' => 'categories#to_publish_topic_of_category'
+  post 'publish_topic_of_channel' => 'channels#publish_topic_of_channel'
+  post 'publish_topic_of_category' => 'categories#publish_topic_of_category'
+  get 'to_upload_topic_pic' => 'channels#to_upload_topic_pic'
+  patch 'upload_topic_pics' => 'channels#upload_topic_pics'
+  get 'delete_topic' => 'topics#delete_topic'
+  post 'topic_like' => 'topics#like'
+  post 'topic_unlike' => 'topics#unlike'
+  get 'show_topic_likes' => 'topics#show_topic_likes'
+  get 'topic_comments' => 'topics#topic_comments'
+  get 'to_post_topic_comment' => 'topics#to_post_topic_comment'
+  get 'delete_topic_comment' => 'topics#delete_comment'
+  patch 'post_topic_comment' => 'topics#post_topic_comment'
+  post 'topic_comment_like' => 'topics#comment_like'
+  post 'topic_comment_unlike' => 'topics#comment_unlike'
+  
+  
   get 'setup' => 'users#setup'
   get 'publish_message' => 'users#publish_message'
   get 'publish_activity' => 'activities#new'
@@ -81,6 +108,8 @@ Rails.application.routes.draw do
   get 'posts_of_user' => 'users#posts_of_user'
   get 'activities_of_user' => 'users#activities_of_user'
   get 'activities_of_user_applied' => 'users#activities_of_user_applied'
+  get 'topics_of_user' => 'users#topics_of_user'
+  get 'topics_of_user_replied' => 'users#topics_of_user_replied'
   
   get 'privacy' => 'static_pages#privacy'
   get 'about_us' => 'static_pages#about_us'

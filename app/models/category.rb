@@ -3,4 +3,5 @@ class Category < ActiveRecord::Base
   #                           foreign_key: "parent_id",
   #                           dependent: :destroy
   has_many :posts
+  has_many :topics
 end
