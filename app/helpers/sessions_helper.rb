@@ -11,45 +11,13 @@ module SessionsHelper
     cookies.permanent[:remember_token] = user.remember_token
   end
   
-  #获取openid并设置session
-    def authenticate_openid!
-      # @headers = env.select {|k,v| k.start_with? 'HTTP_'}
-      # .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
-      # .collect {|pair| pair.join(": ") << "<br>"}
-      # .sort
-      #if @headers.to_s.downcase.include?('micromessenger')
-        p "-----------------------微信浏览器访问--------------------------------------------"
-        # 当session中没有openid时，则为非登录状态
-        if session[:weixin_openid].blank?
-          p "-----------------------session中没有openid--------------------------------------------"
-          code = params[:code]
-           p "----------------------------code:#{code}---------------------------------------"
-          # 如果code参数为空，则为认证第一步，重定向到微信认证
-          if code.nil?
-            redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{Weixin::APP_ID}&redirect_uri=#{request.url}&response_type=code&scope=snsapi_base&state=123"
-          end
-          
-          #如果code参数不为空，则认证到第二步，通过code获取openid，并保存到session中
-          begin
-            url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
-            openid = JSON.parse(URI.parse(url).read)["openid"]
-            session[:weixin_openid] = openid
-          rescue Exception => e
-            # 
-            flash[:errors] = "登陆失败"
-          end
-        end
-        session[:weixin_openid]
-        p "-----------------------session中有openid：#{session[:weixin_openid]}--------------------------------------------"
-      #end
-      #session[:weixin_openid]
-    end
+  
     
   #返回当前登陆用户
   def current_user
     #User.find_by(id: session[:user_id])
     #current_user ||= User.find_by(id:session[:user_id])
-    authenticate_openid!
+    #authenticate_openid!
     if (user_id = session[:user_id]) #有session
       p "--------------------------------有session:#{user_id}-------------------------------"
       @current_user ||= User.find_by(id: user_id)
