@@ -163,10 +163,11 @@ class ApplicationController < ActionController::Base
             begin
               url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
               openid = JSON.parse(URI.parse(url).read)["openid"]
-              if !openid.blank?
-                current_user.update_attributes(:weixin_id => openid);
-                Rails.logger.info "-------------------has got openid:#{openid}，and bing it to current_user:#{current_user.id}-------------------------"
-              end
+              Rails.logger.info "-------------------has got openid:#{openid}---------------------"
+              #if !openid.blank?
+              current_user.update_attributes(:weixin_id => openid);
+              Rails.logger.info "-------------------bing it to current_user:#{current_user.id}-------------------------"
+              #end
           rescue Exception => e
             # 
             flash[:errors] = "登陆失败"
