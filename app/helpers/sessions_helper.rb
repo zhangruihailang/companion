@@ -19,13 +19,13 @@ module SessionsHelper
     #current_user ||= User.find_by(id:session[:user_id])
     #authenticate_openid!
     if (user_id = session[:user_id]) #有session
-      Rails.logger.info "--------------------------------有session:#{user_id}-------------------------------"
+      Rails.logger.info "--------------------------------has session:#{user_id}-------------------------------"
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
-      Rails.logger.info "--------------------------------无session，有cokkien:#{user_id}-------------------------------"
+      Rails.logger.info "-------------------------------- not session，has cokkie:#{user_id}-------------------------------"
       user = User.find_by(id: user_id)
       if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
-        Rails.logger.info "--------------------------------验证cokkie通过，登陆并设置session------------------------------"
+        Rails.logger.info "--------------------------------cokkie got authenticated ，login and set session------------------------------"
         log_in user  #登陆并设置session
         @current_user = user
       end

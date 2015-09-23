@@ -117,6 +117,7 @@ class UsersController < ApplicationController
         @user = User.new(user_params)
         if @user.save
           log_in @user
+          remember @user
           flash[:success] = "注册成功!"
           # redirect_to @user
           # UserMailer.account_activation(@user).deliver_now
