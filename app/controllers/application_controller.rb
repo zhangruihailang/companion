@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :get_url_path
+  before_action :get_weixin_openid
   include SessionsHelper
   around_filter :rescue_record_not_found   
   #before_action :has_setup_profile
@@ -22,9 +23,9 @@ class ApplicationController < ActionController::Base
     def logged_in_user
       #authenticate_openid!
       unless logged_in?
-      store_location
-      flash[:danger] = "您尚未登陆,请登录后再操作."
-      redirect_to(login_url) and return
+        store_location
+        flash[:danger] = "您尚未登陆,请登录后再操作."
+        redirect_to(login_url) and return
         #authenticate_openid!
       end
     end
@@ -107,5 +108,39 @@ class ApplicationController < ActionController::Base
         redirect_to(login_url) 
       end
       #session[:weixin_openid]
+    end
+    
+    def get_weixin_openid
+      code = params[:code]
+      
+      if !code.nil? && !logged_in? 
+        p "------------------从公众号第一次进入,且没有登录信息----------code:#{code}---------------------------------------"
+        @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+        .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+        .collect {|pair| pair.join(": ") << "<br>"}
+        .sort
+        if @headers.to_s.downcase.include?('micromessenger')
+           p "-----------------------微信浏览器访问--------------------------------------------"
+          #如果code参数不为空，则认证到第二步，通过code获取openid，并保存到session中
+          begin
+            url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
+            openid = JSON.parse(URI.parse(url).read)["openid"]
+            # session[:weixin_openid] = openid
+            user = User.find_by(weixin_id: openid) 
+            if user && !user.mobile.blank?
+              p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+              log_in user  #登陆并设置session
+              @current_user = user
+            else
+              store_location
+              flash[:danger] = "您尚未登陆,请登录后再操作."
+              redirect_to(login_url) 
+            end
+          rescue Exception => e
+            # 
+            flash[:errors] = "登陆失败"
+          end
+        end
+      end      
     end
 end
