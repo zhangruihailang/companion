@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :get_url_path
-  before_action :get_weixin_openid
-  before_action :put_weixin_openid
+  # before_action :get_weixin_openid,except: [:upload_pics]
+  # before_action :put_weixin_openid
   include SessionsHelper
   around_filter :rescue_record_not_found   
   #before_action :has_setup_profile
