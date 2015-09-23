@@ -4,7 +4,7 @@ class MicropostsController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:destroy,:like,:unlike]
   
   before_action :get_weixin_openid,except: [:upload_pics,:upload_msg_pic]
-  before_action :put_weixin_openid,except: [:upload_pics,upload_msg_pic]
+  before_action :put_weixin_openid,except: [:upload_pics,:upload_msg_pic]
   
   def like
     @micropost = Micropost.find(params[:postid])
