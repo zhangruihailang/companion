@@ -19,23 +19,23 @@ module SessionsHelper
     #current_user ||= User.find_by(id:session[:user_id])
     #authenticate_openid!
     if (user_id = session[:user_id]) #有session
-      p "--------------------------------有session:#{user_id}-------------------------------"
+      Rails.logger.info "--------------------------------有session:#{user_id}-------------------------------"
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
-      p "--------------------------------无session，有cokkien:#{user_id}-------------------------------"
+      Rails.logger.info "--------------------------------无session，有cokkien:#{user_id}-------------------------------"
       user = User.find_by(id: user_id)
       if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
-        p "--------------------------------验证cokkie通过，登陆并设置session------------------------------"
+        Rails.logger.info "--------------------------------验证cokkie通过，登陆并设置session------------------------------"
         log_in user  #登陆并设置session
         @current_user = user
       end
     # elsif (openid = session[:weixin_openid]) #有微信用户信息
-    #   p "--------------------------------无session有微信openid:#{openid}-------------------------------"
+    #   Rails.logger.info "--------------------------------无session有微信openid:#{openid}-------------------------------"
     #   #判断当前用户是否绑定手机号
       
     #   user = User.find_by(weixin_id:openid) 
     #   if user && !user.mobile.blank?
-    #     p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+    #     Rails.logger.info "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
     #     log_in user  #登陆并设置session
     #     @current_user = user
     #   end

@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
         if amount.to_i%100==0
           #income = (amount.to_i * project.yield_yearly.to_f) / 100
           income = (((amount.to_i * project.yield_yearly.to_f) / 100) * project.investment_cycle) / 12
-          p "--------------------income=#{income}----------------------------------------------------"
+          Rails.logger.info "--------------------income=#{income}----------------------------------------------------"
           @order.income = income
           if @order.save
             redirect_to '/myFunds'

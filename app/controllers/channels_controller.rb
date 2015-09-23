@@ -19,8 +19,8 @@ class ChannelsController < ApplicationController
     @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
     @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
 
   # GET /channels/1
@@ -48,8 +48,8 @@ class ChannelsController < ApplicationController
     @total_page = ((@channel.topics.count(:id).to_i - 1)/page_size )+1
     @topics = @channel.topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def to_publish_topic_of_channel

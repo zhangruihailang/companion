@@ -106,8 +106,8 @@ class ActivitiesController < ApplicationController
     @total_page = ((@activity.activity_comments.count(:id).to_i - 1)/page_size )+1
     @activity_comments = @activity.activity_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def to_activity_comment
@@ -147,8 +147,8 @@ class ActivitiesController < ApplicationController
     @total_page = ((@activity.activity_applies.count(:id).to_i - 1)/page_size )+1
     @activity_applies = @activity.activity_applies.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
   end
   

@@ -37,7 +37,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     # files = params[:files]
     # files.each do |file|
-    #   #p "------------------------------------------------------------------------------------------"
+    #   #Rails.logger.info "------------------------------------------------------------------------------------------"
     #   attachment = Attachment.new
     #   attachment.project_id = @project.id
     #   attachment.file = file
@@ -104,12 +104,12 @@ class ProjectsController < ApplicationController
     @total_asset_not_available = Order.where("user_id = :user_id and has_payed = '0' ",user_id: current_user.id).sum("amount") + 
                    Order.where("user_id = :user_id and has_payed = '0' ",user_id: current_user.id).sum("income")
                    
-    # p "-------------------------total_income_payed:#{@total_income_payed}------------------------------------------------"
-    # p "-------------------------recent_month_income_payed:#{@recent_month_income_payed}------------------------------------------------"
-    # p "-------------------------total_income_not_payed:#{@total_income_not_payed}------------------------------------------------"
-    # p "-------------------------total_asset:#{@total_asset}------------------------------------------------"
-    # p "-------------------------total_asset_available:#{@total_asset_available}------------------------------------------------"
-    # p "-------------------------total_asset_not_available:#{@total_asset_not_available}------------------------------------------------"
+    # Rails.logger.info "-------------------------total_income_payed:#{@total_income_payed}------------------------------------------------"
+    # Rails.logger.info "-------------------------recent_month_income_payed:#{@recent_month_income_payed}------------------------------------------------"
+    # Rails.logger.info "-------------------------total_income_not_payed:#{@total_income_not_payed}------------------------------------------------"
+    # Rails.logger.info "-------------------------total_asset:#{@total_asset}------------------------------------------------"
+    # Rails.logger.info "-------------------------total_asset_available:#{@total_asset_available}------------------------------------------------"
+    # Rails.logger.info "-------------------------total_asset_not_available:#{@total_asset_not_available}------------------------------------------------"
      
  end
   
@@ -132,16 +132,16 @@ class ProjectsController < ApplicationController
     
     # def weixin_login
     #   if @headers.to_s.downcase.include?('micromessenger') #微信浏览器
-    #       p "--------------------------------微信浏览器访问------------------------------"
+    #       Rails.logger.info "--------------------------------微信浏览器访问------------------------------"
     #       code = params[:code]
     #       if code && !code.empty?
-    #         p "--------------------------------微信浏览器访问获取到code:#{code}------------------------------"
+    #         Rails.logger.info "--------------------------------微信浏览器访问获取到code:#{code}------------------------------"
     #         access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
-    #         p "----------------------url:#{access_token_url}--------------------------------"
+    #         Rails.logger.info "----------------------url:#{access_token_url}--------------------------------"
     #         response = RestClient.get access_token_url
-    #         p "--------------------------------------------------------------------------------------"
+    #         Rails.logger.info "--------------------------------------------------------------------------------------"
     #         p response.to_str
-    #         p "--------------------------------------------------------------------------------------"
+    #         Rails.logger.info "--------------------------------------------------------------------------------------"
     #         result=JSON.parse(response.to_str)  
     #         #p result  
     #         p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
@@ -151,19 +151,19 @@ class ProjectsController < ApplicationController
     #           #微信访问而来，没有设置过session和cokkie，使用将微信中的用户登陆并设置session和cokkie
     #           p   "----------------------微信访问而来，有openid:#{openid},设置session和cokkie---------------------------------------" 
     #           if (user = User.find_by(weixin_id:openid)) 
-    #             p "---------------------openid:#{openid}已经注册过，登陆并设置session和cokkie----------------------------------"
+    #             Rails.logger.info "---------------------openid:#{openid}已经注册过，登陆并设置session和cokkie----------------------------------"
     #             if user.mobile && !user.mobile.empty?
-    #               p "---------------------绑定过手机------------------------------"
+    #               Rails.logger.info "---------------------绑定过手机------------------------------"
     #               log_in user
     #               #remember user
     #               remember(user)
     #               @cure
     #             else
-    #               p "---------------------未绑定过手机------------------------------"
+    #               Rails.logger.info "---------------------未绑定过手机------------------------------"
     #               @weixin_id = openid
     #             end
     #           else
-    #             p "---------------------openid:#{openid}尚未注册过，注册，登陆并设置session和cokkie----------------------------------"
+    #             Rails.logger.info "---------------------openid:#{openid}尚未注册过，注册，登陆并设置session和cokkie----------------------------------"
     #             User.create(:weixin_id => openid,:password => "foobar", :password_confirmation => "foobar")
     #             @weixin_id = openid
     #           end
@@ -173,7 +173,7 @@ class ProjectsController < ApplicationController
     # end
     
     # def get_headers
-    #   p "===================session_helper code:#{params[:code]}======================"
+    #   Rails.logger.info "===================session_helper code:#{params[:code]}======================"
     #   @headers = env.select {|k,v| k.start_with? 'HTTP_'}
     #   .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
     #   .collect {|pair| pair.join(": ") << "<br>"}

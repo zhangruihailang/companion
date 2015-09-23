@@ -9,7 +9,7 @@ class StaticPagesController < ApplicationController
     #end
     # @projects = Project.all
     # @code = params[:code]
-    # p "---------------------@code=#{@code}-------------------------------"
+    # Rails.logger.info "---------------------@code=#{@code}-------------------------------"
     
   end
 
@@ -40,8 +40,8 @@ class StaticPagesController < ApplicationController
     #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     # end
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
     
   end
@@ -82,8 +82,8 @@ class StaticPagesController < ApplicationController
     #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     # end
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def activities
@@ -103,8 +103,8 @@ class StaticPagesController < ApplicationController
     #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     # end
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
   end
   
@@ -117,8 +117,8 @@ class StaticPagesController < ApplicationController
     @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
     @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
 end

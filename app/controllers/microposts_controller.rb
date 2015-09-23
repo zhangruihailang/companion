@@ -50,8 +50,8 @@ class MicropostsController < ApplicationController
     @total_page = ((@micropost.post_comments.count(:id).to_i - 1)/page_size )+1
     @post_comments = @micropost.post_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   
@@ -76,8 +76,8 @@ class MicropostsController < ApplicationController
     @total_page = ((@micropost.likeds.count(:id).to_i - 1)/page_size )+1
     @likeds = @micropost.likeds.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
   end
   

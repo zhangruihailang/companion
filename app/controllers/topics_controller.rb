@@ -116,8 +116,8 @@ class TopicsController < ApplicationController
     @total_page = ((@topic.topic_likes.count(:id).to_i - 1)/page_size )+1
     @likes = @topic.topic_likes.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   
@@ -147,11 +147,11 @@ class TopicsController < ApplicationController
     @total_page = ((@topic.topic_comments.count(:id).to_i - 1)/page_size )+1
     @comments = @topic.topic_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
     @hot5_comments = @topic.topic_comments.sort_by {|comment| comment.topic_comment_likes.count}.reverse[0..4]
-    p "----------------------------------------------------@hot5_comments.count:#{@hot5_comments.count}"
+    Rails.logger.info "----------------------------------------------------@hot5_comments.count:#{@hot5_comments.count}"
     
   end
   

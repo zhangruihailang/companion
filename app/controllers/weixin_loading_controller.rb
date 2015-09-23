@@ -9,7 +9,7 @@ class WeixinLoadingController < ApplicationController
   
   def goto
     goto = params[:redirect_page]
-    p "-------------------------------goto:/#{goto}----------------------------------"
+    Rails.logger.info "-------------------------------goto:/#{goto}----------------------------------"
     render text: "/#{goto}"
     # respond_to do |format|
     #   format.html { 

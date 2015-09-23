@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :get_url_path
   before_action :get_weixin_openid
+  before_action :put_weixin_openid
   include SessionsHelper
   around_filter :rescue_record_not_found   
   #before_action :has_setup_profile
@@ -39,7 +40,7 @@ class ApplicationController < ActionController::Base
     
     def get_url_path
       @url_path = URI(request.url).path
-      p "---------------------------url_path=#{@url_path}--------------------"
+      Rails.logger.info "---------------------------url_path=#{@url_path}--------------------"
     end
     
     def get_home_data
@@ -59,12 +60,12 @@ class ApplicationController < ActionController::Base
       .collect {|pair| pair.join(": ") << "<br>"}
       .sort
       if @headers.to_s.downcase.include?('micromessenger')
-        p "-----------------------微信浏览器访问--------------------------------------------"
+        Rails.logger.info "-----------------------微信浏览器访问--------------------------------------------"
         # 当session中没有openid时，则为非登录状态
         if session[:weixin_openid].blank?
-          p "-----------------------session中没有openid--------------------------------------------"
+          Rails.logger.info "-----------------------session中没有openid--------------------------------------------"
           code = params[:code]
-           p "----------------------------code:#{code}---------------------------------------"
+           Rails.logger.info "----------------------------code:#{code}---------------------------------------"
           # 如果code参数为空，则为认证第一步，重定向到微信认证
           if code.nil?
             redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{Weixin::APP_ID}&redirect_uri=#{request.url}&response_type=code&scope=snsapi_base&state=123"
@@ -77,7 +78,7 @@ class ApplicationController < ActionController::Base
             session[:weixin_openid] = openid
             user = User.find_by(weixin_id: openid) 
             if user && !user.mobile.blank?
-              p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+              Rails.logger.info "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
               log_in user  #登陆并设置session
               @current_user = user
             else
@@ -93,7 +94,7 @@ class ApplicationController < ActionController::Base
         # session[:weixin_openid]
         user = User.find_by(weixin_id: session[:weixin_openid]) 
         if user && !user.mobile.blank?
-          p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+          Rails.logger.info "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
           log_in user  #登陆并设置session
           @current_user = user
         else
@@ -101,7 +102,7 @@ class ApplicationController < ActionController::Base
           flash[:danger] = "您尚未登陆,请登录后再操作."
           redirect_to(login_url) 
         end
-        p "-----------------------session中有openid：#{session[:weixin_openid]}--------------------------------------------"
+        Rails.logger.info "-----------------------session中有openid：#{session[:weixin_openid]}--------------------------------------------"
       else
         store_location
         flash[:danger] = "您尚未登陆,请登录后再操作."
@@ -111,16 +112,17 @@ class ApplicationController < ActionController::Base
     end
     
     def get_weixin_openid
+      Rails.logger.info "-------------------------Rails.logger.info-----------------------"
       code = params[:code]
       
       if !code.nil? && !logged_in? 
-        p "------------------从公众号第一次进入,且没有登录信息----------code:#{code}---------------------------------------"
+        Rails.logger.info "------------------从公众号第一次进入,且没有登录信息----------code:#{code}---------------------------------------"
         @headers = env.select {|k,v| k.start_with? 'HTTP_'}
         .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
         .collect {|pair| pair.join(": ") << "<br>"}
         .sort
         if @headers.to_s.downcase.include?('micromessenger')
-           p "-----------------------微信浏览器访问--------------------------------------------"
+           Rails.logger.info "-----------------------微信浏览器访问--------------------------------------------"
           #如果code参数不为空，则认证到第二步，通过code获取openid，并保存到session中
           begin
             url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
@@ -128,7 +130,64 @@ class ApplicationController < ActionController::Base
             # session[:weixin_openid] = openid
             user = User.find_by(weixin_id: openid) 
             if user && !user.mobile.blank?
-              p "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+              Rails.logger.info "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
+              log_in user  #登陆并设置session
+              @current_user = user
+            else
+              store_location
+              flash[:danger] = "您尚未登陆,请登录后再操作."
+              redirect_to(login_url) 
+            end
+          rescue Exception => e
+            # 
+            flash[:errors] = "登陆失败"
+          end
+        end
+      end      
+    end
+    
+    
+    def put_weixin_openid
+      code = params[:code]
+      
+      if !code.nil? && logged_in? 
+        Rails.logger.info "------------------从公众号第一次进入,且有登录信息----------code:#{code}---------------------------------------"
+        if current_user.weixin_id.nil? || current_user.weixin_id.blank?
+          Rails.logger.info "------------------用户没有记录过weixin_id，开始记录----------------------------"
+          @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+          .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+          .collect {|pair| pair.join(": ") << "<br>"}
+          .sort
+          if @headers.to_s.downcase.include?('micromessenger')
+            Rails.logger.info "-----------------------微信浏览器访问，获取oppenid--------------------------------------------"
+            begin
+              url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
+              openid = JSON.parse(URI.parse(url).read)["openid"]
+              if !openid.blank?
+                current_user.update_attributes(:weixin_id => openid);
+                Rails.logger.info "--------------------获取到openid:#{openid}，并设置给current_user:#{current_user.id}-------------------------"
+              end
+          rescue Exception => e
+            # 
+            flash[:errors] = "登陆失败"
+          end
+          end
+        end
+        
+        @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+        .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+        .collect {|pair| pair.join(": ") << "<br>"}
+        .sort
+        if @headers.to_s.downcase.include?('micromessenger')
+           Rails.logger.info "-----------------------微信浏览器访问--------------------------------------------"
+          #如果code参数不为空，则认证到第二步，通过code获取openid，并保存到session中
+          begin
+            url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{Weixin::APP_ID}&secret=#{Weixin::APP_SECRET}&code=#{code}&grant_type=authorization_code"
+            openid = JSON.parse(URI.parse(url).read)["openid"]
+            # session[:weixin_openid] = openid
+            user = User.find_by(weixin_id: openid) 
+            if user && !user.mobile.blank?
+              Rails.logger.info "--------------------------------当前用户已绑定手机号mobile：#{user.mobile},登陆并设置session-------------------------------"
               log_in user  #登陆并设置session
               @current_user = user
             else

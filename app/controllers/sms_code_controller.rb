@@ -1,7 +1,7 @@
 class SmsCodeController < ApplicationController
   
   def send_code
-     p "---------------------------------------------------------"
+     Rails.logger.info "---------------------------------------------------------"
     sig = Digest::MD5.hexdigest(("439c50e3ccf174139c13def5a00be034"+"49ee5da5489b144012728f719ae506a7"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
     url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
     path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}"
@@ -13,7 +13,7 @@ class SmsCodeController < ApplicationController
     req.body = data
     res = https.request(req)
 
-    p "------------------------receive----#{res.body}-----------------------------------------------"
+    Rails.logger.info "------------------------receive----#{res.body}-----------------------------------------------"
     render(:nothing=>true) 
   end
   

@@ -98,8 +98,8 @@ class UsersController < ApplicationController
     #验证短信码
     
     @smscode = Smscode.find_by(mobile: params[:user][:mobile]) 
-    #p "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
-    p "----------------------------  params[:user][:smscode]:#{params[:user][:smscode]}---------------------------------------"
+    #Rails.logger.info "------------------------------session[:smscode]:#{@smscode.code}---------------------------------------"
+    Rails.logger.info "----------------------------  params[:user][:smscode]:#{params[:user][:smscode]}---------------------------------------"
     #注册过的用户不能再注册
     
     @user = User.find_by(mobile: params[:user][:mobile]) 
@@ -125,8 +125,8 @@ class UsersController < ApplicationController
           redirect_to "/setup?id=#{@user.id}"
         else
           #@user = User.new
-          #p "---------------------@user#{@user}--------------------------------------"
-          #p "---------------------@user#{@user.errors.full_messages.each{|msg| p msg} }--------------------------------------"
+          #Rails.logger.info "---------------------@user#{@user}--------------------------------------"
+          #Rails.logger.info "---------------------@user#{@user.errors.full_messages.each{|msg| p msg} }--------------------------------------"
           render 'new'
               
            #render text: "errors"
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       else
          #验证码不正确
          @user = User.new
-          p "---------------------@user#{@user}--------------------------------------"
+          Rails.logger.info "---------------------@user#{@user}--------------------------------------"
         flash[:info] = "验证码不正确"
         render 'new'
       end
@@ -156,8 +156,8 @@ class UsersController < ApplicationController
     @microposts = @user.microposts.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def followings
@@ -172,8 +172,8 @@ class UsersController < ApplicationController
     @followings = @user.active_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def followers
@@ -188,8 +188,8 @@ class UsersController < ApplicationController
     @followers = @user.passive_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def activities_of_user
@@ -205,8 +205,8 @@ class UsersController < ApplicationController
     @activities = @user.activities.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
   end
   
@@ -227,8 +227,8 @@ class UsersController < ApplicationController
     end
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
     
   end
@@ -245,16 +245,16 @@ class UsersController < ApplicationController
 
     @comments = @user.topic_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    # p "---------------------------comment.count--------------#{ @comments.count}------------"
+    # Rails.logger.info "---------------------------comment.count--------------#{ @comments.count}------------"
     
     @comments.each do |comment|
       @topics.push(comment.topic) if (!comment.topic.nil? && !@topics.include?(comment.topic))
-      # p "---------------------------comment.topic--------------#{comment.topic.title}------------"
+      # Rails.logger.info "---------------------------comment.topic--------------#{comment.topic.title}------------"
     end
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   
@@ -270,8 +270,8 @@ class UsersController < ApplicationController
     @topics = @user.topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
   end
   
@@ -329,8 +329,8 @@ class UsersController < ApplicationController
     @total_page = ((@to_user.user_comments.count(:id).to_i - 1)/page_size )+1
     @user_comments = @to_user.user_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    p "-----------------------page_num=#{@page_num}--------------------------------------"
-    p "-----------------------total_page=#{@total_page}--------------------------------------"
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def delete_message
@@ -381,16 +381,16 @@ class UsersController < ApplicationController
   #   .sort
   #   #[200, {'Content-Type' => 'text/html'}, headers]
     
-  #   p "----------------------headers:#{headers.to_s.downcase.include?('micromessenger')}------------------------------------------------------------------"
-  #   p "----------------------params[:redirect_uri]:#{params[:redirect_uri]}--------------------------------"
-  #   p "----------------------params[:code]:#{params[:code]}--------------------------------"
+  #   Rails.logger.info "----------------------headers:#{headers.to_s.downcase.include?('micromessenger')}------------------------------------------------------------------"
+  #   Rails.logger.info "----------------------params[:redirect_uri]:#{params[:redirect_uri]}--------------------------------"
+  #   Rails.logger.info "----------------------params[:code]:#{params[:code]}--------------------------------"
   #   code = params[:code]
   #   access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxad6c3ea93ded84fd&secret=a92a8e30e2caceec8c9d7d103197f2f5&code=#{code}&grant_type=authorization_code"
-  #   p "----------------------url:#{access_token_url}--------------------------------"
+  #   Rails.logger.info "----------------------url:#{access_token_url}--------------------------------"
   #   response = RestClient.get access_token_url
-  #   p "--------------------------------------------------------------------------------------"
+  #   Rails.logger.info "--------------------------------------------------------------------------------------"
   #   p response.to_str
-  #   p "--------------------------------------------------------------------------------------"
+  #   Rails.logger.info "--------------------------------------------------------------------------------------"
   #   result=JSON.parse(response.to_str)  
   #   #p result  
   #   p   "------------------------------result['access_token']:#{result['access_token']}--------------------------------------------------------" 
@@ -398,9 +398,9 @@ class UsersController < ApplicationController
   #   openid = result['openid']
   #   # userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
   #   # response = RestClient.get access_token_url
-  #   # p "--------------------------------------------------------------------------------------"
+  #   # Rails.logger.info "--------------------------------------------------------------------------------------"
   #   # p response.to_str
-  #   # p "--------------------------------------------------------------------------------------"
+  #   # Rails.logger.info "--------------------------------------------------------------------------------------"
   #   # result=JSON.parse(response.to_str)  
   #   # p   "------------------------------result['nickname']:#{result['nickname']}-----------------------------------" 
   #   # p   "------------------------------result['headimgurl']:#{result['headimgurl']}-----------------------------------" 
@@ -424,7 +424,7 @@ class UsersController < ApplicationController
     # @sms.code = @smscode
     # @sms.save
     # #Smscode.create!(:mobile =>params[:mobile],:code => @smscode) 
-    # p "-------------------#{@smscode}--------------------------"
+    # Rails.logger.info "-------------------#{@smscode}--------------------------"
     # # respond_to do |format|
     # #   #format.html { redirect_to signup_url }
     # #   #format.js { render :layout => false }
@@ -446,7 +446,7 @@ class UsersController < ApplicationController
     end
     @sms.code = @smscode
     @sms.save
-    p "----------------smscode======#{@smscode}--------------------------"
+    Rails.logger.info "----------------smscode======#{@smscode}--------------------------"
     Rails.logger.info("----------------smscode======#{@smscode}--------------------------")
     
     
@@ -473,10 +473,10 @@ class UsersController < ApplicationController
 
     req.body = data
     res = https.request(req)
-    p "------------------------receive----#{res.body}-----------------------------------------------"
+    Rails.logger.info "------------------------receive----#{res.body}-----------------------------------------------"
     Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
     respCode = JSON.parse(res.body)["resp"]["respCode"]
-    p "------------------------respCode----#{respCode}-----------------------------------------------"
+    Rails.logger.info "------------------------respCode----#{respCode}-----------------------------------------------"
     Rails.logger.info("------------------------respCode----#{respCode}-----------------------------------------------")
     if respCode && respCode == '000000'
       render :json => { :smscode => "短信验证码发送成功，请注意查收"}
