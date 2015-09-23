@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :get_url_path
+  #before_action :get_url_path
   # before_action :get_weixin_openid,except: [:upload_pics]
   # before_action :put_weixin_openid
   include SessionsHelper

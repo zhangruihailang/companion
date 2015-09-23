@@ -27,6 +27,7 @@ module SessionsHelper
       if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
         Rails.logger.info "--------------------------------cokkie got authenticated ，login and set session------------------------------"
         log_in user  #登陆并设置session
+        remember(user)
         @current_user = user
       end
     # elsif (openid = session[:weixin_openid]) #有微信用户信息
