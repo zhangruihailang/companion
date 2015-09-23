@@ -127,6 +127,8 @@ Rails.application.routes.draw do
   get 'weixin' => 'users#weixin_callback'
   
   get 'smscode' => 'sms_code#send_code'
+  
+  get 'test_upload' => 'static_pages#test_upload'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

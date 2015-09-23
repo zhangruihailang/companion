@@ -1,5 +1,6 @@
 class StaticPagesController < ApplicationController
   before_action :get_home_data
+  require 'net/http'
   def home
     #if logged_in?
     #@micropost = current_user.microposts.build
@@ -120,5 +121,7 @@ class StaticPagesController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
+  
+  
   
 end

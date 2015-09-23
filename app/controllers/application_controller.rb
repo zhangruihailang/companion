@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
     end
     
     def get_url_path
+      p "-----------------request.url:#{request.url}----------------------------"
       @url_path = URI(request.url).path
       Rails.logger.info "---------------------------url_path=#{@url_path}--------------------"
     end
