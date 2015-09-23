@@ -20,14 +20,19 @@ module SessionsHelper
     #authenticate_openid!
     if (user_id = session[:user_id]) #有session
       Rails.logger.info "--------------------------------has session:#{user_id}-------------------------------"
+      p "--------------------------------has session:#{user_id}-------------------------------"
+      
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
       Rails.logger.info "-------------------------------- not session，has cokkie:#{user_id}-------------------------------"
+      p "-------------------------------- not session，has cokkie:#{user_id}-------------------------------"
+      
       user = User.find_by(id: user_id)
       if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
         Rails.logger.info "--------------------------------cokkie got authenticated ，login and set session------------------------------"
+        p  "--------------------------------cokkie got authenticated ，login and set session------------------------------"
         log_in user  #登陆并设置session
-        remember(user)
+        #remember(user)
         @current_user = user
       end
     # elsif (openid = session[:weixin_openid]) #有微信用户信息
