@@ -6,9 +6,9 @@ module SessionsHelper
   
   #持久化用户
   def remember(user)
-    user.remember
+    # user.remember
     cookies.permanent.signed[:user_id] = user.id
-    cookies.permanent[:remember_token] = user.remember_token
+    # cookies.permanent[:remember_token] = user.remember_token
   end
   
   
@@ -23,14 +23,14 @@ module SessionsHelper
       p "--------------------------------has session:#{user_id}-------------------------------"
       
       @current_user ||= User.find_by(id: user_id)
-    elsif (user_id = cookies.signed[:user_id])#无session，有cokkie
-      Rails.logger.info "-------------------------------- not session，has cokkie:#{user_id}-------------------------------"
-      p "-------------------------------- not session，has cokkie:#{user_id}-------------------------------"
+    elsif (user_id = cookies.signed[:user_id])#无session,有cokkie
+      Rails.logger.info "-------------------------------- not session , has cokkie:#{user_id}-------------------------------"
+      p "-------------------------------- not session,has cokkie:#{user_id}-------------------------------"
       
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
-        Rails.logger.info "--------------------------------cokkie got authenticated ，login and set session------------------------------"
-        p  "--------------------------------cokkie got authenticated ，login and set session------------------------------"
+      if user #&& user.authenticated?(:remember,cookies[:remember_token])#验证cokkie
+        Rails.logger.info "--------------------------------cokkie got authenticated ,login and set session------------------------------"
+        p  "--------------------------------cokkie got authenticated ,login and set session------------------------------"
         log_in user  #登陆并设置session
         #remember(user)
         @current_user = user
