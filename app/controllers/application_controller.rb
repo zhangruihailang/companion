@@ -132,6 +132,7 @@ class ApplicationController < ActionController::Base
             if user && !user.mobile.blank?
               Rails.logger.info "----------------current_user:#{user.id} has bind mobile：#{user.mobile},login and set session-------------------------------"
               log_in user  #登陆并设置session
+              remember user
               @current_user = user
             else
               store_location
