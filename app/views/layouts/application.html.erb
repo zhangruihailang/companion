@@ -97,6 +97,7 @@
       background: #2d3e50;
     }
   </style>
+ 
 </head>
 <body>
 
@@ -131,11 +132,13 @@
 <%= stylesheet_link_tag  "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css" %>
 <%= javascript_include_tag "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js" %>
 <script>
+ 
   function goto(url){
 		window.location.href = url;
   }
 </script>
 <%#= javascript_include_tag "ajaxfileupload" %>
+
 <script>
 $(document).ready(function () {
     $('#activity_starttime').datetimepicker({lang:'ch'});
