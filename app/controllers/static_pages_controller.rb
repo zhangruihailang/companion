@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   before_action :get_home_data
-  skip_before_filter :download_pic_from_weixin
+  skip_before_filter :verify_authenticity_token, :only => [:download_pic_from_weixin]
   # require 'download'
   require 'net/http'
   def home
