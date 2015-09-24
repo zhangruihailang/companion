@@ -8,6 +8,12 @@ GIT
       json (>= 1.7)
       mime-types (>= 1.16)
 
+GIT
+  remote: git@github.com:adamluzsi/download.git
+  revision: 6de4193aeb6444e5fe2e0dbe7bd2da07c290baa3
+  specs:
+    download (1.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -76,7 +82,6 @@ GEM
     debugger-linecache (1.2.0)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
-    download (1.1.0)
     erubis (2.7.0)
     excon (0.45.3)
     execjs (2.5.2)
@@ -292,7 +297,7 @@ DEPENDENCIES
   carrierwave!
   carrierwave-upyun
   coffee-rails (= 4.1.0)
-  download
+  download!
   faker (= 1.4.2)
   fog (= 1.23.0)
   guard-minitest (= 2.3.1)
