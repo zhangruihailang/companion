@@ -25,6 +25,6 @@ module StaticPagesHelper
     # req.body = data
     res = https.request(req)
     puts "---------------------body:#{res.body}-------------------"
-    return res.body#.sub('debug: false','debug: true')
+    return res.body.gsub(/\s+/,'')#.sub('debug: false','debug: true')
   end
 end
