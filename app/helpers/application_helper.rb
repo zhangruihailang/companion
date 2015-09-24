@@ -64,10 +64,10 @@ module ApplicationHelper
     }
           
     str = res.body
-           
-    open("./#{SecureRandom.uuid.gsub("-","")}.jpg", "wb") { |file|
+    file_name = "./#{SecureRandom.uuid.gsub("-","")}.jpg"  
+    open("#{file_name}", "wb") { |file|
       file.write(res.body)
-      return file
+      return file_name
     }
     
   end

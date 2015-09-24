@@ -165,11 +165,12 @@ class MicropostsController < ApplicationController
       serverIds.split('||').each do |media_id|
         Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
 
-         file = get_file_from_wexin(access_token,media_id)
-         Rails.logger.info "---------------------file=#{file.basename}--------------------------------------"
+         file_name = get_file_from_wexin(access_token,media_id)
+         file = File.new("#{file_name}")
+         Rails.logger.info "---------------------file=#{file_name}--------------------------------------"
 
          @micropost.message_pics.create!(:file => file)
-         File.delete("./#{file.basename}")
+         File.delete("#{file_name}")
       end
     end
     
