@@ -52,15 +52,10 @@
                       
                        <% if @micropost.message_pics.count < 9%>
                       <li>
-                          <div class="am-gallery-item">
-                           
-                            <div class="am-form-group am-form-file">
-                
+                          <div class="am-gallery-item" onclick="upload_by_weixin();">
+                            
                            <img style="border:0;" src="/assets/add_64.png" />
-                          <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
-                          </div>
-                            
-                            
+                         
                           </div>
                       </li>
                        <%end%>
