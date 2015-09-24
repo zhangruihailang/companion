@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:download_pic_from_weixin]
   
   require 'net/http'
-  require 'download'
+  #require 'download'
   require 'open-uri'  
   include StaticPagesHelper
   def home
