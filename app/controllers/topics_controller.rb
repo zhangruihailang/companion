@@ -116,6 +116,7 @@ class TopicsController < ApplicationController
     @total_page = ((@topic.topic_likes.count(:id).to_i - 1)/page_size )+1
     @likes = @topic.topic_likes.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
+    fresh_when(etag: [@likes])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -152,6 +153,7 @@ class TopicsController < ApplicationController
     
     @hot5_comments = @topic.topic_comments.sort_by {|comment| comment.topic_comment_likes.count}.reverse[0..4]
     Rails.logger.info "----------------------------------------------------@hot5_comments.count:#{@hot5_comments.count}"
+    fresh_when :etag => [@comments, @hot5_comments]
     
   end
   

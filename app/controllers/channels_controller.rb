@@ -21,6 +21,8 @@ class ChannelsController < ApplicationController
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+    fresh_when(etag: [@channels])
   end
 
   # GET /channels/1
@@ -50,6 +52,8 @@ class ChannelsController < ApplicationController
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+    fresh_when(etag: [@topics])
   end
   
   def to_publish_topic_of_channel
@@ -68,7 +72,16 @@ class ChannelsController < ApplicationController
           flash[:success] = "发表成功!"
           redirect_to "/topics_of_channel?id=#{@channel.id}"
        else
-         redirect_to "/to_upload_topic_pic?topic_id=#{@topic.id}"
+         @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+           .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+           .collect {|pair| pair.join(": ") << "<br>"}
+           .sort
+            if @headers.to_s.downcase.include?('micromessenger')
+              redirect_to "/to_upload_topic_pic_weixin?topic_id=#{@topic.id}"
+            else
+              redirect_to "/to_upload_topic_pic?topic_id=#{@topic.id}"
+            end
+         
        end
        
      else
@@ -78,6 +91,10 @@ class ChannelsController < ApplicationController
   end
   
   def to_upload_topic_pic
+    @topic = Topic.find(params[:topic_id])
+  end
+  
+  def to_upload_topic_pic_weixin
     @topic = Topic.find(params[:topic_id])
   end
   
@@ -95,6 +112,29 @@ class ChannelsController < ApplicationController
      
      #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
      render 'to_upload_topic_pic'
+  end
+  
+  def upload_topic_pics_weixin
+    @topic = Topic.find(params[:topic_id])
+     
+    access_token = get_access_token
+    serverIds = params[:serverIds]
+    if serverIds
+      Rails.logger.info "-----------------------serverIds=#{serverIds}--------------------------------------"
+
+      serverIds.split('||').each do |media_id|
+        Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
+
+         file_name = get_file_from_wexin(access_token,media_id)
+         file = File.new("#{file_name}")
+         Rails.logger.info "---------------------file=#{file_name}--------------------------------------"
+
+         @topic.topic_pics.create!(:file => file)
+         File.delete("#{file_name}")
+      end
+    end
+     #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
+     redirect_to "/to_upload_topic_pic_weixin?topic_id=#{@topic.id}"
   end
   
   def delete_channel_topic

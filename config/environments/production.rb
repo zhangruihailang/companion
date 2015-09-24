@@ -92,4 +92,6 @@ Rails.application.configure do
     :user_name => "zhangruihailang@163.com",
     :password => "090125lz090125lz"
   }
+  
+  config.middleware.use(Rack::ImageAssetsCacheControl)
 end

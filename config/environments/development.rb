@@ -44,4 +44,6 @@ Rails.application.configure do
   host = 'rails-tutorial-zhangruihailang.c9.io'
   #config.action_controller.asset_host = "threejed-ass.b0.upaiyun.com"
   config.action_mailer.default_url_options = { host: host }
+  
+  config.middleware.use(Rack::ImageAssetsCacheControl)
 end

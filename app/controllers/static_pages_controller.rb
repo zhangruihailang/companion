@@ -49,6 +49,7 @@ class StaticPagesController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
+    fresh_when(etag: [@microposts])
     
   end
   
@@ -87,7 +88,7 @@ class StaticPagesController < ApplicationController
     # if @tab_id == '1'
     #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     # end
-    
+    fresh_when(etag: [@topics])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -104,7 +105,7 @@ class StaticPagesController < ApplicationController
     #if @tab_id == '0'
       @activities = Activity.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     #end
-    
+    fresh_when(etag: [@activities])
     # if @tab_id == '1'
     #   @microposts = Micropost.where( : => 'Ruby' ).order("updated_at").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     # end
@@ -125,6 +126,8 @@ class StaticPagesController < ApplicationController
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+    fresh_when(etag: [@channels])
   end
   
   def test_upload

@@ -72,6 +72,7 @@
   }
   function upload_by_weixin(){
     wx.chooseImage({
+        count: 1, 
         sizeType: ['compressed'], 
         success: function (res) {
             var localIds = res.localIds;
