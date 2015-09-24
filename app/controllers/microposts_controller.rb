@@ -160,8 +160,14 @@ class MicropostsController < ApplicationController
     access_token = get_access_token
     serverIds = params[:serverIds]
     if serverIds
+      Rails.logger.info "-----------------------serverIds=#{serverIds}--------------------------------------"
+
       serverIds.split('||').each do |midia_id|
+        Rails.logger.info "---------------------midia_id=#{midia_id}--------------------------------------"
+
          file = get_file_from_wexin(access_token,media_id)
+         Rails.logger.info "---------------------file=#{file.name}--------------------------------------"
+
          @micropost.message_pics.create!(:file => file)
          File.delete("./#{file.name}")
       end
@@ -180,7 +186,10 @@ class MicropostsController < ApplicationController
     # end
      
      #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
-     render 'upload_msg_pic_weixin'
+    # render 'upload_msg_pic_weixin'
+    Rails.logger.info "-----------------------redirect_to=/upload_msg_pic_weixin?id=#{@micropost.id}--------------------------------------"
+
+    redirect_to "/upload_msg_pic_weixin?id=#{@micropost.id}"
   end
   
   def destroy

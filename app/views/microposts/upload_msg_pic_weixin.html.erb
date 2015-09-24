@@ -6,7 +6,7 @@
 
 <%= form_for(@micropost, :url => {:action => 'upload_pics_weixin'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
 <input name="message_id" type="hidden" value="<%= @micropost.id%>" />
-<input name="serverIds" type="hidden" value="" />
+<input name="serverIds" type="hidden" id="serverIds" value="" />
 <%= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
     <div class="am-panel-bd" >
