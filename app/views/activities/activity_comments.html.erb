@@ -100,20 +100,20 @@
           <div class="am-accordion-content">
             
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     活动地点&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                     <%= @activity.place%>
                    
                   </div>
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     活动时间&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                     <%= @activity.starttime.strftime("%Y-%m-%d %H:%M:%S") %><br>
                      至<br>
                     <%= @activity.endtime.strftime("%Y-%m-%d %H:%M:%S") %>
@@ -123,30 +123,30 @@
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     活动人数&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                    <%= @activity.number_of_people%>&nbsp;&nbsp;人
                    
                   </div>
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     报名上限&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                    <%= @activity.apply_up_limit%>&nbsp;&nbsp;人
                    
                   </div>
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     费用类型&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                    <%= @activity.pay_type%>
                    
                   </div>
@@ -154,10 +154,10 @@
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <% if @activity.pay_type == 'AA'%>
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     人均费用&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                    <%= @activity.average_cost%>&nbsp;&nbsp;元
                    
                   </div>
@@ -165,10 +165,10 @@
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <%end%>
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     联系方式&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                    <%= @activity.user.mobile%>
                    
                   </div>
@@ -176,10 +176,10 @@
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
                 <% if @activity.tags%>
                 <div class="am-g">
-                  <div class="am-u-sm-4 am-u-lg-4" align="right" style="font-size:1.5rem;">
+                  <div class="am-u-sm-5 am-u-lg-5" align="left" style="font-size:1.5rem;">
                     活动标签&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
                   </div>
-                  <div class="am-u-sm-8 am-u-lg-8" align="left" style="font-size:1.5rem;text-align:left">
+                  <div class="am-u-sm-7 am-u-lg-7" align="left" style="font-size:1.5rem;text-align:left">
                          <% if @activity.tags%>
                           <% @activity.tags.split('||').each do |tag| %>
                           <span class="am-badge <%=get_badge_style%> am-radius"><%= tag%></span>
