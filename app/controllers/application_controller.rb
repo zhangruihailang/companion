@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # before_action :get_weixin_openid,except: [:upload_pics]
   # before_action :put_weixin_openid
   include SessionsHelper
+  include ApplicationHelper
   around_filter :rescue_record_not_found   
   #before_action :has_setup_profile
   

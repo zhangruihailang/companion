@@ -23,4 +23,50 @@ module ApplicationHelper
     end
   end
   
+  def get_weixin_js
+      #如果有GET请求参数直接写在URI地址中  
+    url = URI.parse('http://www.charmdate.cn:9090/Charm/upload/weixin_js.jsp')
+    path = "/Charm/upload/weixin_js.jsp"
+    https = Net::HTTP.new(url.host,url.port)
+    https.use_ssl = false    
+    # req = Net::HTTP::Post.new(path，{'url' => request.url})
+    req = Net::HTTP::Post.new("#{path}?url=#{request.url}")
+    #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
+    # req.body = data
+    res = https.request(req)
+    puts "---------------------body:#{res.body}-------------------"
+    return res.body.sub('debug: false','debug: true')
+  end
+  
+  def get_access_token
+    url = URI.parse('http://www.charmdate.cn:9090/Charm/upload/weixin_token.jsp')
+    path = "/Charm/upload/weixin_token.jsp"
+    https = Net::HTTP.new(url.host,url.port)
+    https.use_ssl = false    
+    # req = Net::HTTP::Post.new(path，{'url' => request.url})
+    req = Net::HTTP::Post.new("#{path}?url=#{request.url}")
+    #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
+    # req.body = data
+    res = https.request(req)
+    puts "---------------------body:#{res.body}-------------------"
+    return res.body.gsub(/\s+/,'')#.sub('debug: false','debug: true')
+  end
+  
+  def get_file_from_wexin(access_token,media_id)
+    url_path = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=#{access_token}&media_id=#{media_id}"  
+    path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{media_id}"
+    url = URI.parse('http://test/testapi?wsdl')
+    res = Net::HTTP.start(url_path.host, url_path.port) {|http|
+      http.get(path)
+    }
+          
+    str = res.body
+           
+    open("./#{SecureRandom.uuid.gsub("-","")}.jpg", "wb") { |file|
+      file.write(res.body)
+      return file
+    }
+    
+  end
+  
 end

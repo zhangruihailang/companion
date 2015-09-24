@@ -111,7 +111,16 @@ class MicropostsController < ApplicationController
           flash[:success] = "发表成功!"
           redirect_to "/"
        else
-         redirect_to "/upload_msg_pic?id=#{@micropost.id}"
+        @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+           .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+           .collect {|pair| pair.join(": ") << "<br>"}
+           .sort
+            if @headers.to_s.downcase.include?('micromessenger')
+              redirect_to "/upload_msg_pic_weixin?id=#{@micropost.id}"
+            else
+              redirect_to "/upload_msg_pic?id=#{@micropost.id}"
+            end
+         
        end
        
      else
@@ -122,6 +131,10 @@ class MicropostsController < ApplicationController
   end
   
   def upload_msg_pic
+    @micropost = Micropost.find(params[:id])
+  end
+  
+  def upload_msg_pic_weixin
     @micropost = Micropost.find(params[:id])
   end
   
@@ -140,6 +153,34 @@ class MicropostsController < ApplicationController
      
      #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
      render 'upload_msg_pic'
+  end
+  
+  def upload_pics_weixin
+    @micropost = Micropost.find(params[:message_id])
+    access_token = get_access_token
+    serverIds = params[:serverIds]
+    if serverIds
+      serverIds.split('||').each do |midia_id|
+         file = get_file_from_wexin(access_token,media_id)
+         @micropost.message_pics.create!(:file => file)
+         File.delete("./#{file.name}")
+      end
+    end
+    
+   
+   
+    # if params[:files] && params[:files].any? 
+    #     params[:files].each do |file|
+    #     #@attachment = @micropost.message_pic.create!(:file => file)
+    #     @attachment = @micropost.message_pics.new
+    #     @attachment.file = file
+    #     @attachment.save
+    #     #@pic_urls += ",#{@attachment.file.url('400')}"
+    #     end
+    # end
+     
+     #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
+     render 'upload_msg_pic_weixin'
   end
   
   def destroy

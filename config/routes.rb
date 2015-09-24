@@ -58,10 +58,12 @@ Rails.application.routes.draw do
   post 'send_sms_code' => 'users#send_sms_code'
   post 'upload_mirco_pics' => 'users#upload_mirco_pics'
   get 'upload_msg_pic' => 'microposts#upload_msg_pic'
+  get 'upload_msg_pic_weixin' => 'microposts#upload_msg_pic_weixin'
   #get 'upload_activity_pic' => 'activities#upload_activity_pic'
   
   get 'upload_activity_pic' => 'activities#upload_activity_pic'
   patch 'upload_msg_pics' => 'microposts#upload_pics'
+  patch 'upload_msg_pics_weixin' => 'microposts#upload_pics_weixin'
   post 'upload_activity_pics' => 'activities#upload_pics'
   post 'upload_user_avatar' => 'users#upload_user_avatar'
   get 'loading' => 'weixin_loading#show'

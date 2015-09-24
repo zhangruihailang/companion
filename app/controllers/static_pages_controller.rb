@@ -4,6 +4,7 @@ class StaticPagesController < ApplicationController
   
   require 'net/http'
   require 'download'
+  require 'open-uri'  
   include StaticPagesHelper
   def home
     #if logged_in?
@@ -126,17 +127,55 @@ class StaticPagesController < ApplicationController
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
+  def test_upload
+    url_path = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=RNreawiHDYuUciBc6FebZgxGawDUezuQ2TT1EdntQ7AGdifmTzmJp27YcR2NJF_SMGPU-izG3ontGKC6rLrQgRQs-4DNmt9u7d0vDwonJcU&media_id=o9lECDGjp2nmF8vGujEc-4rWNEUskaorBI6VC1Gf77xPbAyHCCQ6cA6bvM_maO_j"  
+    path = "/cgi-bin/media/get?access_token=RNreawiHDYuUciBc6FebZgxGawDUezuQ2TT1EdntQ7AGdifmTzmJp27YcR2NJF_SMGPU-izG3ontGKC6rLrQgRQs-4DNmt9u7d0vDwonJcU&media_id=o9lECDGjp2nmF8vGujEc-4rWNEUskaorBI6VC1Gf77xPbAyHCCQ6cA6bvM_maO_j"
+    url = URI.parse(url_path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+        http.get(path)
+      }
+    
+    str = res.body
+     
+      open("./test.jpg", "wb") { |file|
+        file.write(res.body)
+        @user = User.find(3)
+        @micropost = @user.microposts.create!(:content => '测试图片')
+         @micropost.message_pics.create!(:file => file)
+        # @attachment = @micropost.message_pics.new
+        # @attachment.file = file
+        # @attachment.save
+       }
+
+  end
+  
   def download_pic_from_weixin
     midia_id = params[:midia_id]
     access_token = get_access_token
-    uri_path = "http://file.api.weixin.qq.com"
-    target_local_file_path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{midia_id}"
-    Rails.logger.info "---------------------------midia_id:#{midia_id}-----------------------------------"
-    Rails.logger.info "---------------------------access_token:#{access_token}-----------------------------------"
-    Rails.logger.info "---------------------------uri_path:#{uri_path}-----------------------------------"
-    Rails.logger.info "---------------------------target_local_file_path:#{target_local_file_path}-----------------------------------"
-    file = Download.file(uri_path,target_local_file_path)
-    render :json => { :smscode => "#{file.path}"}
+    # uri_path = "http://file.api.weixin.qq.com"
+    # target_local_file_path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{midia_id}"
+    # Rails.logger.info "---------------------------midia_id:#{midia_id}-----------------------------------"
+    # Rails.logger.info "---------------------------access_token:#{access_token}-----------------------------------"
+    # Rails.logger.info "---------------------------uri_path:#{uri_path}-----------------------------------"
+    # Rails.logger.info "---------------------------target_local_file_path:#{target_local_file_path}-----------------------------------"
+    # file = Download.file(uri_path,target_local_file_path)
+    # render :json => { :smscode => "#{file.path}"}
+    url_path = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=RNreawiHDYuUciBc6FebZgxGawDUezuQ2TT1EdntQ7AGdifmTzmJp27YcR2NJF_SMGPU-izG3ontGKC6rLrQgRQs-4DNmt9u7d0vDwonJcU&media_id=o9lECDGjp2nmF8vGujEc-4rWNEUskaorBI6VC1Gf77xPbAyHCCQ6cA6bvM_maO_j"  
+    path = "/cgi-bin/media/get?access_token=RNreawiHDYuUciBc6FebZgxGawDUezuQ2TT1EdntQ7AGdifmTzmJp27YcR2NJF_SMGPU-izG3ontGKC6rLrQgRQs-4DNmt9u7d0vDwonJcU&media_id=o9lECDGjp2nmF8vGujEc-4rWNEUskaorBI6VC1Gf77xPbAyHCCQ6cA6bvM_maO_j"
+    url = URI.parse('http://test/testapi?wsdl')
+    res = Net::HTTP.start(url_path.host, url_path.port) {|http|
+        http.get(path)
+      }
+    
+    str = res.body
+     
+    open("./test.jpg", "wb") { |file|
+      file.write(res.body)
+      @user = User.find(3)
+      @micropost = @user.microposts.create!(:content => '测试图片')
+      @micropost.message_pic.create!(:file => file)
+    }
+
   end
   
 end
