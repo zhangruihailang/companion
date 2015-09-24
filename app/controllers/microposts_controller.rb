@@ -166,10 +166,10 @@ class MicropostsController < ApplicationController
         Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
 
          file = get_file_from_wexin(access_token,media_id)
-         Rails.logger.info "---------------------file=#{file.name}--------------------------------------"
+         Rails.logger.info "---------------------file=#{file.basename}--------------------------------------"
 
          @micropost.message_pics.create!(:file => file)
-         File.delete("./#{file.name}")
+         File.delete("./#{file.basename}")
       end
     end
     
