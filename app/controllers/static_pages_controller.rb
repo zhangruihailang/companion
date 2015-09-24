@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   before_action :get_home_data
-  require 'download'
+  # require 'download'
   require 'net/http'
   def home
     #if logged_in?

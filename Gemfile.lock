@@ -76,6 +76,7 @@ GEM
     debugger-linecache (1.2.0)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
+    download (1.1.0)
     erubis (2.7.0)
     excon (0.45.3)
     execjs (2.5.2)
@@ -291,6 +292,7 @@ DEPENDENCIES
   carrierwave!
   carrierwave-upyun
   coffee-rails (= 4.1.0)
+  download
   faker (= 1.4.2)
   fog (= 1.23.0)
   guard-minitest (= 2.3.1)
