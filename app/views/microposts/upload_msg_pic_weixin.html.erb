@@ -108,6 +108,7 @@
   
   function upload_by_weixin(){
     wx.chooseImage({
+        sizeType: [ 'compressed'], 
         success: function (res) {
             var localIds = res.localIds;
             syncUpload(localIds);
@@ -133,7 +134,7 @@ var syncUpload = function(localIds){
             if(localIds.length > 0){
                  syncUpload(localIds);
             }else{
-              alert("serverIds:"+serverIds);
+             // alert("serverIds:"+serverIds);
               $('#serverIds').val(serverIds);
               document.getElementById("send_message").submit();
             }
