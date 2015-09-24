@@ -1,5 +1,6 @@
 class StaticPagesController < ApplicationController
   before_action :get_home_data
+  require 'download'
   require 'net/http'
   def home
     #if logged_in?
@@ -122,6 +123,17 @@ class StaticPagesController < ApplicationController
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
-  
+  def download_pic_from_weixin
+    midia_id = params[:midia_id]
+    access_token = get_access_token
+    uri_path = "http://file.api.weixin.qq.com"
+    target_local_file_path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{midia_id}"
+    Rails.logger.info "---------------------------midia_id:#{midia_id}-----------------------------------"
+    Rails.logger.info "---------------------------access_token:#{access_token}-----------------------------------"
+    Rails.logger.info "---------------------------uri_path:#{uri_path}-----------------------------------"
+    Rails.logger.info "---------------------------target_local_file_path:#{target_local_file_path}-----------------------------------"
+    file = Download.file(uri_path,target_local_file_path)
+    render :json => { :smscode => "#{file.path}"}
+  end
   
 end

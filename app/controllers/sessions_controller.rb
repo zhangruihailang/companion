@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  require 'download'
+ 
   
   def new
   end
@@ -66,17 +66,6 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
   
-  def download_pic_from_weixin
-    midia_id = params[:midia_id]
-    access_token = get_access_token
-    uri_path = "http://file.api.weixin.qq.com"
-    target_local_file_path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{midia_id}"
-    p "---------------------------midia_id:#{midia_id}-----------------------------------"
-    p "---------------------------access_token:#{access_token}-----------------------------------"
-    p "---------------------------uri_path:#{uri_path}-----------------------------------"
-    p "---------------------------target_local_file_path:#{target_local_file_path}-----------------------------------"
-    file = Download.file(uri_path,target_local_file_path)
-    render :json => { :smscode => "#{file.path}"}
-  end
+  
   
 end
