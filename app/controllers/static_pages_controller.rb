@@ -3,6 +3,7 @@ class StaticPagesController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:download_pic_from_weixin]
   # require 'download'
   require 'net/http'
+  include StaticPagesHelper
   def home
     #if logged_in?
     #@micropost = current_user.microposts.build
