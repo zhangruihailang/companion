@@ -1,4 +1,7 @@
 module ApplicationHelper
+  require 'net/http'
+  require 'open-uri'
+  
   def full_title(page_title='')
     base_title ="三晋E贷"
     if page_title.empty?
@@ -55,8 +58,8 @@ module ApplicationHelper
   def get_file_from_wexin(access_token,media_id)
     url_path = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=#{access_token}&media_id=#{media_id}"  
     path = "/cgi-bin/media/get?access_token=#{access_token}&media_id=#{media_id}"
-    url = URI.parse('http://test/testapi?wsdl')
-    res = Net::HTTP.start(url_path.host, url_path.port) {|http|
+    url = URI.parse(url_path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
       http.get(path)
     }
           
