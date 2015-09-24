@@ -57,7 +57,7 @@ class MicropostsController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
-    fresh_when(etag: [@post_comments])
+    #fresh_when(etag: [@post_comments])
 
   end
   
@@ -86,7 +86,7 @@ class MicropostsController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
       
-    fresh_when(etag: [@likeds])
+    #fresh_when(etag: [@likeds])
 
   end
   

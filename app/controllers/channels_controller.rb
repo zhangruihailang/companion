@@ -22,7 +22,7 @@ class ChannelsController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
-    fresh_when(etag: [@channels])
+    #fresh_when(etag: [@channels])
   end
 
   # GET /channels/1
@@ -53,7 +53,7 @@ class ChannelsController < ApplicationController
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
-    fresh_when(etag: [@topics])
+    #fresh_when(etag: [@topics])
   end
   
   def to_publish_topic_of_channel

@@ -145,7 +145,7 @@ class ActivitiesController < ApplicationController
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
-    fresh_when(etag: [@activity_comments])
+    #fresh_when(etag: [@activity_comments])
 
   end
   
@@ -188,7 +188,7 @@ class ActivitiesController < ApplicationController
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
-    fresh_when(etag: [@activity_applies])
+    #fresh_when(etag: [@activity_applies])
   end
   
   def apply_activity

@@ -156,7 +156,7 @@ class UsersController < ApplicationController
 
     @microposts = @user.microposts.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    fresh_when(etag: [@microposts])
+    #fresh_when(etag: [@microposts])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -172,7 +172,7 @@ class UsersController < ApplicationController
 
     @followings = @user.active_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    fresh_when(etag: [@followings])
+    #fresh_when(etag: [@followings])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -188,7 +188,7 @@ class UsersController < ApplicationController
 
     @followers = @user.passive_relationships.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    fresh_when(etag: [@followers])
+    #fresh_when(etag: [@followers])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -205,7 +205,7 @@ class UsersController < ApplicationController
 
     @activities = @user.activities.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    fresh_when(etag: [@activities])
+    #fresh_when(etag: [@activities])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
@@ -226,7 +226,7 @@ class UsersController < ApplicationController
     @applies.each do |apply|
       @activities.push(apply.activity)
     end
-    fresh_when(etag: [@activities])
+    #fresh_when(etag: [@activities])
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
@@ -253,7 +253,7 @@ class UsersController < ApplicationController
       # Rails.logger.info "---------------------------comment.topic--------------#{comment.topic.title}------------"
     end
     
-    fresh_when(etag: [@topics])
+    #fresh_when(etag: [@topics])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
@@ -270,7 +270,7 @@ class UsersController < ApplicationController
 
     @topics = @user.topics.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
-    fresh_when(etag: [@topics])
+    #fresh_when(etag: [@topics])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
@@ -363,7 +363,7 @@ class UsersController < ApplicationController
     page_size = 5
     @total_page = ((@to_user.user_comments.count(:id).to_i - 1)/page_size )+1
     @user_comments = @to_user.user_comments.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
-    fresh_when(etag: [@user_comments])
+    #fresh_when(etag: [@user_comments])
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
