@@ -62,10 +62,13 @@ Rails.application.routes.draw do
   #get 'upload_activity_pic' => 'activities#upload_activity_pic'
   
   get 'upload_activity_pic' => 'activities#upload_activity_pic'
+  get 'upload_activity_pic_weixin' => 'activities#upload_activity_pic_weixin'
   patch 'upload_msg_pics' => 'microposts#upload_pics'
   patch 'upload_msg_pics_weixin' => 'microposts#upload_pics_weixin'
   post 'upload_activity_pics' => 'activities#upload_pics'
+  post 'upload_activity_pics_weixin' => 'activities#upload_pics_weixin'
   post 'upload_user_avatar' => 'users#upload_user_avatar'
+  post 'upload_user_avatar_weixin' => 'users#upload_user_avatar_weixin'
   get 'loading' => 'weixin_loading#show'
   post 'goto' => 'weixin_loading#goto'
   get 'myFunds' => 'projects#myFunds'
@@ -97,6 +100,7 @@ Rails.application.routes.draw do
   get 'cancel_activity_apply' => 'activities#cancel_activity_apply'
   
   get 'to_upload_user_avatar' => 'users#to_upload_user_avatar'
+  get 'to_upload_user_avatar_weixin' => 'users#to_upload_user_avatar_weixin'
   
   resources :users , only: [:new, :create, :edit, :update,:myProfile]do
     # member do

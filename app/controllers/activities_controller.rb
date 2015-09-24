@@ -33,7 +33,16 @@ class ActivitiesController < ApplicationController
           flash[:success] = "发布成功!"
           redirect_to "/activities"
        else
-         redirect_to "/upload_activity_pic?id=#{@activity.id}"
+         #redirect_to "/upload_activity_pic?id=#{@activity.id}"
+         @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+           .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+           .collect {|pair| pair.join(": ") << "<br>"}
+           .sort
+            if @headers.to_s.downcase.include?('micromessenger')
+              redirect_to "/upload_activity_pic_weixin?id=#{@activity.id}"
+            else
+              redirect_to "/upload_activity_pic?id=#{@activity.id}"
+            end
        end
        
     else
@@ -55,6 +64,10 @@ class ActivitiesController < ApplicationController
     
     @activity = Activity.find(params[:id])
     #render 'upload_activity_pic'
+  end
+  
+  def upload_activity_pic_weixin
+    @activity = Activity.find(params[:id])
   end
   
   def test
@@ -79,6 +92,30 @@ class ActivitiesController < ApplicationController
 
      #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
      render 'upload_activity_pic'
+  end
+  
+  def upload_pics_weixin
+    
+    @activity = Micropost.find(params[:activity_id])
+    access_token = get_access_token
+    serverIds = params[:serverIds]
+    if serverIds
+      Rails.logger.info "-----------------------serverIds=#{serverIds}--------------------------------------"
+
+      serverIds.split('||').each do |media_id|
+        Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
+
+         file_name = get_file_from_wexin(access_token,media_id)
+         file = File.new("#{file_name}")
+         Rails.logger.info "---------------------file=#{file_name}--------------------------------------"
+
+         @activity.activity_pics.create!(:file => file)
+         File.delete("#{file_name}")
+      end
+    end
+    
+    redirect_to "/upload_activity_pic_weixin?id=#{@activity.id}"
+    
   end
   # PATCH/PUT /activities/1
   # PATCH/PUT /activities/1.json

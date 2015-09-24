@@ -289,6 +289,17 @@ class UsersController < ApplicationController
   end
   
   def to_upload_user_avatar
+    @user = current_user || User.find(params[:id])
+    @headers = env.select {|k,v| k.start_with? 'HTTP_'}
+           .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+           .collect {|pair| pair.join(": ") << "<br>"}
+           .sort
+    if @headers.to_s.downcase.include?('micromessenger')
+      render "to_upload_user_avatar_weixin"
+    end
+  end
+  
+  def to_upload_user_avatar_weixin
      @user = current_user || User.find(params[:id])
   end
   
@@ -303,6 +314,29 @@ class UsersController < ApplicationController
      
      #flash[:notice] = "您可以继续选择图片上传或者点击完成按钮"
      render 'to_upload_user_avatar'
+  end
+  
+  def upload_user_avatar_weixin
+    @user = current_user || User.find(params[:user_id])
+    access_token = get_access_token
+    serverIds = params[:serverIds]
+    if serverIds
+      Rails.logger.info "-----------------------serverIds=#{serverIds}--------------------------------------"
+
+      serverIds.split('||').each do |media_id|
+        Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
+
+         file_name = get_file_from_wexin(access_token,media_id)
+         file = File.new("#{file_name}")
+         Rails.logger.info "---------------------file=#{file_name}--------------------------------------"
+
+         #@activity.activity_pics.create!(:file => file)
+         @user.update_attributes(:avatars => file)
+         File.delete("#{file_name}")
+      end
+    end
+    
+    redirect_to "/to_upload_user_avatar_weixin?id=#{@user.id}"
   end
   
   

@@ -2,44 +2,30 @@
 <%= stylesheet_link_tag  "image.min" %>
 <%= stylesheet_link_tag  "segment.min" %>
  <%= get_weixin_js.html_safe %>
-<% cache @micropost do%>
-
-<%= form_for(@micropost, :url => {:action => 'upload_pics_weixin'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
-<input name="message_id" type="hidden" value="<%= @micropost.id%>" />
+<%= form_for(:activity, :url => {:action => 'upload_pics_weixin'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<input name="activity_id" type="hidden" value="<%= @activity.id%>" />
 <input name="serverIds" type="hidden" id="serverIds" value="" />
-<%= render 'shared/error_messages', object: f.object %>
+<%#= render 'shared/error_messages', object: f.object %>
 <div class="am-panel am-panel-default">
     <div class="am-panel-bd" >
-      <div class="am-g">
-        <div class="am-u-sm-12 am-u-lg-12">
-          <div class="ui segment">
-            <p>
-              <%= @micropost.content %>
-            </p>
-          </div>
-            
-            
-        </div>
-      </div>
-      <br>
       
       <div class="am-g">
         <div class="am-u-sm-12">
-          
-            <div class="am-form-group">
-              <% if @micropost.message_pics.count < 9%>
+           
+          <div class="am-form-group">
+              <% if @activity.activity_pics.count < 9%>
                 
                 <div class="am-alert am-alert-danger" data-am-alert style="font-size:1.2rem;">
-                您可以再上传<%= (9-@micropost.message_pics.count)%>张照片
+                您可以再上传<%= (9-@activity.activity_pics.count)%>张照片
                 </div>
                 
                 <%end%>
                 
                 <br>
                 <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-gallery-imgbordered" data-am-gallery="{pureview:{target: 'a',weChatImagePreview: false}}">
-                   <% cache @micropost.message_pics do%>
+                   <% cache @activity.activity_pics do%>
                 
-                      <% @micropost.message_pics.each do |pic|%>
+                      <% @activity.activity_pics.each do |pic|%>
                         <% cache pic do%>
                           <li>
                           <div class="am-gallery-item">
@@ -50,7 +36,7 @@
                         <% end%>
                       <% end %>
                       
-                       <% if @micropost.message_pics.count < 9%>
+                       <% if @activity.activity_pics.count < 9%>
                       <li>
                           <div class="am-gallery-item" onclick="upload_by_weixin();">
                             
@@ -66,47 +52,27 @@
                 
                 
             </div>
-          
         </div>
       </div>
        
+    
       
       
-      
-      <div class="am-g" align="center">
+      <div class="am-g">
         <div class="am-u-sm-6 am-u-lg-6">
-          <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/')" >完成</button>&nbsp;&nbsp;
-         </div>
+          <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/activities')" >完成</button>&nbsp;&nbsp;
+          <%= link_to '取消', @activity, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
+        </div>
         <div class="am-u-sm-6 am-u-lg-6">
-               <%= link_to '取消', @micropost, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
+           
         </div>
       </div>
     </div>
 </div>
 <% end %>
 
-<%end%>
 <script>
-  
-  
-  
-   function validate() {
-     //  show_alert($('#order_amount').val()%100);
-      // var micropost_content = $('#micropost_content').val().replace(/^\s+|\s+$/g, '');
-      
-      //   if(micropost_content == ''){
-      //     show_alert("请写点什么吧！");
-      //     return false;
-      //   }else{
-            
-      //     //return true;
-      //   }
-      //alert('aaa');
-      // document.getElementById("send_message").submit();
-     
-  }
-  
-  function upload_by_weixin(){
+ function upload_by_weixin(){
     wx.chooseImage({
         sizeType: ['compressed'], 
         success: function (res) {
