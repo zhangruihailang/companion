@@ -27,26 +27,49 @@
         <div class="am-u-sm-12">
           
             <div class="am-form-group">
-              <div class="ui tiny images">
+              <% if @micropost.message_pics.count < 9%>
                 
-                <% cache @micropost.message_pics do%>
-                
-                <% @micropost.message_pics.each do |pic|%>
-                  <% cache pic do%>
-                <img class="ui image" src="http://<%=pic.file.url("200")%>">
-                
-                  <% end%>
-                <% end %>
-                
-                <%end%>
-                <% if @micropost.message_pics.count < 9%>
-                
-                <div class="am-form-group" onclick="upload_by_weixin();">
-                    <%= image_tag('add_64.png')%>
+                <div class="am-alert am-alert-danger" data-am-alert style="font-size:1.2rem;">
+                您可以再上传<%= (9-@micropost.message_pics.count)%>张照片
                 </div>
                 
                 <%end%>
-              </div>
+                
+                <br>
+                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-gallery-imgbordered" data-am-gallery="{pureview:{target: 'a',weChatImagePreview: false}}">
+                   <% cache @micropost.message_pics do%>
+                
+                      <% @micropost.message_pics.each do |pic|%>
+                        <% cache pic do%>
+                          <li>
+                          <div class="am-gallery-item">
+                            <a href="http://<%=pic.file.url("400")%>" ><img style="border:0;" src="http://<%=pic.file.url("200x200")%>" />
+                            </a>
+                          </div>
+                          </li>
+                        <% end%>
+                      <% end %>
+                      
+                       <% if @micropost.message_pics.count < 9%>
+                      <li>
+                          <div class="am-gallery-item">
+                           
+                            <div class="am-form-group am-form-file">
+                
+                           <img style="border:0;" src="/assets/add_64.png" />
+                          <input multiple=true type="file" name="files[]" id="micropost_avatars" accept="image/*" onchange="return validate();" />
+                          </div>
+                            
+                            
+                          </div>
+                      </li>
+                       <%end%>
+                       
+                      <%end%>
+                </ul>
+
+                
+                
             </div>
           
         </div>

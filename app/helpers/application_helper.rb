@@ -38,7 +38,7 @@ module ApplicationHelper
     # req.body = data
     res = https.request(req)
     puts "---------------------body:#{res.body}-------------------"
-    return res.body.sub('debug: false','debug: true')
+    return res.body#.sub('debug: false','debug: true')
   end
   
   def get_access_token
