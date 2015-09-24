@@ -162,8 +162,8 @@ class MicropostsController < ApplicationController
     if serverIds
       Rails.logger.info "-----------------------serverIds=#{serverIds}--------------------------------------"
 
-      serverIds.split('||').each do |midia_id|
-        Rails.logger.info "---------------------midia_id=#{midia_id}--------------------------------------"
+      serverIds.split('||').each do |media_id|
+        Rails.logger.info "---------------------media_id=#{media_id}--------------------------------------"
 
          file = get_file_from_wexin(access_token,media_id)
          Rails.logger.info "---------------------file=#{file.name}--------------------------------------"
