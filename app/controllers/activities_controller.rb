@@ -96,7 +96,7 @@ class ActivitiesController < ApplicationController
   
   def upload_pics_weixin
     
-    @activity = Micropost.find(params[:activity_id])
+    @activity = Activity.find(params[:activity_id])
     access_token = get_access_token
     serverIds = params[:serverIds]
     if serverIds
