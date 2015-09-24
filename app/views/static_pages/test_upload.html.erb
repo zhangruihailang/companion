@@ -35,9 +35,18 @@ var syncUpload = function(localIds){
             var serverId = res.serverId; // 返回图片的服务器端ID
             alert('serverId'+serverId);
             //其他对serverId做处理的代码
-            if(localIds.length > 0){
-                syncUpload(localIds);
-            }
+            // if(localIds.length > 0){
+            //     syncUpload(localIds);
+            // }
+            
+            $.ajax({
+            method: "POST",
+            url: "download_pic_from_weixin",
+            data: { midia_id: serverId}
+            })
+            .done(function( msg ) {
+              show_alert(msg.smscode );
+            });
         }
     });
 };

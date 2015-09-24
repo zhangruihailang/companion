@@ -129,6 +129,8 @@ Rails.application.routes.draw do
   get 'smscode' => 'sms_code#send_code'
   
   get 'test_upload' => 'static_pages#test_upload'
+  
+  post 'download_pic_from_weixin' => 'static_pages#download_pic_from_weixin'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
