@@ -11,11 +11,15 @@
   <strong>简介:</strong>
   <%= @channel.intro %>
 </p>
+<p>
+  <strong>正文预览:</strong>
+  <%= raw(@channel.content) %>
+</p>
 
 <p>
   <strong>图片:</strong>
   <%=image_tag "http://" + @channel.picture.url("200x200") %>
 </p>
 
-<%= link_to '编辑', edit_channel_path(@channel) %> |
+<%= link_to '编辑', edit_channel_path(@channel),:onclick => "goto(\"/channels/#{@channel.id}/edit\")" %> |
 <%= link_to '返回', channels_path %>

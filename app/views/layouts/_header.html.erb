@@ -26,105 +26,29 @@
       </div>
   </header>
  -->
- 
+
   <header class="am-topbar am-topbar-fixed-top">
-  <div class="am-container">
+    
+  <div class="am-container" >
     
 
     <h1 class="am-topbar-brand">
     <% if (request.url != (request.protocol + request.host_with_port + "/") && request.url != (request.protocol + request.host_with_port + "/playmates") )%>
-    
-
     <i class="am-header-icon am-icon-chevron-left am-icon-sm" style="color:#F3936A" onclick="goback()"></i>
     &nbsp;&nbsp;&nbsp;
     <%end %>
-     <%=image_tag "http://threejed.b0.upaiyun.com/logo.jpg",:height => '45px',:width => '45px' %> <a href="/">
+    
+     <%=image_tag "http://threejed.b0.upaiyun.com/logo.jpg",:height => '45px',:width => '45px' %> 
+     <a href="/" style="text-align:center">
        &nbsp;&nbsp;&nbsp;童伴 <font size="1.5rem">帮孩子找玩伴</font></a>
     </h1>
 
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
-            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
-        class="am-icon-bars"></span></button>
-
-    <div class="am-collapse am-topbar-collapse" id="collapse-head">
-      <ul class="am-nav am-nav-pills am-topbar-nav">
-        <% if @url_path.include?'/playmates' ||  @url_path =='/'%>
-        <li class="am-active"><a href="/playmates">玩伴</a></li>
-        <% else %>
-        <li><a href="/playmates">玩伴</a></li>
-        <% end %>
-        <% if @url_path.include?'/activities' %>
-        <li class="am-active"><a href="/activities">活动</a></li>
-        <% else %>
-        <li><a href="/activities">活动</a></li>
-        <% end %>
-        <% if @url_path.include?'/publish'%>
-        <li class="am-active"><a href="/publish">活动</a></li>
-        <% else %>
-        <li><a href="/publish">发布</a></li>
-        <% end %>
-        
-        <% if @url_path.include?'/topics' %>
-        <li class="am-active"><a href="/topics">社区</a></li>
-        <% else %>
-        <li><a href="/topics">社区</a></li>
-        <% end %>
-        
-         <% if @url_path.include?'/profile'%>
-        <li class="am-active"><li><a href="#">账户</a></li>
-        <% else %>
-        <li><li><a href="#">账户</a></li>
-        <% end %>
-        
-        <!-- 
-        <li class="am-dropdown" data-am-dropdown>
-          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-            下拉菜单 <span class="am-icon-caret-down"></span>
-          </a>
-          <ul class="am-dropdown-content">
-            <li class="am-dropdown-header">标题</li>
-            <li><a href="#">1. 默认样式</a></li>
-            <li><a href="#">2. 基础设置</a></li>
-            <li><a href="#">3. 文字排版</a></li>
-            <li><a href="#">4. 网格系统</a></li>
-          </ul>
-        </li>
-        -->
-      </ul>
-     <% if logged_in? %> 
-      <div class="am-topbar-right">
-        <!-- 
-        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
-        onclick="goto('/logout');"> 
-       
-         <span class="am-icon-sign-out">
-        </span>
-         -->
-        <%= button_to "退出", logout_path, method: "delete", :class => "am-btn am-btn-primary am-topbar-btn am-btn-sm" %>
-       
-        <!-- 
-        退出</button>
-        -->
-      </div>
-
-      <% else %>
-           <div class="am-topbar-right">
-        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm" 
-        onclick="goto('/signup');"><span class="am-icon-pencil">
-          
-        </span> 注册</button>
-      </div>
-
-      <div class="am-topbar-right">
-        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
-        onclick="goto('/login');"><span class="am-icon-user">
-          
-        </span> 登录</button>
-      </div>
-      <% end %>
-    </div>
+   
   </div>
+  
+
 </header>
+
 <script>
   function goback(){
 		history.go(-1);

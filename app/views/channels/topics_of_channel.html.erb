@@ -10,6 +10,30 @@
     color:#DD514C;
   }
 </style>
+
+<!--  频道正文  -->
+<div class="am-panel-bd" >
+  <div class="am-g" >
+    <div class="am-u-sm-12">
+      <article class="am-article">
+        <div class="am-article-hd">
+          <h1 class="am-article-title" style="font-size:2rem;"><%= @channel.title%></h1>
+          <p class="am-article-meta">
+          <%= @channel.updated_at.strftime('%Y-%m-%d %H:%M:%S').to_s%>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          童伴</p>
+        </div>
+      
+        <div class="am-article-bd">
+          <p class="am-article-lead"><%= @channel.intro%></p>
+          <%= raw(@channel.content)%>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-default" />
+
 <% @topics.each do |topic| %>
     <% cache topic do%>
 <div class="am-panel-bd" >
@@ -136,7 +160,7 @@
 :locals => { :total_page => @total_page,
              :page_num => @page_num,
              :pre_url => "/topics_of_channels?id=#{@channel.id}",
-             :tips => "还没有人发帖，快去发帖吧"
+             :tips => "关于这个话题你有什么看法，快去发表吧！"
             } %>
 
 

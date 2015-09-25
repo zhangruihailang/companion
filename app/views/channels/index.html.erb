@@ -21,7 +21,7 @@
         <%= render :partial => "shared/one_pic", :locals => { :pic => channel.picture } %>
         </td>
         <td><%= link_to '查看', channel %></td>
-        <td><%= link_to '编辑', edit_channel_path(channel) %></td>
+        <td><%= link_to '编辑', edit_channel_path(channel) ,:onclick => "goto(\"/channels/#{channel.id}/edit\")"%></td>
         <td><%= link_to '删除', channel, method: :delete, data: { confirm: '确定删除吗?' } %></td>
       </tr>
     <% end %>
@@ -42,4 +42,4 @@
 
 
 
-<%= link_to '新建频道', new_channel_path %>
+<%= link_to '新建频道', new_channel_path ,:onclick => 'goto("/channels/new")'%>

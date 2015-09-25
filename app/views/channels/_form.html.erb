@@ -24,6 +24,11 @@
     <%= f.label "照片" %>
     <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png'  %>
   </div>
+  <div class="field">
+    <%= f.label "正文" %><br>
+    <%#= f.text_area :content %>
+    <%= f.kindeditor :content ,:window_onload => true, class: 'form-control'%>
+  </div>
   <br>
   <div class="actions">
     <%= f.submit '提交' %>
