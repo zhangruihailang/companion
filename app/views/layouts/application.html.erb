@@ -12,7 +12,7 @@
   <!-- 
   <link rel="alternate icon" type="image/png" href="assets/i/favicon.png
   -->
- <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
   <!--<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>-->
  <%= stylesheet_link_tag 'amazeui.min'%>
   <style>
@@ -106,7 +106,8 @@
       background: #2d3e50;
     }
   </style>
- 
+ <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+ <%= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/kindeditor.js"%>
 </head>
 <body>
 
@@ -130,7 +131,7 @@
 <%= javascript_include_tag "amazeui.ie8polyfill.min" %>
 
 <![endif]-->
-
+ 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <!--<![endif]-->
