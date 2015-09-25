@@ -34,9 +34,11 @@
 </div>
 <hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-default" />
 
+<div class="am-panel-bd" > 
 <% @topics.each do |topic| %>
     <% cache topic do%>
-<div class="am-panel-bd" >
+  <div class="am-panel am-panel-default" style="border:0.5;">  
+    <div class="am-panel-bd" >
   
     <!-- 标题和描述展示-->
       
@@ -147,9 +149,10 @@
       </div>
  
     </div>
-<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+  </div>
     <% end%>
 <% end%>
+</div>
 <!--<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />-->
 <%#end%>
 

@@ -1,0 +1,196 @@
+<%# cache @goods do%>
+
+
+
+
+
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .liked{
+    color:#DD514C;
+  }
+  
+</style>
+<div class="am-panel am-panel-default" style="border:0;">
+  <div class="am-panel-bd" >
+<% @goods.each do |good| %>
+    <% cache good do%>
+<div class="am-panel am-panel-default" style="border:0.5;">
+<div class="am-panel-bd" >
+  
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+         <div class="am-u-sm-2">
+            <% preurl = "hisProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+            <% if good.user.sex == "女孩"%>
+            <!--herProfile-->
+            <% preurl = "herProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+            <% end%>
+            <% if !good.user.avatars.url.blank?%>
+            
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= good.user.id%>')" width="40" height="40" src="http://<%=good.user.avatars.url("200")%>"/>
+            <% else%>
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= good.user.id%>')" width="40" height="40" src="<%= pic_url%>"/>
+            <% end%>
+        
+         
+        </div>
+        <div class="am-u-sm-7">
+          
+            <div style="font-size: 1.3rem;"><strong><%= good.user.name%></strong> &nbsp;&nbsp; <%= good.user.province%> &nbsp;<%= good.user.city%> &nbsp;<%= good.user.district%> </div>
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= time_ago_in_words_cn(good.updated_at) %> 
+               前
+             </div>
+          
+
+        </div>
+         <div class="am-u-sm-3 am-u-lg-3" align="center">
+            
+            <span class="am-badge am-badge-primary am-radius" style="font-size:1.3rem;">￥<%= good.price%></span><br>
+            <span class="am-badge am-radius" style="font-size:1rem;"><del>￥<%= good.original_price%></del></span>
+        </div>
+     
+      </div>
+      <br>
+      
+            <!-- 图片轮播 -->
+      <%= cache good.good_pics do%>
+      
+      <% if good.good_pics.any?%>
+      <div class="am-g" >
+        <%= render :partial => "shared/pics_gallery", :locals => { :pics => good.good_pics } %>
+      </div>
+      <% end%>
+      
+      <%end%>
+      <br>
+      <!-- 消息内容展示-->
+      
+      <div class="am-g" >
+        <div class="am-u-sm-12">
+          
+           <article data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.3rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= good.description%>
+           </article>
+          
+        </div>
+      </div>
+      
+
+      
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+      <!-- 评论和点赞 -->
+      <div class="am-g" align="center">
+        <div class=" am-u-sm-4" >
+          <span class="am-icon-comments-o" 
+          onclick="goto('/good_comments?id=<%= good.id%>')">
+            &nbsp;<%= good.good_comments.count%></span> 
+        </div>
+        <div class="am-u-sm-4" >
+          
+          <span class="am-icon-thumbs-up" id="like_<%=good.id%>"
+          onclick="like('like_<%=good.id%>','<%= good.id%>','<%= good.user.id%>');">
+            &nbsp;<%= good.good_likes.count%>
+          </span> 
+         
+        </div>
+        <div class=" am-u-sm-4" >
+          <!--<button-->
+          <!--  type="button"-->
+          <!--  class="am-btn am-btn-secondary"-->
+          <!--  data-am-modal="{target: '#my-more'}">-->
+          <!--  Actions-->
+          <!--</button>-->
+          <% delete_flag = '0'%>
+          <% if !current_user.nil? && good.user == current_user%>
+          <% delete_flag = '1'%>
+          <%end%>
+         <span onclick="show_modal('/show_good_likes?good_id=<%=good.id%>','<%= delete_flag%>','/delete_good?id=<%=good.id%>','post')" class="am-icon-ellipsis-h" style="font-size:1.3rem;" data-am-modal="{target: '#my-more'}"> &nbsp;更多</span>
+        </div>
+      </div>
+      
+    </div>
+<!--<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />-->
+</div>
+    <% end%>
+<% end%>
+  </div>
+</div>
+<!-- 分页 -->
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+            :pre_url => "/goods?id=1",
+            # :pre_url => pre_url,
+             :tips => "还没有人发布过闲置物品，快去发布吧！" } %>
+
+
+<script>
+  function like(id,good_id,user_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "POST",
+      url: "good_like",
+      data: {goodid: good_id, to_user_id: user_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)+1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn');
+          });
+          $('#'+id).attr("onclick","unlike('"+id+"','"+good_id+"','"+user_id+"');");
+        }
+      });
+  }
+  
+  function unlike(id,good_id,user_id){
+    //show_alert(Number(obj.innerHTML));
+    //var num = obj.innerHTML.replace(/&nbsp;/g,"") ;
+    //show_alert(num);
+    //obj.innerHTML = "&nbsp;&nbsp;"+ (Number(num)+1)
+    //obj.addClass('animated bounceOutLeft');
+    //obj.className = obj.className + "animated infinite bounceIn liked";
+    $.ajax({
+      method: "POST",
+      url: "good_unlike",
+      data: { goodid: good_id,to_user_id: user_id}
+      })
+      .done(function( msg ) {
+        //show_alert(msg);
+        if(msg == 'no_login'){
+            show_alert("请登录后再操作");
+            window.location.href = "/login";
+        }else{
+          var num = $('#'+id).html().replace(/&nbsp;/g,"") ;
+          $('#'+id).html("&nbsp;&nbsp;"+ (Number(num)-1));
+          //show_alert($('#'+id).html());
+          $('#'+id).addClass(' animated bounceIn liked').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $(this).removeClass('animated bounceIn liked');
+          });
+          $('#'+id).attr("onclick","like('"+id+"','"+good_id+"','"+user_id+"');");
+        }
+      });
+  }
+  
+</script>
+
+

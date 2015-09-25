@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  resources :goods
+
+  resources :good_classes
+
   resources :topics
 
   resources :channels
@@ -46,6 +50,21 @@ Rails.application.routes.draw do
   patch 'post_topic_comment' => 'topics#post_topic_comment'
   post 'topic_comment_like' => 'topics#comment_like'
   post 'topic_comment_unlike' => 'topics#comment_unlike'
+  
+  
+  get 'to_upload_good_pic' => 'goods#to_upload_good_pic'
+  get 'to_upload_good_pic_weixin' => 'goods#to_upload_good_pic_weixin'
+  patch 'upload_good_pics' => 'goods#upload_good_pics'
+  patch 'upload_good_pics_weixin' => 'goods#upload_good_pics_weixin'
+  post 'good_like' => 'goods#like'
+  post 'good_unlike' => 'goods#unlike'
+  get 'show_good_likes' => 'goods#show_good_likes'
+  get 'delete_good' => 'goods#delete_good'
+  get 'good_comments' => 'goods#good_comments'
+  get 'to_post_good_comment' => 'goods#to_post_good_comment'
+  get 'delete_good_comment' => 'goods#delete_comment'
+  patch 'post_good_comment' => 'goods#post_good_comment'
+  
   
   
   get 'setup' => 'users#setup'

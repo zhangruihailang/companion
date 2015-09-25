@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @good_class.name %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @good_class.parent_id %>
+</p>
+
+<%= link_to 'Edit', edit_good_class_path(@good_class) %> |
+<%= link_to 'Back', good_classes_path %>

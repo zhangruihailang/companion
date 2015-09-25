@@ -1,0 +1,32 @@
+<%# cache @microposts do%>
+<% @likes.each do |like|  %>
+    <% liked_user = User.find(like.user_id)%>
+    <% cache liked_user do%>
+<div class="am-panel-bd" >
+  
+   <!-- 用户信息展示 -->
+      <div class="am-g">
+        <!--<div class="am-u-sm-2 am-u-lg-2">-->
+        <!--  <span class="am-show-md-down">-->
+        <!--    <img width="40" height="40" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--  <span class="am-hide-md-down">-->
+        <!--    <img width="80" height="80" src="http://semantic-ui.com/images/avatar/large/jenny.jpg"/>-->
+        <!--  </span>-->
+        <!--</div>-->
+        <%= render :partial => "users/user_profile_display", :locals => { :user => liked_user,:time => like.updated_at } %>
+      </div>
+     
+    </div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    <% end%>
+<% end%>
+
+<!-- 分页 -->
+<%#end%>
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/show_good_likes?good_id=#{@good.id}",
+             :tips => '还没有人赞过，赶紧去点赞吧！' } %>

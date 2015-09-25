@@ -1,0 +1,146 @@
+<%= stylesheet_link_tag  "form.min" %>
+<%= stylesheet_link_tag  "image.min" %>
+<%= stylesheet_link_tag  "segment.min" %>
+ <%= get_weixin_js.html_safe %>
+<% cache @good do%>
+
+<%= form_for(@good, :url => {:action => 'upload_good_pics_weixin'}, html: {id: 'send_message' ,multipart: true }) do |f| %>
+<input name="good_id" type="hidden" value="<%= @good.id%>" />
+<input name="serverIds" type="hidden" id="serverIds" value="" />
+<%= render 'shared/error_messages', object: f.object %>
+<div class="am-panel am-panel-default">
+    <div class="am-panel-bd" >
+      <!--<div class="am-g">-->
+      <!--  <div class="am-u-sm-12 am-u-lg-12">-->
+      <!--    <div class="ui segment">-->
+      <!--      <p>-->
+              <%#= @good.content %>
+      <!--      </p>-->
+      <!--    </div>-->
+            
+            
+      <!--  </div>-->
+      <!--</div>-->
+      <!--<br>-->
+      
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          
+            <div class="am-form-group">
+              <% if @good.good_pics.count < 9%>
+                
+                <div class="am-alert am-alert-danger" data-am-alert style="font-size:1.2rem;">
+                您可以再上传<%= (9-@good.good_pics.count)%>张照片
+                </div>
+                
+                <%end%>
+                
+                <br>
+                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-gallery-imgbordered" data-am-gallery="{pureview:{target: 'a',weChatImagePreview: false}}">
+                   <% cache @good.good_pics do%>
+                
+                      <% @good.good_pics.each do |pic|%>
+                        <% cache pic do%>
+                          <li>
+                          <div class="am-gallery-item">
+                            <a href="http://<%=pic.file.url("400")%>" ><img style="border:0;" src="http://<%=pic.file.url("200x200")%>" />
+                            </a>
+                          </div>
+                          </li>
+                        <% end%>
+                      <% end %>
+                      
+                       <% if @good.good_pics.count < 9%>
+                      <li>
+                          <div class="am-gallery-item" onclick="upload_by_weixin();">
+                            
+                           <img style="border:0;" src="/assets/add_64.png" />
+                         
+                          </div>
+                      </li>
+                       <%end%>
+                       
+                      <%end%>
+                </ul>
+
+                
+                
+            </div>          
+        </div>
+      </div>
+       
+      <!--<div class="am-g">-->
+      <!--  <div class="am-u-sm-12 am-u-lg-12">-->
+      <!--    <div class="am-form-group am-form-file">-->
+      <!--      <button type="button" class="am-btn am-btn-danger am-btn-sm">-->
+      <!--        <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>-->
+      <!--        <input multiple=true type="file" name="files[]" id="good_avatars" />-->
+      <!--    </div>-->
+      <!--    <div id="file-list"></div>-->
+      <!--  </div>-->
+      <!--</div>-->
+      
+      
+      
+      <div class="am-g" align="center">
+        <div class="am-u-sm-6 am-u-lg-6">
+          <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm" onclick="goto('/goods')" >完成</button>&nbsp;&nbsp;
+         </div>
+        <div class="am-u-sm-6 am-u-lg-6">
+               <%= link_to '取消', @good, class: 'am-btn am-btn-primary am-radius am-btn-sm', method: :delete, data: { confirm: '退出此次编辑?' } %>
+        </div>
+      </div>
+    </div>
+</div>
+<% end %>
+
+<%end%>
+<script>
+ 
+    function validate() {
+     
+            document.getElementById("send_message").submit();
+
+       
+     
+  }
+  
+   function upload_by_weixin(){
+    wx.chooseImage({
+        sizeType: ['compressed'], 
+        success: function (res) {
+            var localIds = res.localIds;
+            syncUpload(localIds);
+        }
+    });
+  }
+  
+serverIds = ""
+var syncUpload = function(localIds){
+    var localId = localIds.pop();
+    wx.uploadImage({
+        localId: localId,
+        isShowProgressTips: 1,
+        success: function (res) {
+            var serverId = res.serverId; // 返回图片的服务器端ID
+            //alert('serverId'+serverId);
+            if(serverIds ==''){
+              serverIds = serverIds +serverId;
+            }else{
+              serverIds= serverIds + "||" +serverId;
+            }
+            //其他对serverId做处理的代码
+            if(localIds.length > 0){
+                 syncUpload(localIds);
+            }else{
+             // alert("serverIds:"+serverIds);
+              $('#serverIds').val(serverIds);
+              document.getElementById("send_message").submit();
+            }
+            
+            
+        }
+    });
+};
+  
+</script>

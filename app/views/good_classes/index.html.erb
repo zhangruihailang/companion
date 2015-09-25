@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Good Classes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Parent</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @good_classes.each do |good_class| %>
+      <tr>
+        <td><%= good_class.id %></td>
+        <td><%= good_class.name %></td>
+        <td><%= good_class.parent_id %></td>
+        <td><%= link_to 'Show', good_class %></td>
+        <td><%= link_to 'Edit', edit_good_class_path(good_class) %></td>
+        <td><%= link_to 'Destroy', good_class, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Good class', new_good_class_path %>

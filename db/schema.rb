@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925020933) do
+ActiveRecord::Schema.define(version: 20150925130309) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "title"
@@ -102,6 +102,68 @@ ActiveRecord::Schema.define(version: 20150925020933) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+
+  create_table "good_classes", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "good_comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "good_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "good_comments", ["good_id"], name: "index_good_comments_on_good_id"
+  add_index "good_comments", ["user_id"], name: "index_good_comments_on_user_id"
+
+  create_table "good_likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "good_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "good_likes", ["good_id"], name: "index_good_likes_on_good_id"
+  add_index "good_likes", ["user_id"], name: "index_good_likes_on_user_id"
+
+  create_table "good_pics", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "good_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "good_pics", ["good_id"], name: "index_good_pics_on_good_id"
+
+  create_table "good_reads", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "good_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "good_reads", ["good_id"], name: "index_good_reads_on_good_id"
+  add_index "good_reads", ["user_id"], name: "index_good_reads_on_user_id"
+
+  create_table "goods", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.float    "price"
+    t.float    "original_price"
+    t.float    "freight"
+    t.integer  "user_id"
+    t.integer  "good_class_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "goods", ["good_class_id"], name: "index_goods_on_good_class_id"
+  add_index "goods", ["user_id"], name: "index_goods_on_user_id"
 
   create_table "likes", force: :cascade do |t|
     t.integer  "from_user_id"

@@ -12,7 +12,8 @@
 </style>
 <% @activities.each do |activity| %>
     <% cache activity do%>
-<div class="am-panel-bd" >
+    <div class="am-panel am-panel-default" style="border:0.5;">
+      <div class="am-panel-bd" >
   
    <!-- 用户信息展示 -->
       <div class="am-g">
@@ -100,7 +101,7 @@
       </div>
  
     </div>
-<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+    </div>
     <% end%>
 <% end%>
 

@@ -1,0 +1,135 @@
+<style>
+  .input_font {
+    font-size: 1.2rem;
+  }
+  
+  .input_font_small {
+    font-size: 1rem;
+  }
+  
+  select {
+    font-size: 1.2rem;
+  }
+  
+  select option {
+    font-size: 1.2rem;
+  }
+</style>
+<div class="am-panel am-panel-default">
+  <%#=f orm_for(@user) do |f| %>
+
+
+    <div class="am-panel-bd">
+      <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+          <h3>发布闲置物品</h3>
+            <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+
+          
+
+          <%=form_for(@good, html: {id: 'send_message' }) do |f| %>
+            <input type="hidden" id="if_completed" name="if_completed" value="" />
+            <input type="hidden" id="good_user_id" name="good[user_id]" value="<%= current_user.id%>" /> 
+              <div class="am-form-group">
+                
+                <div class="am-input-group am-input-group-primary">
+                  <span class="am-input-group-label input_font">标题&nbsp;:&nbsp;</span>
+                  <input type="text" name="good[title]" id="good_title" value="" placeholder="标题" class="am-form-field input_font" required>
+                </div>
+                <br>
+                <!--<span class="input_font">物品描述</span>-->
+                <!--<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />-->
+                <textarea rows="8" class="am-form-field input_font" name="good[description]" id="good_description" style="font-size:1.5rem;" placeholder="描述一下你的物品"  ></textarea>
+                
+                <br>
+                <div class="am-input-group am-input-group-primary">
+                  <span class="am-input-group-label input_font">价格&nbsp;:&nbsp;</span>
+                  <input type="text" name="good[price]" id="good_price" value="" placeholder="输入价格" class="am-form-field input_font" required>
+                </div>
+                <br>
+                <div class="am-input-group am-input-group-primary">
+                  <span class="am-input-group-label input_font">原价&nbsp;:&nbsp;</span>
+                  <input type="text" name="good[original_price]" id="good_original_price" value="" placeholder="输入原价" class="am-form-field input_font" required>
+                </div>
+                <br>
+                <div class="am-input-group am-input-group-primary">
+                  <span class="am-input-group-label input_font">运费&nbsp;:&nbsp;</span>
+                  <input type="text" name="good[freight]" id="good_freight" value="" placeholder="输入运费" class="am-form-field input_font" required>
+                </div>
+                <br>
+                <div class="am-input-group am-input-group-primary">
+                <span class="am-input-group-label input_font">分类&nbsp;:&nbsp;</span>
+                 <select data-am-selected name="good[good_class_id]" id="good_class_id" >
+                  <% GoodClass.where(:parent_id => nil).each do |category| %>
+                  <option value="<%= category.id%>"><%= category.name%></option>
+                  
+                  <%end%>
+                </select>
+                </div>
+                <%#=f .text_area :description ,:rows=> '5' %>
+              </div>
+
+              <br>
+          <div class="am-g">
+        <!--<div class="am-u-sm-12 am-u-lg-12">-->
+        <!--  <button type="button" class="am-btn am-btn-primary am-btn-block" onclick="return validate();" >上传图片</button>-->
+        <!--</div>-->
+            <div class="am-u-sm-4 am-u-lg-4">
+    
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('no');" >上传图片</button>
+             
+            </div>
+            <div class="am-u-sm-4 am-u-lg-4">
+    
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('yes');" >直接发布</button>
+             
+            </div>
+            <!--<div class="am-u-sm-4 am-u-lg-4">-->
+            <!--  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="return validate('yes');" >完成</button>-->
+            <!--</div>-->
+            
+            <div class="am-u-sm-4 am-u-lg-4">
+              <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/')" >取消</button>
+            </div>
+            
+            
+          </div>
+              <% end %>
+
+        </div>
+      </div>
+    </div>
+
+
+</div>
+<script>
+function validate(flag) {
+     $('#if_completed').val(flag);
+      var good_description = $('#good_description').val().replace(/^\s+|\s+$/g, '');
+      var good_title = $('#good_title').val().replace(/^\s+|\s+$/g, '');
+      var good_price = $('#good_price').val().replace(/^\s+|\s+$/g, '');
+      var good_original_price = $('#good_original_price').val().replace(/^\s+|\s+$/g, '');
+      var good_freight = $('#good_freight').val().replace(/^\s+|\s+$/g, '');
+        if(good_title == ''){
+          show_alert("请填写标题！");
+          return false;
+        }else if(good_description == ''){
+          show_alert("请填写物品描述！");
+          return false;
+        }else if(good_price == ''){
+          show_alert("请填写物品价格！");
+          return false;
+        }else if(good_original_price == ''){
+          show_alert("请填写物品原价！");
+          return false;
+        }else if(good_freight == ''){
+          show_alert("请填写物品运费！");
+          return false;
+        }else{
+            document.getElementById("send_message").submit();
+          //return true;
+        }
+       
+     
+  }
+</script>

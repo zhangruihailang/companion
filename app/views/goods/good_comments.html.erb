@@ -1,0 +1,245 @@
+<%# cache @goods do%>
+<style>
+/*  .am-titlebar-hot .am-titlebar-title-hot:before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 2px;*/
+/*  top: 8px;*/
+/*  bottom: 8px;*/
+/*  border-left: 3px solid #F3936A*/
+  
+/*}*/
+/*.am-titlebar-default .am-titlebar-title:before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  left: 2px;*/
+/*  top: 8px;*/
+/*  bottom: 8px;*/
+/*  border-left: 3px solid #7177B5*/
+/*}*/
+
+
+
+
+</style>
+<%= stylesheet_link_tag "http://cdn.bootcss.com/animate.css/3.4.0/animate.min.css"%>
+<style>
+  .liked{
+    color:#DD514C;
+  }
+</style>
+    <% cache @good do%>
+<div class="am-panel am-panel-default" style="border:0;">
+<div class="am-panel-bd" >
+      
+        <!-- 图片轮播 -->
+      
+      <%= cache @good.good_pics do%>
+      
+      <% if @good.good_pics.any?%>
+      <div class="am-g" >
+       
+        
+        <%= render :partial => "shared/pics_gallery", :locals => { :pics => @good.good_pics } %>
+    
+        
+      </div>
+      <% end%>
+      
+      <%end%>
+      <br>
+      <div class="am-g" >
+        <div class="am-u-sm-6" align="left">
+          <span style="font-size:1.5rem;color:#DD514C;">￥<%= @good.price%></span>
+          <span style="font-size:1.2rem;"><del>￥<%= @good.original_price%></del></span>
+        </div>
+         <div class="am-u-sm-6" align="right">
+          <span style="font-size:1.5rem;">浏览次数&nbsp;<%= @good.good_reads.count%></span>
+        </div>
+      </div>
+      
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+     <!-- 用户信息展示 -->
+      <div class="am-g">
+                <div class="am-u-sm-2">
+            <% preurl = "hisProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+            <% if @good.user.sex == "女孩"%>
+            <!--herProfile-->
+            <% preurl = "herProfile"%>
+            <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+            <% end%>
+            <% if !@good.user.avatars.url.blank?%>
+            
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @good.user.id%>')" width="40" height="40" src="http://<%=@good.user.avatars.url("200")%>"/>
+            <% else%>
+            <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= @good.user.id%>')" width="40" height="40" src="<%= pic_url%>"/>
+            <% end%>
+        
+         
+        </div>
+        <div class="am-u-sm-7">
+          <div style="font-size: 1.5rem;"><strong><%= @good.user.name%></strong> </div>
+              <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+                 <%= @good.user.province%> &nbsp;&nbsp;<%= @good.user.city%> &nbsp;&nbsp;<%= @good.user.district%>  
+               </div>
+          
+
+        </div>
+         <div class="am-u-sm-3 am-u-lg-3" >
+            <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+               <%= time_ago_in_words_cn(@good.updated_at) %> 
+               前
+             </div>
+            
+        </div>
+     
+      </div>
+      <br>
+      
+        
+      <!-- 标题和描述展示-->
+      
+      <div class="am-g" >
+        <div class="am-u-sm-12">
+          
+           <article  data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.2rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
+              <% if !@good.title.blank?%>
+            <span style="color:#4A779D;font-size:1.6rem;">
+              <%=@good.title  %>
+            </span><br><br>
+            <%end%>
+            <%= @good.description%>
+           </article>
+        </div>
+      </div>
+      <br>
+      
+     
+      
+     
+      <br>
+     
+     <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+      
+      <!-- 留言和查看联系方式 -->
+      <div class="am-g" align="center">
+        <div class="am-u-sm-6 am-u-lg-6">
+      		  <%= render :partial => "shared/contact_user", 
+              :locals => { :content => "联系方式",:mobile => @good.user.mobile}  %>
+      	</div>
+      	<div class="am-u-sm-6 am-u-lg-6">
+      		<button type="button" class="am-btn am-btn-primary am-radius am-btn-sm"
+      		onclick="goto('/to_post_good_comment?good_id=<%= @good.id%>&to_user_id=<%=@good.user.id%>&reply=0')">
+            <i class="am-icon-envelope"></i>&nbsp;&nbsp;
+             给他留言
+          </button>
+      	</div>
+      </div>
+    <% end%>
+</div>
+</div>
+<%#end%>
+
+
+
+
+<!-- 全部评论列表区 -->
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+      <h2 class="am-titlebar-title " style="font-size:1.6rem;color:#4A779D;">
+      全部留言
+      </h2>
+</div> 
+    
+<% @comments.each do |comment| %>
+  <% comment_user = User.find(comment.user_id)%>
+  <% cache comment do%>
+<div class="am-panel am-panel-default" style="border:0;">
+  <div class="am-panel-bd">
+        <div class="am-g">
+            <div class="am-u-sm-2">
+              <% preurl = "hisProfile"%>
+              <% pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"%>
+              <% if comment_user.sex == "女孩"%>
+              <!--herProfile-->
+              <% preurl = "herProfile"%>
+              <% pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"%>
+              <% end%>
+              <% if !comment_user.avatars.url.blank?%>
+              
+              <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= comment_user.id%>')" width="40" height="40" src="http://<%=comment_user.avatars.url("200")%>"/>
+              <% else%>
+              <img class="am-circle" onclick="goto('/<%= preurl%>?id=<%= comment_user.id%>')" width="40" height="40" src="<%= pic_url%>"/>
+              <% end%>
+          
+           
+          </div>
+          <div class="am-u-sm-7">
+            
+              <div style="font-size: 1.5rem;"><strong><%= comment_user.name%></strong> </div>
+              <div style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto;font-size:1rem;">
+                 <%= comment_user.province%> &nbsp;&nbsp;<%= comment_user.city%> &nbsp;&nbsp;<%= comment_user.district%>  
+               </div>
+            
+  
+          </div>
+           <div class="am-u-sm-3 am-u-lg-3" style="font-size:1rem;">
+            <%= time_ago_in_words_cn(comment.updated_at) %> 
+           前
+          </div>
+        </div>
+        <br>
+        <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12">
+          
+           <article class="am-show-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.3rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+           <article class="am-hide-md-down" data-am-widget="paragraph"
+           class="am-paragraph am-paragraph-default"
+           style="font-size:1.5rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+            <%= raw(comment.content)%>
+           </article>
+        </div>
+        </div>
+        <br>
+        <div class="am-g" >
+         <div class="am-u-sm-12 am-u-lg-12" align="right">
+           
+          <button type="button"  
+           class="am-btn am-btn-danger am-radius am-btn-xs"
+           onclick="goto('/to_post_good_comment?good_id=<%= @good.id%>&to_user_id=<%=comment_user.id%>&reply=1')">
+            回复
+          </button>
+           &nbsp;
+           <%#= button_to '删除',delete_comment_path, method: :delete, data: { confirm: '确定删除吗?' } %>
+           <% if logged_in? && (comment.user_id == current_user.id || @good.user.id == current_user.id)%>
+           <%= link_to "删除", {action: 'delete_comment', id: comment.id}, {class: 'am-btn am-btn-danger am-radius am-btn-xs'} %>
+           <% end %>
+        </div>
+        <br>
+      </div>
+        
+    </div>
+</div>
+  <%end%>
+<%end%>
+
+<!-- 评论分页 -->
+
+<%= render :partial => "shared/pagination",
+:locals => { :total_page => @total_page,
+             :page_num => @page_num,
+             :pre_url => "/good_comments?id=#{@good.id}",
+             :tips => '还没有人留言，赶紧去留言吧！' } %>
+    
+

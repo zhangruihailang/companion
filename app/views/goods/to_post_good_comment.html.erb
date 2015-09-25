@@ -22,10 +22,10 @@
     <div class="am-panel-bd">
       <div class="am-g">
         <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-          <h3>发表评论</h3>
+          <h3>留言</h3>
 
-          <%=form_for(@topic, html: {id: 'send_message' },url: post_topic_comment_url) do |f| %>
-            <input type="hidden" id="topic_id" name="topic_id" value="<%= @topic.id%>" />
+          <%=form_for(@good, html: {id: 'send_message' },url: post_good_comment_url) do |f| %>
+            <input type="hidden" id="good_id" name="good_id" value="<%= @good.id%>" />
             <%=render 'shared/error_messages', object: f.object %>
 
 
@@ -54,7 +54,7 @@
 
 
                 <div class="am-u-sm-6 am-u-lg-6">
-                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/topic_comments?id=<%= @topic.id%>')">取消</button>
+                  <button type="button" class="am-btn am-btn-primary am-btn-block am-btn-sm am-radius" onclick="goto('/good_comments?id=<%= @good.id%>')">取消</button>
                 </div>
               </div>
               <% end %>
