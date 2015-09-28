@@ -72,10 +72,17 @@
       <div class="am-g" >
         <div class="am-u-sm-12">
           
-           <article data-am-widget="paragraph"
+             <article  data-am-widget="paragraph"
            class="am-paragraph am-paragraph-default"
-           style="font-size:1.3rem;"
-           data-am-paragraph="{ tableScrollable: true, pureview: true }">
+           style="font-size:1.2rem;"
+           data-am-paragraph="{ tableScrollable: true, pureview: true }"
+            onclick="goto('/good_comments?id=<%= good.id%>')">
+             <!--<hr data-am-widget="divider" style="color:#41BFB5;" class="am-divider am-divider-dotted" />-->
+              <% if !good.title.blank?%>
+            <span style="color:#4A779D;font-size:1.6rem;">
+              <%=good.title  %>
+            </span><br><br>
+            <%end%>
             <%= good.description%>
            </article>
           

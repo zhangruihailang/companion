@@ -25,6 +25,8 @@ gem 'sdoc', '0.4.0', group: :doc
 gem 'weixin_rails_middleware'
 gem 'download', :git => 'git@github.com:adamluzsi/download.git'
 gem 'rack_image_assets_cache_control'
+gem 'jquery-turbolinks', '~> 2.1.0'
+
 group :development, :test do
 gem 'sqlite3', '1.3.9'
 gem 'byebug', '3.4.0'

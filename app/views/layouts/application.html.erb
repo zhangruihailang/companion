@@ -107,7 +107,7 @@
     }
   </style>
  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
- <%= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/kindeditor.js"%>
+ 
 </head>
 <body>
 
@@ -125,6 +125,9 @@
   <% end %>
    <%= yield %>
 <%= render 'layouts/footer' %>
+  <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/kindeditor.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/turbolinks.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/jquery_ujs.js"%>
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
