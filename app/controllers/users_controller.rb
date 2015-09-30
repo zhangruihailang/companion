@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   require 'json' 
   skip_before_filter :verify_authenticity_token, :only => [:create,:send_sms_code,:upload_mirco_pics]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers, :myProfile, :upload_mirco_pics, :publish_message]
+                                        :following, :followers, :myProfile, :upload_mirco_pics, :publish_message,:send_im_mgs]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   
@@ -583,6 +583,7 @@ class UsersController < ApplicationController
     Rails.logger.info("------------------------@token----#{@token}-----------------------------------------------")
     
     render 'send_im_mgs',layout:'chat'
+    
   end
   
   def my_conversation_list

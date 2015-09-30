@@ -29,9 +29,11 @@
         RongIMClient.getInstance().setOnReceiveMessageListener({
             onReceived: function (data) {
                 var send_user_id =  data.getSenderUserId();
-                
+                alert('send_user_id=='+send_user_id);
+                alert('to_user_id==<%= @to_user.id%>');
+
                 if(send_user_id == '<%= @to_user.id%>'){
-                  add_chat_item('<%= @to_user_pic_url%>','<%= @to_user.name%>',getLocalTime(data.getReceivedTime()),data.getContent(),'other_user');  
+                  add_chat_item('<%= @to_user_pic_url%>','<%= @to_user.name%>',getLocalTime(data.getReceivedTime()),data.getContent(),'other_user','after');  
                 }
                 
             }
