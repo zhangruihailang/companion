@@ -168,11 +168,11 @@
      var p = document.createElement("div");
      var class_name = "";
      var user_profile = "";
-     if(direction == "other_user"){
+     if(direction == "self"){
        class_name = "am-comment-flip am-comment-highlight";
        user_profile = "<%= @to_user_profile_url %>";
      }
-     if(direction == "self"){
+     if(direction == ""){
        class_name = "am-comment-success";
        user_profile = "<%= @from_user_profile_url %>";
      }
