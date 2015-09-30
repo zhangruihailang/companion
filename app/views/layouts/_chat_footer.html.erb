@@ -88,10 +88,11 @@
          
         s.onclick = function () {
           //alert('click');
-           c.value = "";
-            add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(Date.now()),c.value,'self','after');
+           var c_value = c.value ;
+            c.value = "";
+            add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(Date.now()),c_value,'self','after');
             var con = RongIMClient.ConversationType.setValue('4');
-            ins.sendMessage(con, to, RongIMClient.TextMessage.obtain(c.value || Date.now()), null, {
+            ins.sendMessage(con, to, RongIMClient.TextMessage.obtain(c_value || Date.now()), null, {
                 onSuccess: function () {
                     //alert("send successfully");
                    // c.value = (c.value * 1 + 1);
