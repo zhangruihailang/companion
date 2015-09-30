@@ -88,13 +88,14 @@
          
         s.onclick = function () {
           //alert('click');
+           c.value = "";
             add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(Date.now()),c.value,'self','after');
             var con = RongIMClient.ConversationType.setValue('4');
             ins.sendMessage(con, to, RongIMClient.TextMessage.obtain(c.value || Date.now()), null, {
                 onSuccess: function () {
                     //alert("send successfully");
                    // c.value = (c.value * 1 + 1);
-                   c.value = "";
+                  
                 }, onError: function () {
                     //alert("send fail")
                 }
@@ -169,11 +170,11 @@
      var class_name = "";
      var user_profile = "";
      if(direction == "self"){
-       class_name = "am-comment-flip am-comment-highlight";
+       class_name = "am-comment-flip";
        user_profile = "<%= @to_user_profile_url %>";
      }
      if(direction == ""){
-       class_name = "am-comment-success";
+       class_name = "";
        user_profile = "<%= @from_user_profile_url %>";
      }
      
