@@ -1,0 +1,212 @@
+
+<footer class="footer">
+    <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
+      id="">
+      <div class="am-g" >
+      <div class="am-u-sm-12">
+       
+        <div class="am-input-group am-input-group-primary">
+          <input type="text" name="content" id="content" value="" class="am-form-field" required>
+          <span class="am-input-group-label" id="send">&nbsp;&nbsp;<i class="am-icon-send"></i>&nbsp;&nbsp;</span>
+        </div>
+      </div>
+     </div>
+     
+  </div>
+
+</footer>
+   
+
+<script>
+        RongIMClient.init("<%= @appKey%>");
+        RongIMClient.setConnectionStatusListener({
+            onChanged: function (status) {
+                //alert(status.toString(), new Date())
+            }
+        });
+        
+        var mydiv = document.getElementById("chat_content");
+        RongIMClient.getInstance().setOnReceiveMessageListener({
+            onReceived: function (data) {
+                var send_user_id =  data.getSenderUserId();
+                
+                if(send_user_id == '<%= @to_user.id%>'){
+                  add_chat_item('<%= @to_user_pic_url%>','<%= @to_user.name%>',getLocalTime(data.getReceivedTime()),data.getContent(),'other_user');  
+                }
+                
+            }
+        });
+
+        var self = "";
+        RongIMClient.connect("<%= @token%>", {
+            onSuccess: function (x) {
+                //alert("connected，userid＝" + x);
+				
+                self = x;
+                 if (window.Modules) //检测websdk是否已经加载完毕
+                 {
+                   //alert('websdk已经加载完毕');
+               //此方法最多一次行拉取20条消息。拉取顺序按时间倒序拉取。
+                     RongIMClient.getInstance().getHistoryMessages(RongIMClient.ConversationType.setValue('4'), '<%= @to_user.id%>', 3, {
+                       onSuccess: function (has, list) {
+                           //alert("是否有剩余消息：" + has);
+                          if(has){
+                          
+                            var p = document.createElement("div");
+                            p.id = "tips";
+                            var str = "<center><legend style='font-size:1.5rem;' onclick='show_chat_history();'>查看更多历史消息</legend></center>";
+                            p.innerHTML = str;
+                            mydiv.appendChild(p);
+                          }
+                          
+                          
+                           list.forEach(function(data){  
+                                //alert(data.getMessageDirection());  
+                                if(data.getMessageDirection() == RongIMClient.MessageDirection.RECEIVE){
+                                  add_chat_item('<%= @to_user_pic_url%>','<%= @to_user.name%>',getLocalTime(data.getSentTime()),data.getContent(),'other_user','after');  
+                                }
+                                if(data.getMessageDirection() == RongIMClient.MessageDirection.SEND){
+                                  add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(data.getSentTime()),data.getContent(),'self','after');  
+                                }
+                           })  
+                       }, onError: function () {
+                           //alert('获取历史消息失败');
+                       }
+                   });
+                 };
+            },
+            onError: function (x) {
+                //alert(x)
+            }
+        });
+        ins = RongIMClient.getInstance();
+        var c = document.getElementById("content"), 
+        to = '<%= @to_user.id%>' , 
+        s = document.getElementById("send"),
+        t = '4';//document.getElementById("type");
+        
+         
+        s.onclick = function () {
+          //alert('click');
+            add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(Date.now()),c.value,'self','after');
+            var con = RongIMClient.ConversationType.setValue('4');
+            ins.sendMessage(con, to, RongIMClient.TextMessage.obtain(c.value || Date.now()), null, {
+                onSuccess: function () {
+                    //alert("send successfully");
+                   // c.value = (c.value * 1 + 1);
+                   c.value = "";
+                }, onError: function () {
+                    //alert("send fail")
+                }
+            });
+        };
+     
+    
+  function show_chat_history(){
+      var nv=document.getElementById("tips");
+      var nn=nv.parentNode.removeChild(nv);
+      //alert('show_chat_history');
+      if (window.Modules) //检测websdk是否已经加载完毕
+                 {
+                   //alert('websdk已经加载完毕');
+               //此方法最多一次行拉取20条消息。拉取顺序按时间倒序拉取。
+                     RongIMClient.getInstance().getHistoryMessages(RongIMClient.ConversationType.setValue('4'), '<%= @to_user.id%>', 3, {
+                       onSuccess: function (has, list) {
+                           //alert("是否有剩余消息：" + has);
+                          list.reverse().forEach(function(data){  
+                                //alert(getLocalTime(data.getSentTime()));  
+                                if(data.getMessageDirection() == RongIMClient.MessageDirection.RECEIVE){
+                                  add_chat_item('<%= @to_user_pic_url%>','<%= @to_user.name%>',getLocalTime(data.getSentTime()),data.getContent(),'other_user','before');  
+                                }
+                                if(data.getMessageDirection() == RongIMClient.MessageDirection.SEND){
+                                  add_chat_item('<%= @from_user_pic_url%>','<%= @from_user.name%>',getLocalTime(data.getSentTime()),data.getContent(),'self','before');  
+                                }
+                           });
+                           if(has){
+                            var p = document.createElement("div");
+                            p.id = "tips";
+                            var str = "<center><legend style='font-size:1.5rem;' onclick='show_chat_history();'>查看更多历史消息</legend></center>";
+                            p.innerHTML = str;
+                            //mydiv.appendChild(p);
+                            mydiv.insertBefore(p,mydiv.childNodes[0]); 
+                          };
+                       }, onError: function () {
+                           //alert('获取历史消息失败');
+                       }
+                   });
+                 };
+  }   
+  function getLocalTime(nS) {  
+      // //alert(new Date(parseInt(nS)).toLocaleString().replace(/年/, "-"));
+      var date = new Date(parseInt(nS));
+      year = date.getFullYear();
+      month= parseInt(date.getMonth())+1;
+      if(month<10){
+        month = "0" + month;
+      }
+      day = date.getDay();
+      if(parseInt(day)<10){
+        day = "0" + day;
+      }
+      hour = date.getHours();
+      if(parseInt(hour)<10){
+        hour = "0" + hour;
+      }
+      minite = date.getMinutes();
+      if(parseInt(minite)<10){
+        minite = "0" + minite;
+      }
+      second = date.getSeconds();
+       if(parseInt(second)<10){
+        second = "0" + second;
+      }
+      return year + "-"+month + "-" + day +" "+hour+":"+minite+":"+second
+      //return new Date(parseInt(nS)).toLocaleDateString().replace(/年|月/g, "-").replace(/日/g, " ");      
+    }     
+    
+  function add_chat_item(pic_url,user_name,send_time,content,direction,insert_type){
+     var p = document.createElement("div");
+     var class_name = "";
+     var user_profile = "";
+     if(direction == "other_user"){
+       class_name = "am-comment-flip am-comment-highlight";
+       user_profile = "<%= @to_user_profile_url %>";
+     }
+     if(direction == "self"){
+       class_name = "am-comment-success";
+       user_profile = "<%= @from_user_profile_url %>";
+     }
+     
+   
+             
+    var str = "<li class='am-comment "+class_name+"'>"+
+                      "<a href='"+user_profile+"'>"+
+                      " <img src='"+pic_url+"'  class='am-comment-avatar' width='48' height='48'/>"+
+                      "</a>"+
+                    
+                      "<div class='am-comment-main'>"+
+                      " <header class='am-comment-hd'>"+
+                        "<div class='am-comment-meta'>"+
+                          "  <a href='"+user_profile+"' class='am-comment-author'>"+user_name+"</a>"+
+                          " &nbsp;&nbsp;&nbsp;&nbsp; <time datetime='2013-07-27T04:54:29-07:00'>"+send_time+"</time>"+
+                          "</div>"+
+                        "</header>"+
+                    
+                        "<div class='am-comment-bd'>"+
+                        " "+content+" "+
+                        "</div>"+
+                      "</div>"+
+                    "</li>"
+    ////alert(str);
+    p.innerHTML = str;
+    //mydiv.appendChild(p);
+    if(insert_type == 'before'){
+      //mydiv.removeChild(mydiv.childNodes[0]);
+      
+      mydiv.insertBefore(p,mydiv.childNodes[0]); 
+    }
+    if(insert_type == 'after'){
+      mydiv.appendChild(p);
+    }
+  }
+</script>

@@ -57,13 +57,14 @@
       		  <%= render :partial => "follow_form", 
               :locals => {:content => "", :user => @user}  if logged_in? %>
       	</div>
-      	<div class="am-u-sm-4 am-u-lg-4">
-      		  <%= render :partial => "shared/contact_user", 
-              :locals => { :content => "联系",:mobile => @user.mobile}  if logged_in? %>
-      	</div>
+      	
       	<div class="am-u-sm-4 am-u-lg-4">
       		  <%= render :partial => "shared/leave_message", 
-             :locals => { :content => "留言", :user_id => @user.id}  if logged_in? %>
+              :locals => { :content => "留言", :user_id => @user.id}  if logged_in? %>
+      	</div>
+      	<div class="am-u-sm-4 am-u-lg-4">
+      		  <%= render :partial => "shared/send_im_mgs", 
+              :locals => { :content => "聊天", :user_id => @user.id}  if logged_in? %>
       	</div>
       </div>
       <%end%>

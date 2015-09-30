@@ -1,0 +1,99 @@
+<script src="http://res.websdk.rongcloud.cn/RongIMClient-0.9.10.min.js"></script>
+<!--<script src="http://cdn.bootcss.com/jquery.nicescroll/3.6.0/jquery.nicescroll.min.js"></script>-->
+<div class="am-panel am-panel-default" style="border:0;">
+	<div class="am-panel-bd" >
+	  <ul class="am-list am-list-static am-list-border" id="my_conversation_list">
+    
+  </ul>
+	</div>
+</div>
+<script>
+        RongIMClient.init("<%= @appKey%>");
+        RongIMClient.setConnectionStatusListener({
+            onChanged: function (status) {
+                //alert(status.toString(), new Date())
+            }
+        });
+        
+        var mydiv = document.getElementById("my_conversation_list");
+        RongIMClient.getInstance().setOnReceiveMessageListener({
+            onReceived: function (data) {
+                
+                
+            }
+        });
+
+        var self = "";
+        RongIMClient.connect("<%= @token%>", {
+            onSuccess: function (x) {
+                //alert("connected，userid＝" + x);
+				
+                self = x;
+                 if (window.Modules) //检测websdk是否已经加载完毕
+                 {
+                   //alert('websdk已经加载完毕');
+                    RongIMClient.getInstance().syncConversationList({
+                         onSuccess:function(){
+                             //alert('111');
+                             setTimeout(function(){
+                                 //alert('222');
+                                 // 同步会话列表成功之后，重新获取会话列表
+                                 var ConversationList = RongIMClient.getInstance().getConversationList();
+                                 // do something...
+                                 ConversationList.forEach(function(data){ 
+                                   var p = document.createElement("div");
+                                   var send_user_id = data.getTargetId();
+                                   //alert('send_user_id='+send_user_id);
+                                   RongIMClient.getInstance().getUserInfo(send_user_id,{
+                                   onSuccess:function(info){
+                                      // alert('333');
+                                     //var str = "";
+                                     //alert('info.getPortraitUri()='+info.getPortraitUri());
+                                     //alert('info.getUserName()='+info.getUserName());
+                                    //  alert('data.getLatestMessage().getMessage().getContent()='+data.toJSONString());
+                                    //  alert('data.getUnreadMessageCount()='+data.getUnreadMessageCount());
+                                     
+                                        var str = "<li>"+
+                                    " <div class='am-g' onclick=\"goto('/send_im_mgs?to_id="+send_user_id+"')\">"+
+                                      "<div class='am-u-sm-2' align='left'>"+
+                                        " <img src='"+info.getPortraitUri()+"'"+
+                                          "width='40px' height='40px'>"+
+                                        "</div>"+
+                                        "<div class='am-u-sm-8'>"+
+                                          "<span style='font-size:1.4rem;'>"+info.getUserName()+"</span> <br>"+
+                                        //   "<div class='am-text-truncate' style='width: 150px; padding: 5px;font-size:1.3rem;'>"+
+                                        //     " "+data.getLatestMessage().getMessage().getContent()+" "+
+                                        //     " </div>"+
+                                        "</div>"+
+                                        "<div class='am-u-sm-2'>"+
+                                        //"  <span class='am-badge am-round am-badge-danger'>"+data.getUnreadMessageCount()+"</span> "+
+                                       //" "+new Date(data.getLatestTime()).toString().split(" ")[4]+" "+
+                                        "</div> "+
+                                      "</div>"+
+                                    "</li>";
+                                    //alert(str);
+                                   p.innerHTML = str;
+                                   mydiv.appendChild(p);
+                                   },onError:function(){
+                                       //失败
+                                   }
+                                   });
+                                  
+                                 });
+                             },1000)
+                         },onError:function(){
+                             // 失败
+                         }
+                     });
+                 };
+            },
+            onError: function (x) {
+                //alert(x)
+            }
+        });
+</script>
+
+
+
+
+

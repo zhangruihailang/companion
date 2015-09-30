@@ -23,17 +23,17 @@ class UsersController < ApplicationController
   def upload_mirco_pics
     @micropost = Micropost.new
     @micropost.user_id = current_user.id
-    @pic_urls = ''
+    @@from_user_pic_urls = ''
     response.headers['Access-Control-Allow-Origin'] = '*' 
     if @micropost.save
       if params[:files] && params[:files].any? 
         params[:files].each do |file|
         @attachment = @micropost.message_pic.create!(:file => file)
-        @pic_urls += ",#{@attachment.file.url('400')}"
+        @@from_user_pic_urls += ",#{@attachment.file.url('400')}"
         end
       end
       p '---------------------------上传成功-----------------------------'
-      #render text: "上传成功"#@pic_urls.to_s
+      #render text: "上传成功"#@@from_user_pic_urls.to_s
       flash[:notice] = "上传成功"
       #redirect_to "/"
       render js: "window.location = '/'"
@@ -505,7 +505,7 @@ class UsersController < ApplicationController
     req = Net::HTTP::Post.new(path,{'Content-Type' => 'application/json;charset=utf-8','Accept' => 'application/json','Authorization' => "#{authorization}"})
     #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
     data = "{\"templateSMS\" : {\"appId\": \"#{appid}\",\"param\": \"#{@smscode}\",\"templateId\": \"#{templateId}\",\"to\": \"#{params[:mobile]}\"}}"
-
+    
     req.body = data
     res = https.request(req)
     Rails.logger.info "------------------------receive----#{res.body}-----------------------------------------------"
@@ -520,6 +520,135 @@ class UsersController < ApplicationController
     end
   end
   
+  def send_im_mgs
+    @from_user = current_user
+    @to_user = User.find(params[:to_id])
+    @token = ""
+    @appKey = "p5tvi9dst3i84"
+    @from_user_pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"
+    @from_user_profile_url = "/hisProfile?id=#{@from_user.id}"
+    if @from_user.sex == "女孩"
+      @from_user_pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"
+      @from_user_profile_url = "/herProfile?id=#{@from_user.id}"
+    end
+    if !@from_user.avatars.url.blank?
+      @from_user_pic_url = "http://#{@from_user.avatars.url("200")}"
+    end
+    
+    @to_user_pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"
+    @to_user_profile_url = "/hisProfile?id=#{@to_user.id}"
+    if @to_user.sex == "女孩"
+      @to_user_pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"
+      @to_user_profile_url = "/herProfile?id=#{@to_user.id}"
+    end
+    if !@to_user.avatars.url.blank?
+      @to_user_pic_url = "http://#{@to_user.avatars.url("200")}"
+    end
+    
+    if !@from_user.rong_im_token.blank?
+       @token = @from_user.rong_im_token
+    else
+      appSecret = 'MZS2uiqZRLXeVn' #开发者平台分配的 App Secret。
+      nonce =  100000+rand(899999) # 获取随机数。
+      timestamp = Time.now.to_i# 获取时间戳。
+  
+      #signature = sha1($appSecret.$nonce.$timestamp);
+      signature = Digest::SHA1.hexdigest(("#{appSecret}"+"#{nonce}"+"#{timestamp}"))
+      p "------------------appSecret:#{appSecret}----------------------"
+      p "------------------nonce:#{nonce}----------------------"
+      p "------------------timestamp:#{timestamp}----------------------"
+      p "------------------signature:#{signature}----------------------"
+  
+      url = URI.parse("https://api.cn.ronghub.com/user/getToken")
+      path = "/user/getToken.json"
+      https = Net::HTTP.new(url.host,url.port)
+      https.use_ssl = true    
+      req = Net::HTTP::Post.new(path,{'App-Key' => "#{@appKey}",'Nonce' => "#{nonce}",'Timestamp' => "#{timestamp}", 'Signature' => "#{signature}",'Content-Type' => 'application/x-www-form-urlencoded'})
+      req.set_form_data({ 'userId' => "#{@from_user.id}", 'name' => "#{@from_user.name}" , 'portraitUri' => "#{@from_user_pic_url}"})
+      
+      res = https.request(req)
+      Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
+      respCode = JSON.parse(res.body)["code"]
+      Rails.logger.info "------------------------respCode----#{respCode}-----------------------------------------------"
+      if respCode && respCode.to_s == '200'
+        @token = JSON.parse(res.body)["token"]
+        @from_user.update_attributes(:rong_im_token => "#{@token}");
+      end
+    end
+    
+    
+    
+    
+    
+    Rails.logger.info("------------------------@token----#{@token}-----------------------------------------------")
+    
+    render 'send_im_mgs',layout:'chat'
+  end
+  
+  def my_conversation_list
+    @from_user = current_user
+    # @to_user = User.find(3)
+    @token = ""
+    @appKey = "p5tvi9dst3i84"
+    @from_user_pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"
+    @from_user_profile_url = "/hisProfile?id=#{@from_user.id}"
+    if @from_user.sex == "女孩"
+      @from_user_pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"
+      @from_user_profile_url = "/herProfile?id=#{@from_user.id}"
+    end
+    if !@from_user.avatars.url.blank?
+      @from_user_pic_url = "http://#{@from_user.avatars.url("200")}"
+    end
+    
+    # @to_user_pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"
+    # @to_user_profile_url = "/hisProfile?id=#{@to_user.id}"
+    # if @to_user.sex == "女孩"
+    #   @to_user_pic_url = "http://threejed.b0.upaiyun.com/girl.jpg"
+    #   @to_user_profile_url = "/herProfile?id=#{@to_user.id}"
+    # end
+    # if !@to_user.avatars.url.blank?
+    #   @to_user_pic_url = "http://#{@to_user.avatars.url("200")}"
+    # end
+    
+    if !@from_user.rong_im_token.blank?
+       @token = @from_user.rong_im_token
+    else
+      appSecret = 'MZS2uiqZRLXeVn' #开发者平台分配的 App Secret。
+      nonce =  100000+rand(899999) # 获取随机数。
+      timestamp = Time.now.to_i# 获取时间戳。
+  
+      #signature = sha1($appSecret.$nonce.$timestamp);
+      signature = Digest::SHA1.hexdigest(("#{appSecret}"+"#{nonce}"+"#{timestamp}"))
+      p "------------------appSecret:#{appSecret}----------------------"
+      p "------------------nonce:#{nonce}----------------------"
+      p "------------------timestamp:#{timestamp}----------------------"
+      p "------------------signature:#{signature}----------------------"
+  
+      url = URI.parse("https://api.cn.ronghub.com/user/getToken")
+      path = "/user/getToken.json"
+      https = Net::HTTP.new(url.host,url.port)
+      https.use_ssl = true    
+      req = Net::HTTP::Post.new(path,{'App-Key' => "#{@appKey}",'Nonce' => "#{nonce}",'Timestamp' => "#{timestamp}", 'Signature' => "#{signature}",'Content-Type' => 'application/x-www-form-urlencoded'})
+      req.set_form_data({ 'userId' => "#{@from_user.id}", 'name' => "#{@from_user.name}" , 'portraitUri' => "#{@from_user_pic_url}"})
+      
+      res = https.request(req)
+      Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
+      respCode = JSON.parse(res.body)["code"]
+      Rails.logger.info "------------------------respCode----#{respCode}-----------------------------------------------"
+      if respCode && respCode.to_s == '200'
+        @token = JSON.parse(res.body)["token"]
+        @from_user.update_attributes(:rong_im_token => "#{@token}");
+      end
+    end
+    
+    
+    
+    
+    
+    Rails.logger.info("------------------------@token----#{@token}-----------------------------------------------")
+    
+    render 'my_conversation_list'
+  end
   
   private
   

@@ -65,6 +65,10 @@
     <%= render :partial => "shared/item_of_list", 
     :locals => { :title => "我的留言",:url => "/leave_messages?id=#{@user.id}"} %>
   </li>
+  <li>
+    <%= render :partial => "shared/item_of_list", 
+    :locals => { :title => "我的消息会话",:url => "/my_conversation_list?id=#{@user.id}"} %>
+  </li>
 </ul>
 <ul class="am-list am-list-static" >
   

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <!-- 
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png
+  -->
+
+  <!--<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>-->
+ <%= stylesheet_link_tag 'amazeui.min'%>
+  <style>
+  @font-face {
+  font-family: FontAwesome;
+  src: url('<%=font_path("fontawesome-webfont.eot?v=4.3.0")%>');
+  src: url('<%=font_path("fontawesome-webfont.eot?#iefix&v=4.3.0")%>') format('embedded-opentype'), url('<%=font_path("fontawesome-webfont.woff2?v=4.3.0")%>') format('woff2'), url('<%=font_path("fontawesome-webfont.woff?v=4.3.0")%>') format('woff'), url('<%=font_path("fontawesome-webfont.ttf?v=4.3.0")%>') format('truetype'), url('<%=font_path("fontawesome-webfont.svg?v=4.3.0#fontawesomeregular")%>') format('svg');
+  font-weight: 400;
+  font-style: normal
+}
+  
+  
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+
+    .get-btn {
+      background: #fff;
+    }
+
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #0bb59b;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
+ <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+ 
+</head>
+<body>
+
+
+
+
+<%= render 'layouts/header' %>
+  <% flash.each do |message_type, message| %>
+    <%#= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+    <div class="am-alert am-alert-danger" data-am-alert>
+      <button type="button" class="am-close">&times;</button>
+      <p style="font-size:1.5rem;"><%= message%></p>
+    </div>
+
+  <% end %>
+   <%= yield %>
+<%= render 'layouts/chat_footer' %>
+  <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/kindeditor.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/turbolinks.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/jquery_ujs.js"%>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<%= javascript_include_tag "amazeui.ie8polyfill.min" %>
+
+<![endif]-->
+ 
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.min.js"></script>
+<%#= javascript_include_tag "CityJson" %>
+<%#= javascript_include_tag "DistrictJson" %>
+<%# javascript_include_tag "ProJson" %>
+<%= stylesheet_link_tag  "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css" %>
+<%= javascript_include_tag "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js" %>
+<script>
+ 
+  function goto(url){
+		window.location.href = url;
+  }
+</script>
+<%#= javascript_include_tag "ajaxfileupload" %>
+
+<script>
+$(document).ready(function () {
+    $('#activity_starttime').datetimepicker({lang:'ch'});
+   $('#activity_endtime').datetimepicker({lang:'ch'});
+  // $('#activity_starttime').datetimepicker({lang:'ch'});
+  // $('#activity_endtime').datetimepicker({lang:'ch'});
+  //show_alert("我的第一个jQuery代码!");
+
+            
+  $.each(province, function (k, p) { 
+            
+        var option = "<option value='" + p.ProID + "'>" + p.ProName + "</option>";
+        $("#selProvince").append(option);
+    });
+             
+    $("#selProvince").change(function () {
+                var selValue = $(this).val(); 
+                $("#selCity option:gt(0)").remove();
+                 
+                $.each(city, function (k, p) { 
+                    if (p.ProID == selValue) {
+                        var option = "<option value='" + p.CityID + "'>" + p.CityName + "</option>";
+                        $("#selCity").append(option);
+                    }
+                });
+                 
+            });
+             
+  $("#selCity").change(function () {
+                var selValue = $(this).val();
+                $("#selDistrict option:gt(0)").remove(); 
+
+                $.each(District, function (k, p) {
+                    if (p.CityID == selValue) {
+                        var option = "<option value='" + p.Id + "'>" + p.DisName + "</option>";
+                        $("#selDistrict").append(option);
+                    }
+                }); 
+            }); 
+  
+
+});
+       
+</script>
+
+
+
+
+</body>
+</html>

@@ -36,6 +36,7 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( load-awesome/style.css )
 
 Rails.application.config.assets.precompile += %w( item.min.css )
+Rails.application.config.assets.precompile += %w( chat.css )
 Rails.application.config.assets.precompile += %w( form.min.css )
 Rails.application.config.assets.precompile += %w( image.min.css )
 Rails.application.config.assets.precompile += %w( segment.min.css )
@@ -50,3 +51,4 @@ Rails.application.config.assets.precompile += %w( amazeui.ie8polyfill.min.js )
 Rails.application.config.assets.precompile += %w( amazeui.min.css )
 Rails.application.config.assets.precompile += %w( accordion.min.css )
 Rails.application.config.assets.precompile += %w( accordion.min.js)
+Rails.application.config.assets.precompile += %w( chat.css)

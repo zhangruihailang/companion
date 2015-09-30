@@ -1,4 +1,5 @@
-source 'https://rubygems.org'
+#source 'https://rubygems.org'
+source 'https://ruby.taobao.org/'
 gem 'rails', '4.2.0'
 gem 'bcrypt', '3.1.7'
 gem 'faker', '1.4.2'
@@ -23,7 +24,7 @@ gem 'turbolinks', '2.3.0'
 gem 'jbuilder', '2.2.3'
 gem 'sdoc', '0.4.0', group: :doc
 gem 'weixin_rails_middleware'
-gem 'download', :git => 'git@github.com:adamluzsi/download.git'
+#gem 'download', :git => 'git@github.com:adamluzsi/download.git'
 gem 'rack_image_assets_cache_control'
 gem 'jquery-turbolinks', '~> 2.1.0'
 
@@ -32,7 +33,7 @@ gem 'sqlite3', '1.3.9'
 gem 'byebug', '3.4.0'
 gem 'web-console', '2.0.0.beta3'
 gem 'spring', '1.1.3'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 end
 group :test do
 gem 'minitest-reporters', '1.0.5'
@@ -44,7 +45,6 @@ group :production do
 gem 'rails_12factor', '0.0.2'
 gem 'unicorn', '4.8.3'
 gem 'execjs'
-gem 'therubyracer'
-gem 'mysql2'
+#gem 'therubyracer'
 gem 'foreman'
 end

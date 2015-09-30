@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   patch 'post_good_comment' => 'goods#post_good_comment'
   
   
+  get 'send_im_mgs' => 'users#send_im_mgs'
+  get 'my_conversation_list' => 'users#my_conversation_list'
   
   get 'setup' => 'users#setup'
   get 'publish_message' => 'users#publish_message'
