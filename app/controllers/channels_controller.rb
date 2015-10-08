@@ -6,7 +6,8 @@ class ChannelsController < ApplicationController
                                          :upload_topic_pics,
                                          :delete_channel_topic
                                          ]
-    skip_before_filter :verify_authenticity_token, only: [:destroy,:search_channels]
+  before_action :is_admin_user, only: [:index, :search_channels, :show, :new, :update, :edit, :destroy]
+  skip_before_filter :verify_authenticity_token, only: [:destroy,:search_channels]
   # GET /channels
   # GET /channels.json
   def index
