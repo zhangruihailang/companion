@@ -43,10 +43,11 @@
             <div class="am-u-sm-8 am-u-md-8 am-u-end col-end">
               <!--<input type="text" class="am-form-field">-->
               <%#= f.text_field :intro, :class => 'am-form-field'%>
-              <textarea rows="5" name="channel[intro]" id="channel_intro"></textarea>
+              <!--<textarea rows="5" name="channel[intro]" id="channel_intro"></textarea>-->
+              <%= f.text_area :intro,:rows => 8, :class => 'am-form-field'%>
             </div>
           </div>
-
+ 
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4 am-u-md-2 am-text-right">
               封面图片
@@ -96,7 +97,7 @@
         }else if(intro==''){
           show_alert("请填写简介");
           return false;
-        }else if(picture==''){
+        }else if('<%=@url_path%>'.indexOf('edit') < 0 &&  picture==''){
           show_alert("请选择封面图片");
           return false;
         }else if(content == ''){
