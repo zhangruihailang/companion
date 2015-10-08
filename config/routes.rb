@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'admin/index'
+
   resources :goods
 
   resources :good_classes
@@ -31,6 +33,7 @@ Rails.application.routes.draw do
   get 'topics_of_category' => 'static_pages#topics_of_category'
   
   get 'show_channels' => 'static_pages#channels'
+  get 'delete_channel' => 'channels#destroy'
   get 'topics_of_channel' => 'channels#topics_of_channel'
   get 'to_publish_topic_of_channel' => 'channels#to_publish_topic_of_channel'
   get 'to_publish_topic_of_category' => 'categories#to_publish_topic_of_category'

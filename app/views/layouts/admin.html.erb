@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <!-- 
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png
+  -->
+
+  <!--<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.min.css"/>-->
+ <%= stylesheet_link_tag 'amazeui.min'%>
+ <%= stylesheet_link_tag 'admin'%>
+ <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+ <style>
+    @font-face {
+  font-family: FontAwesome;
+  src: url('<%=font_path("fontawesome-webfont.eot?v=4.3.0")%>');
+  src: url('<%=font_path("fontawesome-webfont.eot?#iefix&v=4.3.0")%>') format('embedded-opentype'), url('<%=font_path("fontawesome-webfont.woff2?v=4.3.0")%>') format('woff2'), url('<%=font_path("fontawesome-webfont.woff?v=4.3.0")%>') format('woff'), url('<%=font_path("fontawesome-webfont.ttf?v=4.3.0")%>') format('truetype'), url('<%=font_path("fontawesome-webfont.svg?v=4.3.0#fontawesomeregular")%>') format('svg');
+  font-weight: 400;
+  font-style: normal
+}
+  
+ </style>
+</head>
+<body>
+
+
+
+<header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>童伴</strong> <small>后台管理模板</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+          <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+          <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list">
+        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+        <li class="admin-parent">
+          <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>内容发布<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+          <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+            <li><a href="/channels" class="am-cf"><span class="am-icon-check"></span> 官方频道<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+            <!--<li><a href="admin-help.html"><span class="am-icon-puzzle-piece"></span> 帮助页</a></li>-->
+            <!--<li><a href="admin-gallery.html"><span class="am-icon-th"></span> 相册页面<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>-->
+            <!--<li><a href="admin-log.html"><span class="am-icon-calendar"></span> 系统日志</a></li>-->
+            <!--<li><a href="admin-404.html"><span class="am-icon-bug"></span> 404</a></li>-->
+          </ul>
+        </li>
+        <!--<li><a href="admin-table.html"><span class="am-icon-table"></span> 表格</a></li>-->
+        <!--<li><a href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 表单</a></li>-->
+        <!--<li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>-->
+      </ul>
+
+      <div class="am-panel am-panel-default admin-sidebar-panel">
+        <div class="am-panel-bd">
+          <p><span class="am-icon-bookmark"></span> 公告</p>
+          <p>时光静好，与君语；细水流年，与君同。—— 童伴</p>
+        </div>
+      </div>
+
+      <div class="am-panel am-panel-default admin-sidebar-panel">
+        <div class="am-panel-bd">
+          <p><span class="am-icon-tag"></span> wiki</p>
+          <p>欢迎来到童伴</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <%#= render 'layouts/header' %>
+  <% flash.each do |message_type, message| %>
+    <%#= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+    <div class="am-alert am-alert-danger" data-am-alert>
+      <button type="button" class="am-close">&times;</button>
+      <p style="font-size:1.5rem;"><%= message%></p>
+    </div>
+
+  <% end %>
+   <%= yield %>
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+  <span class="am-icon-btn am-icon-th-list"></span>
+</a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+</footer>
+
+
+
+  <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/kindeditor.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/turbolinks.js"%>
+ <%#= javascript_include_tag "http://threejed.b0.upaiyun.com/assets/javascripts/jquery_ujs.js"%>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<%= javascript_include_tag "amazeui.ie8polyfill.min" %>
+
+<![endif]-->
+ 
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.min.js"></script>
+<%#= javascript_include_tag "CityJson" %>
+<%#= javascript_include_tag "DistrictJson" %>
+<%# javascript_include_tag "ProJson" %>
+<%= stylesheet_link_tag  "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css" %>
+<%= javascript_include_tag "http://cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js" %>
+<script>
+ 
+  function goto(url){
+		window.location.href = url;
+  }
+   function show_alert(msg){
+    $('#alert-content').html(msg);
+    $('#my-alert').modal();
+  }
+</script>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" style="color:#F3936A"><strong>童伴</strong></div>
+    <div class="am-modal-bd" id="alert-content">
+      
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn">确定</span>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

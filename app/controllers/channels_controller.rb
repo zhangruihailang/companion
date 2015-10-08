@@ -6,6 +6,7 @@ class ChannelsController < ApplicationController
                                          :upload_topic_pics,
                                          :delete_channel_topic
                                          ]
+    skip_before_filter :verify_authenticity_token, only: [:destroy]
   # GET /channels
   # GET /channels.json
   def index
@@ -23,20 +24,24 @@ class ChannelsController < ApplicationController
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
     #fresh_when(etag: [@channels])
+    render 'index', :layout => 'admin'
   end
 
   # GET /channels/1
   # GET /channels/1.json
   def show
+    render 'show', :layout => 'admin'
   end
 
   # GET /channels/new
-  def new
+  def new 
     @channel = Channel.new
+    render 'new', :layout => 'admin'
   end
 
   # GET /channels/1/edit
   def edit
+     render 'edit', :layout => 'admin'
   end
 
 
@@ -182,9 +187,10 @@ class ChannelsController < ApplicationController
   # DELETE /channels/1
   # DELETE /channels/1.json
   def destroy
+    @channel = @channel || Channel.find(params[:id])
     @channel.destroy
     respond_to do |format|
-      format.html { redirect_to channels_url, notice: 'Channel was successfully destroyed.' }
+      format.html { redirect_to channels_url, notice: '频道删除成功.' }
       format.json { head :no_content }
     end
   end
