@@ -27,13 +27,16 @@
       <!--    </select>-->
       <!--  </div>-->
       <!--</div>-->
-      <div class="am-u-sm-12 am-u-md-3">
-        <div class="am-input-group am-input-group-sm">
-          <input type="text" class="am-form-field">
-          <span class="am-input-group-btn">
-            <button class="am-btn am-btn-default" type="button">搜索</button>
-          </span>
-        </div>
+      <div class="am-u-sm-12 am-u-md-4 am-form-inline">
+        
+        
+        <form class="am-form-inline" role="form" id="search_form" method="post" action="/search_channels">
+          <div class="am-form-group">
+            <input type="text" class="am-form-field" name="keyword" id="keyword" value="<%=@keyword%>">
+            <input type="hidden" name="page_num" id="page_num" value=""/>
+          </div>
+           <button class="am-btn am-btn-default" type="button" onclick="search_channels()">搜索</button>
+        </form>
       </div>
     </div>
 
@@ -63,15 +66,12 @@
               <td>
                 <div class="am-btn-toolbar">
                   <div class="am-btn-group am-btn-group-xs">
-                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="goto('/channels/<%= channel.id %>/edit')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                    <br>
-                    <a class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="/topics_of_channel?id=<%= channel.id %>" target="_blank"><span class="am-icon-copy"></span> 预览</a>
-                    <!--<button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>-->
-                    <!--<span class="am-icon-trash-o"></span>-->
-                    <br>
-                    <%#= link_to '  删除  ', channel, method: :delete, :class => 'am-btn am-btn-default am-btn-xs am-text-secondary',data: { confirm: '确定删除吗?' } %>
-                    <a class="am-btn am-btn-default am-btn-xs am-text-secondary" data-confirm="确定删除吗?" rel="nofollow"  href="/delete_channel?id=<%= channel.id %>"> <span class="am-icon-trash-o"></span> 删除  </a>              
-                  </div>
+                    <a class="am-btn am-btn-success am-btn-xs" onclick="goto('/channels/<%= channel.id %>/edit')"><span class="am-icon-pencil-square-o"></span>&nbsp; 编辑</a>
+                    <br><br>
+                    <a class="am-btn am-btn-success am-btn-xs " href="/topics_of_channel?id=<%= channel.id %>" target="_blank"><span class="am-icon-copy"></span>&nbsp; 预览</a>
+                    <br><br>
+                    <a class="am-btn am-btn-success am-btn-xs " data-confirm="确定删除吗?" onclick="goto('/delete_channel?id=<%= channel.id %>')"><span class="am-icon-trash"></span>&nbsp;&nbsp; 删除</a>
+                    </div>
                 </div>
               </td>
             </tr>
@@ -81,19 +81,58 @@
 
 <!-- 分页 -->
 
+<% if @total_page !=0%>
+	  <ul class="am-pagination">
+  <% if @page_num.to_i == 0%>
+	 <!--<li class="am-pagination-prev"><a href="#" style="font-size:1.2rem;">&laquo; 上一页</a></li>-->
+	<% else%>
+	  <li class="am-pagination-prev"><a style="font-size:1.2rem;" onclick="set_page_num('<%= @page_num.to_i - 1 %>')">&laquo; 上一页</a></li>
+	<%end%>
+  
+  <% if @page_num.to_i == (@total_page.to_i - 1)%>
+	   <!--<li class="am-pagination-next"><a style="font-size:1.2rem;" href="#">下一页 &raquo;</a></li>-->
+	<% else%>
+		<li class="am-pagination-next"><a style="font-size:1.2rem;" onclick="set_page_num('<%= @page_num.to_i + 1 %>')">下一页 &raquo;</a></li>
+	<%end%>
+	
 
-<%= render :partial => "shared/pagination",
-:locals => { :total_page => @total_page,
-             :page_num => @page_num,
-             :pre_url => "/channels?id=1",
-             :tips => "还没有频道"
-            } %>
+  </ul>
+  <%else%>
+    <div class="am-panel-bd" >
+  
+   <!-- 没有数据提醒 -->
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-lg-12" align="center" style="font-size:1.5rem;">
+          
+          没有搜索到相关频道
+        </div>
+      </div>
+    </div>
+	<%end%>
+
 
           
-        <!--  <hr />-->
-        <!--  <p>注：.....</p>-->
-        <!--</form>-->
       </div>
 
     </div>
-  </div>
+
+<script>
+  function set_page_num(page_num){
+    $('#page_num').val(page_num);
+    search_channels();
+  }
+  function search_channels(){
+    //alert('1111');
+    var keyword = $('#keyword').val();
+    if(keyword != ''){
+       search_form.submit();
+    }else{
+       if($('#page_num').val() == ''){
+         window.location.href = "/channels"
+       }else{
+         window.location.href = "/channels?page_num="+$('#page_num').val();
+       }
+       
+    }
+  }
+</script>

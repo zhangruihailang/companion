@@ -6,7 +6,7 @@ class ChannelsController < ApplicationController
                                          :upload_topic_pics,
                                          :delete_channel_topic
                                          ]
-    skip_before_filter :verify_authenticity_token, only: [:destroy]
+    skip_before_filter :verify_authenticity_token, only: [:destroy,:search_channels]
   # GET /channels
   # GET /channels.json
   def index
@@ -19,6 +19,23 @@ class ChannelsController < ApplicationController
     page_size = 5
     @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
     @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
+    
+    #fresh_when(etag: [@channels])
+    render 'index', :layout => 'admin'
+  end
+  
+  def search_channels
+    @keyword = params[:keyword]
+     @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((Channel.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").count(:id).to_i - 1)/page_size )+1
+    @channels = Channel.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
@@ -161,7 +178,7 @@ class ChannelsController < ApplicationController
 
     respond_to do |format|
       if @channel.save
-        format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
+        format.html { redirect_to @channel, notice: '频道创建成果.' }
         format.json { render :show, status: :created, location: @channel }
       else
         format.html { render :new }
@@ -175,7 +192,7 @@ class ChannelsController < ApplicationController
   def update
     respond_to do |format|
       if @channel.update(channel_params)
-        format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
+        format.html { redirect_to @channel, notice: '频道更新成功.' }
         format.json { render :show, status: :ok, location: @channel }
       else
         format.html { render :edit }

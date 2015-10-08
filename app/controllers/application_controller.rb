@@ -39,6 +39,17 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    def is_admin_user
+      p "---------logged_in?#{logged_in?}----------------"
+       p "---------current_user.admin?#{current_user.admin?}----------------"
+      unless logged_in? && current_user.admin?
+        store_location
+        flash[:danger] = "您不是管理员."
+        redirect_to(root_url) and return
+        #authenticate_openid!
+      end
+    end
+    
     def get_url_path
       p "-----------------request.url:#{request.url}----------------------------"
       @url_path = URI(request.url).path
