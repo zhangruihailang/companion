@@ -1,0 +1,27 @@
+<%
+agent = Mechanize.new
+    page = agent.get('http://yoparent.cn/archives/tag/%E6%99%BA%E5%95%86')
+    pp page
+  #page.links.each do |link|
+  #page.links.find { |l| l.text == 'Continue Reading' }.each do |link|
+   page.links_with(:text => 'Continue Reading').each do |link|
+%>
+ <%= raw(link.href)%><br>
+<%
+  content_page = link.click   
+  pp content_page
+  p "----------------------11111111111111---------------------------"
+  content_page.css('article header').each do |f|
+     p f.content.chomp.reverse.chomp.reverse
+  end
+  p "-------------------------------------------------"
+  f = content_page.css('section')[1]
+%>
+    <%= raw(f.content)%> 
+    <%#= f.class%><br>
+<%
+  #end
+  p "----------------------11111111111111---------------------------"
+
+    end
+%>

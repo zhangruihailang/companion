@@ -3,12 +3,12 @@
   <div class="am-panel-bd">
     <div class="am-g">
   <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-    <h3>登录</h3>
+    <!--<h3>登录</h3>-->
     
 
     <br>
     
-       <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+    <!--   <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />-->
 
     
      <%= form_for(:session, url: login_path, html: { class: 'am-form' }) do |f| %>
@@ -27,8 +27,7 @@
       <br>
        <!--<button name=""  class="am-btn am-btn-default am-btn-sm am-fr">忘记密码 ^_^? </button>-->
         <%= link_to "忘记密码^_^? ", new_password_reset_path ,:class => "am-btn am-btn-default am-btn-sm am-fr" %>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <%= link_to "现在注册!", new_password_reset_path ,:class => "am-btn am-btn-default am-btn-sm am-fr" %>
+       
       <br>
       <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
       

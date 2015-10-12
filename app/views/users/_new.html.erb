@@ -1,0 +1,102 @@
+<div class="am-panel am-panel-default">
+
+
+  <div class="am-panel-bd">
+    <div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <!--<h3>注册</h3>-->
+    
+
+    <br>
+    
+    <!--<hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />-->
+
+      <%= form_for(@user, html: { class: 'am-form' }) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+        <input type="text" name="user[mobile]" id="user_mobile" value="" placeholder="请输入手机号" class="am-form-field" required>
+      </div>
+      <br>
+      <div class="am-input-group am-input-group-primary">
+        <input type="text" name="user[smscode]" id="user_smscode" value="" placeholder="输入验证码" class="am-form-field" required>
+        <span class="am-input-group-label" ><i class="am-icon-envelope" id="send_smscode" onclick="send_smscode();">&nbsp;&nbsp;获取验证码</i></span>
+      </div>
+      <br>
+      <!-- 
+      <label for="remember-me">
+        <input id="remember-me" type="checkbox">
+        记住密码
+      </label>
+      -->
+      <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+        <input type="password" name="user[password]" id="user_password" value="" placeholder="设置密码" class="am-form-field" required>
+      </div>
+      <br>
+     <div class="am-input-group am-input-group-primary">
+        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+        <input type="password" name="user[password_confirmation]" id="user_password_confirmation" value="" placeholder="确认密码" class="am-form-field" required>
+      </div>
+      <br>
+      <label class="am-checkbox-inline">
+        <input type="checkbox" value="1" id="agree"> 我已阅读并同意童伴<a href="/agreement">《注册协议》</a>
+      </label>
+      <br><br>
+      <input type="submit" name="newgroup" class="am-btn am-btn-primary am-btn-block"  value="注册"  onclick="return validate();" />
+       
+    
+    <% end %>
+    
+  </div>
+</div>
+  </div>
+
+</div>
+
+<script>
+function send_smscode() {
+  var f_mobile = $('#user_mobile').val();
+  //show_alert('f_mobile==========='+f_mobile);
+    $.ajax({
+  method: "POST",
+  url: "send_sms_code",
+  data: { mobile: f_mobile}
+  })
+  .done(function( msg ) {
+    show_alert(msg.smscode );
+  });
+};
+  
+
+   function validate() {
+     //  show_alert($('#order_amount').val()%100);
+      var mobile = $('#user_mobile').val();
+      var password = $('#user_password').val();
+      var password_confirmation = $('#user_password_confirmation').val();
+      var smscode = $('#user_smscode').val();
+        if(mobile == ''){
+          show_alert("手机号不能为空");
+          return false;
+        }else if(isNaN(mobile)){
+          show_alert("手机号格式正确");
+          return false;
+        }else if(password == ''){
+          show_alert("密码不能为空");
+          return false;
+        }else if(password_confirmation != password){
+          show_alert("密码不匹配");
+          return false;
+        }else if(smscode == ''){
+          show_alert("验证码不能为空");
+          return false;
+        }if(!$('#agree').is(':checked')) {
+          show_alert("请勾选注册协议");
+          return false;
+        }else{
+          return true;
+        }
+       
+     
+  }
+</script>

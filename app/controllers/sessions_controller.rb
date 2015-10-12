@@ -2,6 +2,11 @@ class SessionsController < ApplicationController
  
   
   def new
+    @tab_id = params[:id] || '1'
+    if @tab_id && @tab_id == '0'
+      @user = User.new
+    end
+    render 'login'
   end
   
   # def create

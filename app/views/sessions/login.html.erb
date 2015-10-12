@@ -1,0 +1,42 @@
+ <div data-am-widget="tabs"
+       class="am-tabs am-tabs-default"
+        >
+      <ul class="am-tabs-nav am-cf">
+          <% if @tab_id.to_s == '1'%>
+          <li class="am-active" onclick="goto('/login?id=1')" ><a href="#">登陆</a></li>
+          <% else%>
+          <li class="" onclick="goto('/login?id=1')"><a href="#">登陆</a></li>
+          <% end%>
+          
+           <% if @tab_id.to_s == '0'%>
+          <li class="am-active" onclick="goto('/login?id=0')" ><a href="#">注册</a></li>
+          <% else%>
+          <li class="" onclick="goto('/login?id=0')"><a href="#">注册</a></li>
+          <% end%>
+          
+      </ul>
+      <div class="am-tabs-bd">
+          
+           <% if @tab_id.to_s == '1'%>
+        
+            <div data-tab-panel-0 class="am-tab-panel am-active">
+            
+            <%= render :partial => 'sessions/new' %>
+            </div>
+            <%else%>
+            <div data-tab-panel-0 class="am-tab-panel">
+            </div>
+            <% end%>
+            
+            <% if @tab_id.to_s == '0'%>
+          
+            <div data-tab-panel-1 class="am-tab-panel am-active">
+            
+              <%= render :partial => 'users/new' %>
+            </div>
+            <%else%>
+            <div data-tab-panel-1 class="am-tab-panel">
+            </div>
+            <% end%>
+      </div>
+  </div>

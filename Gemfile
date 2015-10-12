@@ -27,6 +27,8 @@ gem 'weixin_rails_middleware'
 #gem 'download', :git => 'git@github.com:adamluzsi/download.git'
 gem 'rack_image_assets_cache_control'
 gem 'jquery-turbolinks', '~> 2.1.0'
+gem 'mechanize', :git => 'git@github.com:sparklemotion/mechanize.git'
+gem 'utf8-cleaner'
 
 group :development, :test do
 gem 'sqlite3', '1.3.9'

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'spider_test' => 'spider#test'
+  
   get 'admin/index'
 
   resources :goods
