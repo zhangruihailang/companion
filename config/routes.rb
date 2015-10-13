@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :channel_classes
+
   get 'spider_test' => 'spider#test'
   
   get 'admin/index'
@@ -36,8 +38,12 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index'
   
   get 'show_channels' => 'static_pages#channels'
+  get 'show_channel_classes' => 'static_pages#channel_classes'
   get 'delete_channel' => 'channels#destroy'
+  get 'delete_channel_class' => 'channel_classes#destroy'
+  get 'show_channels_of_class' => 'channels#show_channels_of_class'
   post 'search_channels' => 'channels#search_channels'
+  post 'search_channel_classes' => 'channel_classes#search_channel_classes'
   get 'topics_of_channel' => 'channels#topics_of_channel'
   get 'to_publish_topic_of_channel' => 'channels#to_publish_topic_of_channel'
   get 'to_publish_topic_of_category' => 'categories#to_publish_topic_of_category'

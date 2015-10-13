@@ -21,7 +21,11 @@
           <p class="am-article-meta">
           <%= @channel.updated_at.strftime('%Y-%m-%d %H:%M:%S').to_s%>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          童伴</p>
+          童伴
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="am-badge <%=get_badge_style%> am-radius" onclick="goto('/show_channels_of_class?class_id=<%=@channel.channel_class.id%>')"><%= @channel.channel_class.title%></span></p>
+                    
+          </p>
         </div>
       
         <div class="am-article-bd">

@@ -120,7 +120,7 @@ class StaticPagesController < ApplicationController
     if params[:page_num]
       @page_num =  params[:page_num]
     end
-    page_size = 20
+    page_size = 8
     @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
     @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
@@ -128,6 +128,19 @@ class StaticPagesController < ApplicationController
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
     
     #fresh_when(etag: [@channels])
+  end
+  
+  def channel_classes
+    @page_num = 0
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 20
+    @total_page = ((ChannelClass.all.count(:id).to_i - 1)/page_size )+1
+    @channels = ChannelClass.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
   end
   
   def test_upload

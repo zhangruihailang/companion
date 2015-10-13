@@ -1,19 +1,10 @@
-  <div data-am-widget="tabs"
-       class="am-tabs am-tabs-d2"
-       data-am-tabs-noswipe="1"
-        >
-      <ul class="am-tabs-nav am-cf">
-        
-          <li class="am-active" onclick="goto('/show_channels')" ><a href="#">全部</a></li>
-    
-          <li class="" onclick="goto('/show_channel_classes')"><a href="#">频道</a></li>
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+    <h2 class="am-titlebar-title ">
+        <%= @channel_class.title%>
+    </h2>
+</div>  
+<div class="am-panel am-panel-default">
          
-      
-      </ul>
-      <div class="am-tabs-bd">
-        
-            <div data-tab-panel-0 class="am-tab-panel am-active">
-              
               <% @channels.each do |channel|%>
                 <% cache channel do%>
                   <!--  频道正文  -->
@@ -29,8 +20,8 @@
                             <p class="am-article-meta" >
                             <%= channel.updated_at.strftime('%Y-%m-%d %H:%M:%S').to_s%>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="am-badge <%=get_badge_style%> am-radius" onclick="goto('/show_channels_of_class?class_id=<%=channel.channel_class.id%>')"><%= channel.channel_class.title%></span></p>
-                          </div>
+                            童伴
+                             </div>
                         
                           <div class="am-article-bd" onclick="goto('/topics_of_channel?id=<%=channel.id%>')">
                             <p class="am-article-lead"><%= channel.intro%></p>
@@ -48,18 +39,13 @@
       <%= render :partial => "shared/pagination",
       :locals => { :total_page => @total_page,
                    :page_num => @page_num,
-                   :pre_url => "/show_channels?tab=1",
+                   :pre_url => "/show_channels_of_class?class_id=#{@channel_class.id}",
                    :tips => "还没有频道"
                   } %>
 
               
-             </div>
            
-            <div data-tab-panel-1 class="am-tab-panel">
-            </div>
-            
-      </div>
-  </div>
+ </div>
 
 
 

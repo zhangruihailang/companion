@@ -14,12 +14,13 @@ class ChannelsController < ApplicationController
     #@channels = Channel.all
     #@likeds = @micropost.likeds
     @page_num = 0
+    @channel_class = ChannelClass.find(params[:id])
     if params[:page_num]
       @page_num =  params[:page_num]
     end
     page_size = 5
-    @total_page = ((Channel.all.count(:id).to_i - 1)/page_size )+1
-    @channels = Channel.all.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    @total_page = ((@channel_class.channels.count(:id).to_i - 1)/page_size )+1
+    @channels = @channel_class.channels.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
@@ -28,15 +29,31 @@ class ChannelsController < ApplicationController
     render 'index', :layout => 'admin'
   end
   
+  def show_channels_of_class
+    @page_num = 0
+    @channel_class = ChannelClass.find(params[:class_id])
+    if params[:page_num]
+      @page_num =  params[:page_num]
+    end
+    page_size = 5
+    @total_page = ((@channel_class.channels.count(:id).to_i - 1)/page_size )+1
+    @channels = @channel_class.channels.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    
+    Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
+    Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
+   
+  end
+  
   def search_channels
+    @channel_class = ChannelClass.find(params[:id])
     @keyword = params[:keyword]
      @page_num = 0
     if params[:page_num]
       @page_num =  params[:page_num]
     end
     page_size = 5
-    @total_page = ((Channel.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").count(:id).to_i - 1)/page_size )+1
-    @channels = Channel.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
+    @total_page = ((@channel_class.channels.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").count(:id).to_i - 1)/page_size )+1
+    @channels = @channel_class.channels.where("title like ? or intro like ?", "%#{@keyword}%", "%#{@keyword}%").order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
     Rails.logger.info "-----------------------page_num=#{@page_num}--------------------------------------"
     Rails.logger.info "-----------------------total_page=#{@total_page}--------------------------------------"
@@ -54,11 +71,13 @@ class ChannelsController < ApplicationController
   # GET /channels/new
   def new 
     @channel = Channel.new
+    @channel_class = ChannelClass.find(params[:class_id])
     render 'new', :layout => 'admin'
   end
 
   # GET /channels/1/edit
   def edit
+    @channel_class = ChannelClass.find(params[:class_id])
      render 'edit', :layout => 'admin'
   end
 
@@ -175,11 +194,12 @@ class ChannelsController < ApplicationController
   # POST /channels
   # POST /channels.json
   def create
-    @channel = Channel.new(channel_params)
-
+    # @channel = Channel.new(channel_params)
+    @channel_class = ChannelClass.find(params[:class_id])
+    @channel = @channel_class.channels.new(channel_params)
     respond_to do |format|
       if @channel.save
-        format.html { redirect_to @channel, notice: '频道创建成果.' }
+        format.html { redirect_to @channel, notice: '文章创建成果.' }
         format.json { render :show, status: :created, location: @channel }
       else
         format.html { render :new }
@@ -193,7 +213,7 @@ class ChannelsController < ApplicationController
   def update
     respond_to do |format|
       if @channel.update(channel_params)
-        format.html { redirect_to @channel, notice: '频道更新成功.' }
+        format.html { redirect_to @channel, notice: '文章更新成功.' }
         format.json { render :show, status: :ok, location: @channel }
       else
         format.html { render :edit }
@@ -208,7 +228,7 @@ class ChannelsController < ApplicationController
     @channel = @channel || Channel.find(params[:id])
     @channel.destroy
     respond_to do |format|
-      format.html { redirect_to channels_url, notice: '频道删除成功.' }
+      format.html { redirect_to "/channels?id=#{@channel.channel_class.id}", notice: '文章删除成功.' }
       format.json { head :no_content }
     end
   end

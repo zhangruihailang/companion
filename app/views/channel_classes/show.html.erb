@@ -1,0 +1,24 @@
+<div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">内容发布</strong> / <small>官方频道</small></div>
+    </div>
+<div class="am-panel am-panel-default">
+  <div class="am-panel-bd">
+<p>
+  <strong>标题:</strong>
+  <%= @channel_class.title %>
+</p>
+
+<p>
+  <strong>简介:</strong>
+  <%= @channel_class.intro %>
+</p>
+
+<p>
+  <strong>封面图片:</strong>
+  <%=image_tag "http://" + @channel_class.picture.url("200x200") %>
+</p>
+
+<%= link_to '编辑', edit_channel_class_path(@channel_class),:onclick => "goto(\"/channel_classes/#{@channel_class.id}/edit\")" %> |
+<%= link_to '返回', channel_classes_path %>
+</div>
+</div>

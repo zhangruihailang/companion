@@ -1,5 +1,5 @@
 <div class="am-cf am-padding">
-      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">内容发布</strong> / <small>官方频道</small></div>
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">内容发布</strong> / <small>官方频道</small> / <small><%=@channel.channel_class.title%></small></div>
     </div>
 <div class="am-panel am-panel-default">
   <div class="am-panel-bd">
@@ -18,11 +18,11 @@
 </p>
 
 <p>
-  <strong>封面图片:</strong>
-  <%=image_tag "http://" + @channel.picture.url("200x200") %>
+  <!--<strong>封面图片:</strong>-->
+  <%#=image_tag "http://" + @channel.picture.url("200x200") %>
 </p>
 
-<%= link_to '编辑', edit_channel_path(@channel),:onclick => "goto(\"/channels/#{@channel.id}/edit\")" %> |
-<%= link_to '返回', channels_path %>
+<%= link_to '编辑', '#',:onclick => "goto(\"/channels/#{@channel.id}/edit?class_id=#{@channel.channel_class.id}\")" %> |
+<%= link_to '返回', "/channels?id=#{@channel.channel_class.id}" %>
 </div>
 </div>
