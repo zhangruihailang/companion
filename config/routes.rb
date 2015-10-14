@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'business/index'
+
   resources :channel_classes
 
   get 'spider_test' => 'spider#test'

@@ -3,12 +3,12 @@
         <%= @channel_class.title%>
     </h2>
 </div>  
-<div class="am-panel am-panel-default">
-         
+<div class="am-panel am-panel-default" style="border:0;">
+         <div class="am-panel-bd" >
               <% @channels.each do |channel|%>
                 <% cache channel do%>
                   <!--  频道正文  -->
-                  <div class="am-panel-bd" >
+                  
                     <div class="am-g" >
                       <div class="am-u-sm-12">
                         <article class="am-article">
@@ -30,17 +30,17 @@
                         </article>
                       </div>
                     </div>
-                  </div>
+                
                   <hr data-am-widget="divider" style="color:#4A779D;" class="am-divider am-divider-default" />
 
                 <%end%>
               <%end%>
-              
+                </div>
       <%= render :partial => "shared/pagination",
       :locals => { :total_page => @total_page,
                    :page_num => @page_num,
                    :pre_url => "/show_channels_of_class?class_id=#{@channel_class.id}",
-                   :tips => "还没有频道"
+                   :tips => "还没有文章发布，敬请期待!"
                   } %>
 
               
