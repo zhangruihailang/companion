@@ -1,7 +1,77 @@
 <%url = params[:url]%>
+  <div class="spinner" id="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+  </div>
 
-
-<iframe src="<%= url%>" marginheight="0" marginwidth="0" frameborder="0" scrolling="yes" width="100%" height=100% id="iframepage" name="iframepage"  ></iframe>
+<style>
+  .spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-size: 10px;
+}
+ 
+.spinner > div {
+  background-color:#F3936A;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+   
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+ 
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+</style>
+<!--<div id="target" class="loading">-->
+<!--  <div class="loading-overlay">-->
+<!--    <p class="loading-spinner">-->
+<!--      <span class="loading-icon"></span>-->
+<!--      <span class="loading-text">加载中</span>-->
+<!--    </p>-->
+<!--  </div>-->
+<!--</div>-->
+<div id="target"></div>
+<script src="http://threejed.b0.upaiyun.com/assets/javascripts/loading-overlay.min.js"></script>
+<iframe style="display:none;" src="<%= url%>" marginheight="0" marginwidth="0" frameborder="0" scrolling="yes" width="100%" height=100% id="iframepage" name="iframepage"  ></iframe>
 
 <script>
     
@@ -16,14 +86,17 @@
             // alert(subWeb.body.scrollHeight);
             // ifm.height = subWeb.body.scrollHeight;
               ifm.height = $(document).height() - 112;
+              $('#spinner').height = $(document).height() - 112;
+              $('#spinner').css("margin",""+($(document).height() - 50)/2+"px auto");
+              
             }
-      
+      $('#spinner').css('display','block');
     }
 iFrameHeight();
-  $("#iframepage").load(function(){   
-    // alert($(window.frames['iframepage'].document));
-    //   alert('加载完毕');  
-      
-    //   // $(window.frames['iframepage'].document).find('.searchhead').css('display','none');
-    });   
+
+       
+    $("#iframepage").load(function(){   
+        $('#spinner').css('display','none');
+        $('#iframepage').css('display','block');
+    });     
 </script> 
