@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   get 'business/index'
+  get 'business/goto'
 
   resources :channel_classes
 

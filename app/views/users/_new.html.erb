@@ -57,17 +57,25 @@
 <script>
 function send_smscode() {
   var f_mobile = $('#user_mobile').val();
-  //show_alert('f_mobile==========='+f_mobile);
-    $.ajax({
-  method: "POST",
-  url: "send_sms_code",
-  data: { mobile: f_mobile}
-  })
-  .done(function( msg ) {
-    show_alert(msg.smscode );
-  });
+  // /alert('f_mobile==========='+f_mobile);
+  if(f_mobile==''){
+    show_alert("请输入手机号");
+    return false;
+  } else if(isNaN(f_mobile)){
+    show_alert("手机号格式不正确");
+    return false;
+  }else{
+      $.ajax({
+    method: "POST",
+    url: "send_sms_code",
+    data: { mobile: f_mobile}
+    })
+    .done(function( msg ) {
+      show_alert(msg.smscode );
+    }); 
+  }
+   
 };
-  
 
    function validate() {
      //  show_alert($('#order_amount').val()%100);
@@ -79,7 +87,7 @@ function send_smscode() {
           show_alert("手机号不能为空");
           return false;
         }else if(isNaN(mobile)){
-          show_alert("手机号格式正确");
+          show_alert("手机号格式不正确");
           return false;
         }else if(password == ''){
           show_alert("密码不能为空");

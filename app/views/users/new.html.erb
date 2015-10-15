@@ -56,16 +56,21 @@
 
 <script>
 function send_smscode() {
-  var f_mobile = $('#user_mobile').val();
+  var f_mobile = $('#user_mobile').val().replace(/^\s+|\s+$/g, '');
   //show_alert('f_mobile==========='+f_mobile);
-    $.ajax({
-  method: "POST",
-  url: "send_sms_code",
-  data: { mobile: f_mobile}
-  })
-  .done(function( msg ) {
-    show_alert(msg.smscode );
-  });
+  if(f_mobile==''){
+    show_alert('请输入手机号');
+  }else{
+      $.ajax({
+    method: "POST",
+    url: "send_sms_code",
+    data: { mobile: f_mobile}
+    })
+    .done(function( msg ) {
+      show_alert(msg.smscode );
+    }); 
+  }
+   
 };
   
 

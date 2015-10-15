@@ -105,7 +105,8 @@ class UsersController < ApplicationController
     @user = User.find_by(mobile: params[:user][:mobile]) 
     if @user
       flash[:success] = "该手机号已经注册过!"
-      render 'new'
+      # render 'new'
+      redirect_to '/login?id=0'
     else
       
       # url = "http://www.charmdate.cn:9090/Charm/mobileUserManageNRAction.do?command=compareSmsCodeCallBackMess&mobile=#{params[:user][:mobile]}&smscode=#{params[:user][:smscode]}"
@@ -128,8 +129,9 @@ class UsersController < ApplicationController
           #@user = User.new
           #Rails.logger.info "---------------------@user#{@user}--------------------------------------"
           #Rails.logger.info "---------------------@user#{@user.errors.full_messages.each{|msg| p msg} }--------------------------------------"
-          render 'new'
-              
+          # render 'new'
+          flash[:success] = "注册失败，请重新注册!"
+          redirect_to '/login?id=0'
            #render text: "errors"
         end
       else
@@ -137,7 +139,8 @@ class UsersController < ApplicationController
          @user = User.new
           Rails.logger.info "---------------------@user#{@user}--------------------------------------"
         flash[:info] = "验证码不正确"
-        render 'new'
+        # render 'new'
+        redirect_to '/login?id=0'
       end
     end
     
@@ -473,50 +476,57 @@ class UsersController < ApplicationController
     # message = JSON.parse(URI.parse(url).read)["message"]
     # render :json => { :smscode => message}
     
-    @smscode =  100000+rand(899999)
-    @sms = Smscode.find_by(mobile: params[:mobile]) 
-    unless @sms
-      @sms = Smscode.new
-      @sms.mobile = params[:mobile]
-    end
-    @sms.code = @smscode
-    @sms.save
-    Rails.logger.info "----------------smscode======#{@smscode}--------------------------"
-    Rails.logger.info("----------------smscode======#{@smscode}--------------------------")
-    
-    
-    account_sid =  "439c50e3ccf174139c13def5a00be034"
-    restURL = "https://api.ucpaas.com"
-    version = "2014-06-30"
-    auth_token = "49ee5da5489b144012728f719ae506a7"
-    appid = "2f49e5e9e627402aaa5c86422d116da4"
-    templateId = "13119"
-    
-    sig = Digest::MD5.hexdigest(("#{account_sid}"+"#{auth_token}"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
-    
-    # url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
-    # path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}"
-    
-    url = URI.parse("#{restURL}/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}")
-    path = "/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}"
-    https = Net::HTTP.new(url.host,url.port)
-    https.use_ssl = true    
-    authorization = Base64.strict_encode64("#{account_sid}"+":"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)
-    req = Net::HTTP::Post.new(path,{'Content-Type' => 'application/json;charset=utf-8','Accept' => 'application/json','Authorization' => "#{authorization}"})
-    #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
-    data = "{\"templateSMS\" : {\"appId\": \"#{appid}\",\"param\": \"#{@smscode}\",\"templateId\": \"#{templateId}\",\"to\": \"#{params[:mobile]}\"}}"
-    
-    req.body = data
-    res = https.request(req)
-    Rails.logger.info "------------------------receive----#{res.body}-----------------------------------------------"
-    Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
-    respCode = JSON.parse(res.body)["resp"]["respCode"]
-    Rails.logger.info "------------------------respCode----#{respCode}-----------------------------------------------"
-    Rails.logger.info("------------------------respCode----#{respCode}-----------------------------------------------")
-    if respCode && respCode == '000000'
-      render :json => { :smscode => "短信验证码发送成功，请注意查收"}
+    @user = User.find_by(mobile: params[:mobile]) 
+    if @user
+      # flash[:success] = "该手机号已经注册过!"
+      render :json => { :smscode => "该手机号已经注册过"}
     else
-      render :json => { :smscode => "短信验证码发送失败，你重新发送"}
+    
+      @smscode =  100000+rand(899999)
+      @sms = Smscode.find_by(mobile: params[:mobile]) 
+      unless @sms
+        @sms = Smscode.new
+        @sms.mobile = params[:mobile]
+      end
+      @sms.code = @smscode
+      @sms.save
+      Rails.logger.info "----------------smscode======#{@smscode}--------------------------"
+      Rails.logger.info("----------------smscode======#{@smscode}--------------------------")
+      
+      
+      account_sid =  "439c50e3ccf174139c13def5a00be034"
+      restURL = "https://api.ucpaas.com"
+      version = "2014-06-30"
+      auth_token = "49ee5da5489b144012728f719ae506a7"
+      appid = "2f49e5e9e627402aaa5c86422d116da4"
+      templateId = "13119"
+      
+      sig = Digest::MD5.hexdigest(("#{account_sid}"+"#{auth_token}"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)).upcase
+      
+      # url = URI.parse("https://api.ucpaas.com/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}")
+      # path = "/2014-06-30/Accounts/439c50e3ccf174139c13def5a00be034/Messages/templateSMS.xml?sig=#{sig}"
+      
+      url = URI.parse("#{restURL}/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}")
+      path = "/#{version}/Accounts/#{account_sid}/Messages/templateSMS?sig=#{sig}"
+      https = Net::HTTP.new(url.host,url.port)
+      https.use_ssl = true    
+      authorization = Base64.strict_encode64("#{account_sid}"+":"+DateTime.parse(Time.now.to_s).strftime('%Y%m%d%H%M%S').to_s)
+      req = Net::HTTP::Post.new(path,{'Content-Type' => 'application/json;charset=utf-8','Accept' => 'application/json','Authorization' => "#{authorization}"})
+      #data =	"<?xml version='1.0' encoding='utf-8'?><templateSMS><appId>ae84fc15535a411093ff63b830969509</appId><templateId>4892</templateId><to>#{params[:mobile]}</to><param>#{@smscode}</param></templateSMS>"
+      data = "{\"templateSMS\" : {\"appId\": \"#{appid}\",\"param\": \"#{@smscode}\",\"templateId\": \"#{templateId}\",\"to\": \"#{params[:mobile]}\"}}"
+      
+      req.body = data
+      res = https.request(req)
+      Rails.logger.info "------------------------receive----#{res.body}-----------------------------------------------"
+      Rails.logger.info("------------------------receive----#{res.body}-----------------------------------------------")
+      respCode = JSON.parse(res.body)["resp"]["respCode"]
+      Rails.logger.info "------------------------respCode----#{respCode}-----------------------------------------------"
+      Rails.logger.info("------------------------respCode----#{respCode}-----------------------------------------------")
+      if respCode && respCode == '000000'
+        render :json => { :smscode => "短信验证码发送成功，请注意查收"}
+      else
+        render :json => { :smscode => "短信验证码发送失败，请重新发送"}
+      end
     end
   end
   

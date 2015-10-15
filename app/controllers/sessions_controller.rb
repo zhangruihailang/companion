@@ -62,7 +62,9 @@ class SessionsController < ApplicationController
       redirect_back_or root_url
     else
       flash.now[:danger] = "手机号或密码不正确!"
-      render 'new'
+      # render 'new'
+      @tab_id = '1'
+      render 'login'
     end
   end
   
