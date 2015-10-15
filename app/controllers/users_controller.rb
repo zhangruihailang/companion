@@ -600,7 +600,7 @@ class UsersController < ApplicationController
     @from_user = current_user
     # @to_user = User.find(3)
     @token = ""
-    @appKey = "p5tvi9dst3i84"
+    @appKey = "n19jmcy597m49"
     @from_user_pic_url = "http://threejed.b0.upaiyun.com/boy.jpg"
     @from_user_profile_url = "/hisProfile?id=#{@from_user.id}"
     if @from_user.sex == "女孩"
@@ -624,7 +624,7 @@ class UsersController < ApplicationController
     if !@from_user.rong_im_token.blank?
        @token = @from_user.rong_im_token
     else
-      appSecret = 'MZS2uiqZRLXeVn' #开发者平台分配的 App Secret。
+      appSecret = 'QsNqLJ4BgTDKtx' #开发者平台分配的 App Secret。
       nonce =  100000+rand(899999) # 获取随机数。
       timestamp = Time.now.to_i# 获取时间戳。
   
