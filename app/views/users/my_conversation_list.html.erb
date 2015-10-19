@@ -11,7 +11,7 @@
         RongIMClient.init("<%= @appKey%>");
         RongIMClient.setConnectionStatusListener({
             onChanged: function (status) {
-                //alert(status.toString(), new Date())
+                alert(status.toString(), new Date())
             }
         });
         
@@ -26,12 +26,12 @@
         var self = "";
         RongIMClient.connect("<%= @token%>", {
             onSuccess: function (x) {
-                //alert("connected，userid＝" + x);
+                alert("connected，userid＝" + x);
 				
                 self = x;
                  if (window.Modules) //检测websdk是否已经加载完毕
                  {
-                   //alert('websdk已经加载完毕');
+                   alert('websdk已经加载完毕');
                     RongIMClient.getInstance().syncConversationList({
                          onSuccess:function(){
                              //alert('111');
