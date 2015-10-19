@@ -43,7 +43,9 @@ namespace :spider  do
           channel = Channel.new
           channel.title = title
           channel.intro = intro
-          channel.content = content.gsub(/\n/,"<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").sub("更多中小学教育资讯请点击：http://www.zhly.cn/education","")
+          channel.content = content.gsub(/\n/,"<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+          .sub("更多中小学教育资讯请点击：","")
+          .sub("http://www.zhly.cn/education","")
                                   # .gsub(/\t/,"&nbsp;&nbsp;&nbsp;&nbsp;")
                                    
           channel.user_id = 2
