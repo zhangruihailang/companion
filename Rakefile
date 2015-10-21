@@ -161,7 +161,6 @@ namespace :spider  do
     channels.each {|channel| channel.save}
     
   end
-  end
 end
 
 
