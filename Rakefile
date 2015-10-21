@@ -18,9 +18,7 @@ Rails.application.load_tasks
 namespace :spider  do
   desc '智乐园 教育知识'
   task :zhileyuan_jiaoyuzhishi, [:class_id] => :environment do |t, args|
-    
-  Benchmark.bmbm(10) do |t|
-  t.report{
+  
     threads = []
     channels = []
     threads << Thread.new { 
@@ -161,7 +159,7 @@ namespace :spider  do
 
     threads.each { |t| t.join }
     channels.each {|channel| channel.save}
-    }
+    
   end
   end
 end
