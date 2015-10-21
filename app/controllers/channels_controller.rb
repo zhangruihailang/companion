@@ -35,7 +35,7 @@ class ChannelsController < ApplicationController
     if params[:page_num]
       @page_num =  params[:page_num]
     end
-    page_size = 5
+    page_size = 20
     @total_page = ((@channel_class.channels.count(:id).to_i - 1)/page_size )+1
     @channels = @channel_class.channels.order("updated_at desc").limit(page_size).offset(@page_num.to_i * page_size.to_i)
     
