@@ -30,7 +30,7 @@ namespace :spider  do
       url = "http://www.zhly.cn/family/jyzs/index/page/"
       # total_page = args[:total_page].to_i
       class_id = args[:class_id].to_i
-      (45..30).each do |i|
+      (30..45).to_a.reverse.each do |i|
       real_url = url + i.to_s
       p "---------------------list_url:#{real_url}------------------"
       page = agent.get(real_url)
@@ -75,7 +75,7 @@ namespace :spider  do
       url = "http://www.zhly.cn/family/jyzs/index/page/"
       # total_page = args[:total_page].to_i
       class_id = args[:class_id].to_i
-    (30..15).each do |i|
+    (15..30).to_a.reverse.each do |i|
       real_url = url + i.to_s
       p "---------------------list_url:#{real_url}------------------"
       page = agent.get(real_url)
@@ -120,7 +120,7 @@ namespace :spider  do
       url = "http://www.zhly.cn/family/jyzs/index/page/"
       # total_page = args[:total_page].to_i
       class_id = args[:class_id].to_i
-    (15..1).each do |i|
+    (1..15).to_a.reverse.each do |i|
       real_url = url + i.to_s
       p "---------------------list_url:#{real_url}------------------"
       page = agent.get(real_url)
